@@ -20,7 +20,7 @@ public class WalkingWorkoutCalculator{
     private JLabel TitleLabel;
     private JTextField DurationField;
     private JLabel DurationLabel;
-    private JTextField WeightField;
+    //private JTextField WeightField;
     private JTextField StepsField;
     private JLabel StepsLabel;
     //private JTextField HeightField;
@@ -140,7 +140,7 @@ public class WalkingWorkoutCalculator{
     {
 
         DurationField.setText("");
-        WeightField.setText("");
+        //WeightField.setText("");
         StepsField.setText("");
         //HeightField.setText("");
         IntensityComboB.setSelectedIndex(0);
