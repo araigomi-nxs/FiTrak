@@ -11,6 +11,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class WalkingWorkoutCalculator{
 
@@ -20,7 +21,6 @@ public class WalkingWorkoutCalculator{
     private JTextField DurationField;
     private JLabel DurationLabel;
     private JTextField WeightField;
-    private JLabel WeightLabel;
     private JTextField StepsField;
     private JLabel StepsLabel;
     //private JTextField HeightField;
@@ -39,6 +39,7 @@ public class WalkingWorkoutCalculator{
     private JFormattedTextField endTimeField;
 
     JLabel stopwatchButton;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
 
 
     public WalkingWorkoutCalculator(Account account) {
@@ -72,7 +73,8 @@ public class WalkingWorkoutCalculator{
         calculateButton.addActionListener(e -> {
             try {
                 double duration = Double.parseDouble(DurationField.getText());
-                double weight = Double.parseDouble(WeightField.getText());
+                //double weight = Double.parseDouble(WeightField.getText());
+                double weight = account.getWeight();
                 int steps = Integer.parseInt(StepsField.getText());
                 //double height = Double.parseDouble(HeightField.getText());
                 double height = account.getHeight();
@@ -120,6 +122,14 @@ public class WalkingWorkoutCalculator{
 
                 DurationField.setText(stopwatch.getDurationMinutes());
 
+
+                LocalDateTime startDT = stopwatch.getStartDT();
+                timePicker.setSelectedTime(startDT.toLocalTime());
+                startTimeField.setValue(startDT.toLocalTime().format(formatter));
+
+                LocalDateTime endDT = stopwatch.getEndDT();
+                timePicker2.setSelectedTime(startDT.toLocalTime());
+                endTimeField.setValue(endDT.toLocalTime().format(formatter));
 
             }
         });
