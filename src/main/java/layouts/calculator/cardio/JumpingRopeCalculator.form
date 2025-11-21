@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="layouts.calculator.cardio.JumpingRopeCalculator">
+  <grid id="27dc6" binding="MainPanel" layout-manager="CardLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="500" height="510"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="36f31" binding="JPanel2" layout-manager="GridLayoutManager" row-count="12" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="20" left="20" bottom="20" right="20"/>
+        <constraints>
+          <card name="Card1"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="38140" class="javax.swing.JLabel" binding="TitleLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Jumping Rope Calory Counter"/>
+            </properties>
+          </component>
+          <component id="846a0" class="javax.swing.JTextField" binding="DurationField">
+            <constraints>
+              <grid row="1" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="47597" class="javax.swing.JTextField" binding="WeightField">
+            <constraints>
+              <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="dc391" class="javax.swing.JComboBox" binding="IntensityComboB">
+            <constraints>
+              <grid row="3" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <model>
+                <item value="Normal"/>
+                <item value="Moderate"/>
+                <item value="Vigorous"/>
+              </model>
+            </properties>
+          </component>
+          <component id="2be02" class="javax.swing.JTextField" binding="SetsField">
+            <constraints>
+              <grid row="4" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="74339" class="javax.swing.JTextField" binding="RepsField">
+            <constraints>
+              <grid row="5" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="99995" class="javax.swing.JTextField" binding="RestTimeField">
+            <constraints>
+              <grid row="6" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="6daf4" class="javax.swing.JCheckBox" binding="yesCheckBox">
+            <constraints>
+              <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Yes"/>
+            </properties>
+          </component>
+          <component id="56a65" class="javax.swing.JCheckBox" binding="noCheckBox" default-binding="true">
+            <constraints>
+              <grid row="7" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="No"/>
+            </properties>
+          </component>
+          <component id="8381a" class="javax.swing.JTextField" binding="AgeField">
+            <constraints>
+              <grid row="8" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="be24d" class="javax.swing.JTextField" binding="HeartRateField">
+            <constraints>
+              <grid row="9" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="47155" class="javax.swing.JButton" binding="calculateButton" default-binding="true">
+            <constraints>
+              <grid row="10" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Calculate"/>
+            </properties>
+          </component>
+          <component id="2cf20" class="javax.swing.JLabel" binding="DurationLabel">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Duration (m)"/>
+            </properties>
+          </component>
+          <component id="57083" class="javax.swing.JLabel" binding="WeightLabel">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Weight (kg)"/>
+            </properties>
+          </component>
+          <component id="2d97a" class="javax.swing.JLabel" binding="IntensityLabel">
+            <constraints>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Intensity"/>
+            </properties>
+          </component>
+          <component id="53647" class="javax.swing.JLabel" binding="SetsLabel">
+            <constraints>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Sets"/>
+            </properties>
+          </component>
+          <component id="1f9f6" class="javax.swing.JLabel" binding="RepsLabel">
+            <constraints>
+              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Reps (optional)"/>
+            </properties>
+          </component>
+          <component id="a1154" class="javax.swing.JLabel" binding="RestTimeLabel">
+            <constraints>
+              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Rest Time (s)"/>
+            </properties>
+          </component>
+          <component id="c12d" class="javax.swing.JLabel" binding="UseRepsLabel">
+            <constraints>
+              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Use reps to calculate?"/>
+            </properties>
+          </component>
+          <component id="8c601" class="javax.swing.JLabel" binding="AgeLabel">
+            <constraints>
+              <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Age"/>
+            </properties>
+          </component>
+          <component id="21534" class="javax.swing.JLabel" binding="HeartRateLabel">
+            <constraints>
+              <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Current Heart Rate (optional)"/>
+            </properties>
+          </component>
+          <component id="5570" class="javax.swing.JTextArea" binding="OutputTextArea">
+            <constraints>
+              <grid row="11" column="1" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="-1" height="20"/>
+              </grid>
+            </constraints>
+            <properties>
+              <editable value="false"/>
+              <font name="Arial" size="11" style="0"/>
+              <preferredSize width="-1" height="50"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>

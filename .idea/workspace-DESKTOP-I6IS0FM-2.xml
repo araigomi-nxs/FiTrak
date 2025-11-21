@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="16cb3306-5459-4b11-a014-e3a9739ae462" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="34QV8AbiXVZY4LFV5ZVSOI4Egs5" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.RunBasicUI.executor&quot;: &quot;Run&quot;,
+    &quot;Application.RunCyclingUI.executor&quot;: &quot;Run&quot;,
+    &quot;Application.RunJumpingRopeUI.executor&quot;: &quot;Run&quot;,
+    &quot;Application.RunWalkingUI.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Stopwatch.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW&quot;: &quot;false&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.PaletteManager.STATE&quot;: &quot;left&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.PaletteManager.WIDTH&quot;: &quot;157&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW&quot;: &quot;true&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.STATE&quot;: &quot;right&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH&quot;: &quot;218&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/limaj/OneDrive - STI Education Services Group, Inc/2nd year/OOP/finals/FitTrak&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.build&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlite&quot;
+    ]
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\limaj\Desktop\FitrakAlt\src\main\java" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\limaj\OneDrive - STI Education Services Group, Inc\2nd year\OOP\finals\FitrakAltV0.6.0\FitrakAlt0.6\src\main\java\layouts\user" />
+      <recent name="C:\Users\limaj\OneDrive - STI Education Services Group, Inc\2nd year\OOP\finals\FitrakAltV0.6.0\FitrakAlt0.6\src\main\java\layouts\calculator\basic" />
+      <recent name="C:\Users\limaj\OneDrive - STI Education Services Group, Inc\2nd year\OOP\finals\FitrakAltV0.6.0\FitrakAlt0.6\src\main\java\calculationModels" />
+      <recent name="C:\Users\limaj\OneDrive - STI Education Services Group, Inc\2nd year\OOP\finals\FitrakAltV0.6.0\FitrakAlt0.6" />
+      <recent name="C:\Users\limaj\OneDrive - STI Education Services Group, Inc\2nd year\OOP\finals\FitrakAlt\src\main\java\layouts" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="runnable.Main" />
+      <module name="FitrakAlt" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="runnable.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RunBasicUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="layouts.calculator.basic.RunBasicUI" />
+      <module name="FitrakAlt" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="layouts.calculator.basic.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RunCyclingUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="layouts.calculator.basic.RunCyclingUI" />
+      <module name="FitrakAlt" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="layouts.calculator.basic.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RunJumpingRopeUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="layouts.calculator.cardio.RunJumpingRopeUI" />
+      <module name="FitrakAlt" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="layouts.calculator.cardio.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Stopwatch" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="layouts.calculator.Stopwatch" />
+      <module name="FitrakAlt" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="layouts.calculator.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.Stopwatch" />
+        <item itemvalue="Application.RunBasicUI" />
+        <item itemvalue="Application.RunJumpingRopeUI" />
+        <item itemvalue="Application.RunCyclingUI" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-125ca727e0f0-intellij.indexing.shared.core-IU-243.23654.189" />
+        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-IU-243.23654.189" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="16cb3306-5459-4b11-a014-e3a9739ae462" name="Changes" comment="" />
+      <created>1761145622701</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1761145622701</updated>
+      <workItem from="1761145623867" duration="929000" />
+      <workItem from="1761146586866" duration="1944000" />
+      <workItem from="1761151464803" duration="129000" />
+      <workItem from="1761151709994" duration="373000" />
+      <workItem from="1761152092008" duration="406000" />
+      <workItem from="1761152619921" duration="3331000" />
+      <workItem from="1761156230343" duration="955000" />
+      <workItem from="1761184407777" duration="1211000" />
+      <workItem from="1761187413687" duration="1399000" />
+      <workItem from="1761198691188" duration="2673000" />
+      <workItem from="1761202288699" duration="102000" />
+      <workItem from="1761202405087" duration="70000" />
+      <workItem from="1761202485291" duration="1867000" />
+      <workItem from="1761217738118" duration="2668000" />
+      <workItem from="1761269091620" duration="616000" />
+      <workItem from="1761285802737" duration="165000" />
+      <workItem from="1761318799179" duration="3501000" />
+      <workItem from="1761391564098" duration="110000" />
+      <workItem from="1761391709572" duration="411000" />
+      <workItem from="1761392134151" duration="8000" />
+      <workItem from="1761393472414" duration="1090000" />
+      <workItem from="1761394576301" duration="58000" />
+      <workItem from="1761394639563" duration="571000" />
+      <workItem from="1761395220477" duration="134000" />
+      <workItem from="1761395360963" duration="106000" />
+      <workItem from="1761395474245" duration="265000" />
+      <workItem from="1761395748393" duration="10078000" />
+      <workItem from="1761451594118" duration="2652000" />
+      <workItem from="1761480793547" duration="3833000" />
+      <workItem from="1761668510898" duration="7910000" />
+      <workItem from="1761741182366" duration="3056000" />
+      <workItem from="1761806823457" duration="677000" />
+      <workItem from="1761854721150" duration="10662000" />
+      <workItem from="1761884994539" duration="5602000" />
+      <workItem from="1761891291324" duration="553000" />
+      <workItem from="1761891875629" duration="223000" />
+      <workItem from="1761892150923" duration="884000" />
+      <workItem from="1761893054965" duration="125000" />
+      <workItem from="1761973081230" duration="1718000" />
+      <workItem from="1761977836489" duration="3596000" />
+      <workItem from="1761989109320" duration="24206000" />
+      <workItem from="1762104754092" duration="697000" />
+      <workItem from="1762162351868" duration="594000" />
+      <workItem from="1762265961909" duration="595000" />
+      <workItem from="1762427313421" duration="592000" />
+      <workItem from="1762522002932" duration="2396000" />
+      <workItem from="1762845441862" duration="61000" />
+      <workItem from="1762973702319" duration="1454000" />
+      <workItem from="1762975170990" duration="57000" />
+      <workItem from="1762975254120" duration="9000" />
+      <workItem from="1762975310404" duration="2000" />
+      <workItem from="1762975818005" duration="163000" />
+      <workItem from="1762976000264" duration="9381000" />
+      <workItem from="1763014586001" duration="5962000" />
+      <workItem from="1763033771902" duration="284000" />
+      <workItem from="1763034072499" duration="126000" />
+      <workItem from="1763034214292" duration="25797000" />
+      <workItem from="1763074283920" duration="3527000" />
+      <workItem from="1763105049111" duration="4128000" />
+      <workItem from="1763128874758" duration="381000" />
+      <workItem from="1763131348196" duration="246000" />
+      <workItem from="1763137309331" duration="596000" />
+      <workItem from="1763223770755" duration="17905000" />
+      <workItem from="1763282584704" duration="9056000" />
+      <workItem from="1763344105620" duration="258000" />
+      <workItem from="1763535490259" duration="7000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

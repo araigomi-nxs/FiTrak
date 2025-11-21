@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="16cb3306-5459-4b11-a014-e3a9739ae462" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="34QV8AbiXVZY4LFV5ZVSOI4Egs5" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW&quot;: &quot;true&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.PaletteManager.STATE&quot;: &quot;left&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.PaletteManager.WIDTH&quot;: &quot;167&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.STATE&quot;: &quot;right&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH&quot;: &quot;251&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/limaj/OneDrive - STI Education Services Group, Inc/2nd year/OOP/finals/FitTrak&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlite&quot;
+    ]
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\limaj\Desktop\FitrakAlt\src\main\java" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\limaj\OneDrive - STI Education Services Group, Inc\2nd year\OOP\finals\FitrakAltV0.6.0\FitrakAlt0.6" />
+      <recent name="C:\Users\limaj\OneDrive - STI Education Services Group, Inc\2nd year\OOP\finals\FitrakAltV0.6.0\FitrakAlt0.6\src\main\java\calculationModels" />
+      <recent name="C:\Users\limaj\OneDrive - STI Education Services Group, Inc\2nd year\OOP\finals\FitrakAlt\src\main\java\layouts" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="runnable.Main" />
+      <module name="FitrakAlt" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="runnable.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-125ca727e0f0-intellij.indexing.shared.core-IU-243.23654.189" />
+        <option value="bundled-js-predefined-d6986cc7102b-822845ee3bb5-JavaScript-IU-243.23654.189" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="16cb3306-5459-4b11-a014-e3a9739ae462" name="Changes" comment="" />
+      <created>1761145622701</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1761145622701</updated>
+      <workItem from="1761145623867" duration="929000" />
+      <workItem from="1761146586866" duration="1944000" />
+      <workItem from="1761151464803" duration="129000" />
+      <workItem from="1761151709994" duration="373000" />
+      <workItem from="1761152092008" duration="406000" />
+      <workItem from="1761152619921" duration="3331000" />
+      <workItem from="1761156230343" duration="955000" />
+      <workItem from="1761184407777" duration="1211000" />
+      <workItem from="1761187413687" duration="1399000" />
+      <workItem from="1761198691188" duration="2673000" />
+      <workItem from="1761202288699" duration="102000" />
+      <workItem from="1761202405087" duration="70000" />
+      <workItem from="1761202485291" duration="1867000" />
+      <workItem from="1761217738118" duration="2668000" />
+      <workItem from="1761269091620" duration="616000" />
+      <workItem from="1761285802737" duration="165000" />
+      <workItem from="1761318799179" duration="3501000" />
+      <workItem from="1761391564098" duration="110000" />
+      <workItem from="1761391709572" duration="411000" />
+      <workItem from="1761392134151" duration="8000" />
+      <workItem from="1761393472414" duration="1090000" />
+      <workItem from="1761394576301" duration="58000" />
+      <workItem from="1761394639563" duration="571000" />
+      <workItem from="1761395220477" duration="134000" />
+      <workItem from="1761395360963" duration="106000" />
+      <workItem from="1761395474245" duration="265000" />
+      <workItem from="1761395748393" duration="10078000" />
+      <workItem from="1761451594118" duration="2652000" />
+      <workItem from="1761480793547" duration="3833000" />
+      <workItem from="1761668510898" duration="7910000" />
+      <workItem from="1761741182366" duration="3056000" />
+      <workItem from="1761806823457" duration="677000" />
+      <workItem from="1761854721150" duration="10662000" />
+      <workItem from="1761884994539" duration="5602000" />
+      <workItem from="1761891291324" duration="553000" />
+      <workItem from="1761891875629" duration="223000" />
+      <workItem from="1761892150923" duration="884000" />
+      <workItem from="1761893054965" duration="740000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

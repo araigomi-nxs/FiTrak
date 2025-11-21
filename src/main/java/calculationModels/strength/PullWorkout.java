@@ -1,0 +1,51 @@
+package calculationModels.strength;
+
+import calculationModels.metrics.MetricsCalculator;
+import java.time.LocalDateTime;
+
+public class PullWorkout extends StrengthWorkout {
+
+    public PullWorkout(double durationMinutes, double bodyWeight, LocalDateTime dateTime,
+                       int sets, int reps, double weightLiftedKG,
+                       String intensity, int restTimeSeconds, boolean useEquipment) {
+
+        super(durationMinutes, bodyWeight, dateTime, sets, reps, weightLiftedKG,
+                intensity, restTimeSeconds, "Pull", useEquipment);
+        this.caloriesBurned = calculateCaloriesBurned();
+    }
+
+    @Override
+    public double calculateCaloriesBurned() {
+        double totalRestMinutes = (sets > 1) ? (restTimeSeconds / 60.0) * (sets - 1) : 0;
+        double activeMinutes = durationMinutes - totalRestMinutes;
+        if (activeMinutes < 0) activeMinutes = durationMinutes;
+
+        double totalWeightMoved = isWeighted
+                ? (weightLiftedKG > 0 ? sets * reps * weightLiftedKG : sets * reps * weight * 0.5)
+                : sets * reps * weight * 0.3;
+
+        /*
+        if (isWeighted) {
+            if (weightLiftedKG > 0) {
+                totalWeightMoved = sets * reps * weightLiftedKG;
+            } else {
+                totalWeightMoved = sets * reps * weight * 0.5;
+            }
+        } else {
+            totalWeightMoved = sets * reps * weight * 0.3;
+        }
+        */
+
+        if (totalWeightMoved < 1000) metValue = 4.0;
+        else if (totalWeightMoved < 5000) metValue = 5.5;
+        else metValue = 6.8;
+
+        if (intensity.equalsIgnoreCase("light")) metValue -= 0.3;
+        else if (intensity.equalsIgnoreCase("moderate")) metValue += 0.3;
+        else if (intensity.equalsIgnoreCase("vigorous")) metValue += 0.7;
+
+        if (isWeighted) metValue += 0.4;
+
+        return MetricsCalculator.calculateCalories(metValue, weight, activeMinutes);
+    }
+}
