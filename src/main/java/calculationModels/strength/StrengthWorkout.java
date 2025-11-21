@@ -14,11 +14,11 @@ public abstract class StrengthWorkout extends Workout {
     protected String muscleGroup;
     protected boolean isWeighted;
 
-    public StrengthWorkout(double durationMinutes, double weight, LocalDateTime dateTime,
+    public StrengthWorkout(double durationMinutes, double weight,  LocalDateTime startDT, LocalDateTime endDT,
                            int sets, int reps, double weightLiftedKG,
                            String intensity, int restTimeSeconds, String muscleGroup, boolean isWeighted) {
 
-        super(durationMinutes, weight, dateTime, 0.0);
+        super(durationMinutes, weight, startDT, endDT, 0.0);
         this.sets = sets;
         this.reps = reps;
         this.weightLiftedKG = weightLiftedKG;

@@ -79,7 +79,7 @@ public class PullCalculator extends JFrame {
 
                 LocalDateTime dateTime = LocalDateTime.now();
 
-                PullWorkout pull = new PullWorkout(duration, bodyWeight, dateTime,
+                PullWorkout pull = new PullWorkout(duration, bodyWeight, dateTime,dateTime,
                         sets, reps, weightLifted, intensity, restTime, useEquipment);
 
                 StringBuilder output = new StringBuilder();

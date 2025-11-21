@@ -15,10 +15,9 @@ public class WalkingWorkout extends BasicWorkout {
     private static final double MALE_STEP_LENGTH = 0.414;
     private static final double FEMALE_STEP_LENGTH =0.413;
 
-    public WalkingWorkout(double durationMinutes, double weight, LocalDateTime dateTime,
-                          int steps, String intensity, String sex, double height) {
+    public WalkingWorkout(double durationMinutes, double weight, LocalDateTime startDT, LocalDateTime endDT,int steps, String intensity, String sex, double height) {
 
-        super(durationMinutes, weight, dateTime,0, "Walking");
+        super(durationMinutes, weight, startDT,endDT,0 , "Walking");
         this.steps = steps;
         this.height = height;
         this.intensity = intensity;

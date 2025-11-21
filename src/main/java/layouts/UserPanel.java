@@ -38,7 +38,7 @@ public class UserPanel extends JFrame {
     private JPanel basicRow;
 
     LocalDataBaseHelper dataBaseHelper ;
-    private Account accountInSession;
+    private  Account accountInSession;
     Point initialClick;
 
     private JButton jButtonHolder;
@@ -63,9 +63,9 @@ public class UserPanel extends JFrame {
         runPos.setLayout(cardLayout);
         cycPos.setLayout(cardLayout);
 
-        WalkingWorkoutCalculator walkingWorkoutCalculator = new WalkingWorkoutCalculator();
-        CyclingWorkoutCalculator cyclingWorkoutCalculator = new CyclingWorkoutCalculator();
-        RunningWorkoutCalculator runningWorkoutCalculator = new RunningWorkoutCalculator();
+        WalkingWorkoutCalculator walkingWorkoutCalculator = new WalkingWorkoutCalculator(accountInSession);
+        CyclingWorkoutCalculator cyclingWorkoutCalculator = new CyclingWorkoutCalculator(accountInSession);
+        RunningWorkoutCalculator runningWorkoutCalculator = new RunningWorkoutCalculator(accountInSession);
 
 
         walkPos.add(walkingWorkoutCalculator.getPanel(),"walkingCalculator");
@@ -137,7 +137,6 @@ public class UserPanel extends JFrame {
 
             }
         });
-
 
 
 

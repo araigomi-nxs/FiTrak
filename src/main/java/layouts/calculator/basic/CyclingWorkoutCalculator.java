@@ -1,6 +1,8 @@
 package layouts.calculator.basic;
 
 import calculationModels.basic.CyclingWorkout;
+import objects.Account;
+
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDateTime;
@@ -12,8 +14,7 @@ public class CyclingWorkoutCalculator  {
     private JLabel TitleLabel;
     private JLabel DurationLabel;
     private JTextField DurationField;
-    private JLabel WeightLabel;
-    private JTextField WeightField;
+    //private JTextField WeightField;
     private JLabel DistanceLabel;
     private JTextField DistanceField;
     private JLabel IntensityLabel;
@@ -21,7 +22,7 @@ public class CyclingWorkoutCalculator  {
     private JButton CalculateButton;
     private JTextArea outputTextArea;
 
-    public CyclingWorkoutCalculator() {
+    public CyclingWorkoutCalculator(Account account) {
 
        // setContentPane(JPanel2);
         //  setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -34,13 +35,14 @@ public class CyclingWorkoutCalculator  {
         CalculateButton.addActionListener(e -> {
             try {
                 double duration = Double.parseDouble(DurationField.getText());
-                double weight = Double.parseDouble(WeightField.getText());
+                //double weight = Double.parseDouble(WeightField.getText());
+                double weight = account.getWeight();
                 double distance = Double.parseDouble(DistanceField.getText());
                 String intensity = (String) IntensityComboB.getSelectedItem();
 
                 LocalDateTime dateTime = LocalDateTime.now();
 
-                CyclingWorkout cycle = new CyclingWorkout(duration, weight, dateTime, distance, intensity);
+                CyclingWorkout cycle = new CyclingWorkout(duration, weight, dateTime, dateTime, distance, intensity);
 
                 StringBuilder output = new StringBuilder();
                 output.append("Workout: Cycling\n");
@@ -64,12 +66,16 @@ public class CyclingWorkoutCalculator  {
             }
         });
 
+
+
     }
+    //for implementation/interface overload
+
 
     public void clearFields()
     {
         DurationField.setText("");
-        WeightField.setText("");
+       // WeightField.setText("");
         DistanceField.setText("");
         IntensityComboB.setSelectedIndex(0);
 

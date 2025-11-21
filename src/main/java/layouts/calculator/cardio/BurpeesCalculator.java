@@ -63,10 +63,7 @@ public class BurpeesCalculator extends JFrame {
 
                 LocalDateTime dateTime = LocalDateTime.now();
 
-                Burpees burpees = new Burpees(
-                        duration, weight, dateTime, intensity,
-                        sets, reps, restTime, age, heartRate
-                );
+                Burpees burpees = new Burpees(duration, weight, dateTime,dateTime, intensity,sets, reps, restTime, age, heartRate);
 
                 StringBuilder output = new StringBuilder();
                 output.append("Workout: Burpees\n");

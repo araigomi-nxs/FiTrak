@@ -9,11 +9,11 @@ public class Burpees extends CardioWorkout {
     private int reps;
     private int restTimeSeconds;
 
-    public Burpees(double durationMinutes, double weight, LocalDateTime dateTime,
+    public Burpees(double durationMinutes, double weight, LocalDateTime startDT, LocalDateTime endDT,
                    String intensity, int sets, int reps, int restTimeSeconds,
                    double userAge, double currentHeartRate) {
 
-        super(durationMinutes, weight, dateTime, intensity, "Burpees", userAge, currentHeartRate);
+        super(durationMinutes, weight, startDT, endDT, intensity, "Burpees", userAge, currentHeartRate);
         this.sets = sets;
         this.reps = reps;
         this.restTimeSeconds = restTimeSeconds;

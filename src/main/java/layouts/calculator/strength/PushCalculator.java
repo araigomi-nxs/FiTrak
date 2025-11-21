@@ -79,7 +79,7 @@ public class PushCalculator extends JFrame {
 
                 LocalDateTime dateTime = LocalDateTime.now();
 
-                PushWorkout push = new PushWorkout(duration, bodyWeight, dateTime,
+                PushWorkout push = new PushWorkout(duration, bodyWeight, dateTime,dateTime,
                         sets, reps, weightLifted, intensity, restTime, useEquipment);
 
                 StringBuilder output = new StringBuilder();

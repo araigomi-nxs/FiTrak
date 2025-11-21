@@ -5,11 +5,11 @@ import java.time.LocalDateTime;
 
 public class PullWorkout extends StrengthWorkout {
 
-    public PullWorkout(double durationMinutes, double bodyWeight, LocalDateTime dateTime,
+    public PullWorkout(double durationMinutes, double bodyWeight,  LocalDateTime startDT, LocalDateTime endDT,
                        int sets, int reps, double weightLiftedKG,
                        String intensity, int restTimeSeconds, boolean useEquipment) {
 
-        super(durationMinutes, bodyWeight, dateTime, sets, reps, weightLiftedKG,
+        super(durationMinutes, bodyWeight, startDT, endDT, sets, reps, weightLiftedKG,
                 intensity, restTimeSeconds, "Pull", useEquipment);
         this.caloriesBurned = calculateCaloriesBurned();
     }

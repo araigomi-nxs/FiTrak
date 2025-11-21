@@ -9,10 +9,10 @@ public class CyclingWorkout extends BasicWorkout {
     private double speedKPH;
     private String intensity;
 
-    public CyclingWorkout(double durationMinutes, double weight, LocalDateTime dateTime,
+    public CyclingWorkout(double durationMinutes, double weight, LocalDateTime startDT,LocalDateTime endDT,
                           double distanceKM, String intensity) {
 
-        super(durationMinutes, weight, dateTime, 0.0 , "Cycling"  );
+        super(durationMinutes, weight, startDT, endDT, 0.0 , "Cycling"  );
 
         this.distanceKM = distanceKM;
         this.speedKPH = calculateSpeed(distanceKM, durationMinutes);

@@ -112,7 +112,7 @@ public class JumpingJacksCalculator extends JFrame {
                 LocalDateTime dateTime = LocalDateTime.now();
 
                 JumpingJacks jj = new JumpingJacks(
-                        duration, weight, dateTime, intensity,
+                        duration, weight, dateTime,dateTime, intensity,
                         sets, reps, restTime, useReps, age, heartRate
                 );
 

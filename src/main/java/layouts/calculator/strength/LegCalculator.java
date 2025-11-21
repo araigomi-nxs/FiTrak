@@ -79,7 +79,7 @@ public class LegCalculator extends JFrame {
 
                 LocalDateTime dateTime = LocalDateTime.now();
 
-                LegWorkout leg = new LegWorkout(duration, bodyWeight, dateTime,
+                LegWorkout leg = new LegWorkout(duration, bodyWeight, dateTime,dateTime,
                         sets, reps, weightLifted, intensity, restTime, useEquipment);
 
                 StringBuilder output = new StringBuilder();

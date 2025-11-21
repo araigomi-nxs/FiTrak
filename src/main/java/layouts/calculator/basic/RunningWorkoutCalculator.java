@@ -1,6 +1,8 @@
 package layouts.calculator.basic;
 
 import calculationModels.basic.RunningWorkout;
+import objects.Account;
+
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDateTime;
@@ -10,11 +12,10 @@ public class RunningWorkoutCalculator {
     private JPanel MainPanel;
     private JPanel JPanel2;
     private JTextField DurationField;
-    private JTextField WeightField;
+    //private JTextField WeightField;
     private JTextField DistanceField;
     private JComboBox IntensityComboB;
     private JComboBox TerrainComboB;
-    private JLabel WeightLabel;
     private JLabel DistanceLabel;
     private JLabel IntensityLabel;
     private JLabel TerrainLabel;
@@ -25,7 +26,7 @@ public class RunningWorkoutCalculator {
     private JTextArea outputTextArea;
 
 
-    public RunningWorkoutCalculator() {
+    public RunningWorkoutCalculator(Account  account) {
 
         //setContentPane(JPanel2);
        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,14 +44,15 @@ public class RunningWorkoutCalculator {
         CalculateButton.addActionListener(e -> {
             try {
                 double duration = Double.parseDouble(DurationField.getText());
-                double weight = Double.parseDouble(WeightField.getText());
+               // double weight = Double.parseDouble(WeightField.getText());
+                double weight = account.getWeight();
                 double distance = Double.parseDouble(DistanceField.getText());
                 String intensity = (String) IntensityComboB.getSelectedItem();
                 String terrain = (String) TerrainComboB.getSelectedItem();
 
                 LocalDateTime dateTime = LocalDateTime.now();
 
-                RunningWorkout run = new RunningWorkout(duration, weight, dateTime, distance, intensity, terrain);
+                RunningWorkout run = new RunningWorkout(duration, weight, dateTime,dateTime, distance, intensity, terrain);
 
                 StringBuilder output = new StringBuilder();
                 output.append("Workout: Running\n");
@@ -81,7 +83,7 @@ public class RunningWorkoutCalculator {
     public void clearFields()
     {
         DurationField.setText("");
-        WeightField.setText("");
+       // WeightField.setText("");
         DistanceField.setText("");
         IntensityComboB.setSelectedIndex(0);
         TerrainComboB.setSelectedIndex(0);

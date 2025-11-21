@@ -112,7 +112,7 @@ public class JumpingRopeCalculator extends JFrame {
                 LocalDateTime dateTime = LocalDateTime.now();
 
                 JumpingRope rope = new JumpingRope(
-                        duration, weight, dateTime, intensity,
+                        duration, weight, dateTime,dateTime, intensity,
                         sets, reps, restTime, useReps, age, heartRate
                 );
 

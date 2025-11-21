@@ -2,9 +2,14 @@ package layouts.calculator.basic;
 
 import calculationModels.basic.WalkingWorkout;
 import layouts.calculator.Stopwatch;
+import net.miginfocom.swing.MigLayout;
+import objects.Account;
+import raven.datetime.TimePicker;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.time.LocalDateTime;
 
 public class WalkingWorkoutCalculator{
@@ -18,21 +23,25 @@ public class WalkingWorkoutCalculator{
     private JLabel WeightLabel;
     private JTextField StepsField;
     private JLabel StepsLabel;
-    private JTextField HeightField;
-    private JLabel HeightLabel;
+    //private JTextField HeightField;
     private JComboBox IntensityComboB;
     private JLabel IntensityLabel;
-    private JComboBox SexComboB;
-    private JLabel SexLabel;
+
+    //private JComboBox SexComboB;
+
     private JButton calculateButton;
 
     private JTextArea outputTextArea;
     private JPanel stopWatchArea;
+    private TimePicker timePicker;
+    private TimePicker timePicker2;
+    private JFormattedTextField startTimeField;
+    private JFormattedTextField endTimeField;
 
-    //JButton button = stopwatch.getButton
+    JLabel stopwatchButton;
 
 
-    public WalkingWorkoutCalculator() {
+    public WalkingWorkoutCalculator(Account account) {
 
        // setContentPane(JPanel2);
        // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -44,10 +53,19 @@ public class WalkingWorkoutCalculator{
         CardLayout cardLayout = new CardLayout();
         stopWatchArea.setLayout(cardLayout);
         Stopwatch stopwatch = new Stopwatch();
+        stopwatchButton = stopwatch.getStartStopButton();
+
+
 
         stopWatchArea.add(stopwatch.getPanel(), "stopwatch" );
         cardLayout.show(stopWatchArea, "stopwatch");
 
+        timePicker = new TimePicker();
+        timePicker.setColor(new  Color(220, 228, 55));
+        timePicker.setEditor(startTimeField); // link popup to field
+        timePicker2 = new TimePicker();
+        timePicker2.setColor(new  Color(220, 228, 55));
+        timePicker2.setEditor(endTimeField);
 
 
 
@@ -56,13 +74,17 @@ public class WalkingWorkoutCalculator{
                 double duration = Double.parseDouble(DurationField.getText());
                 double weight = Double.parseDouble(WeightField.getText());
                 int steps = Integer.parseInt(StepsField.getText());
-                double height = Double.parseDouble(HeightField.getText());
+                //double height = Double.parseDouble(HeightField.getText());
+                double height = account.getHeight();
+
+
                 String intensity = (String) IntensityComboB.getSelectedItem();
-                String sex = (String) SexComboB.getSelectedItem();
+                //String sex = (String) SexComboB.getSelectedItem();
+                String sex = account.getSex();
 
                 LocalDateTime dateTime = LocalDateTime.now();
 
-                WalkingWorkout walk = new WalkingWorkout(duration, weight, dateTime, steps, intensity, sex, height);
+                WalkingWorkout walk = new WalkingWorkout(duration, weight, dateTime,dateTime, steps, intensity, sex, height);
 
                 StringBuilder output = new StringBuilder();
 
@@ -91,6 +113,16 @@ public class WalkingWorkoutCalculator{
             }
         });
 
+        stopwatchButton.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                DurationField.setText(stopwatch.getDurationMinutes());
+
+
+            }
+        });
     }
 
 
@@ -100,9 +132,9 @@ public class WalkingWorkoutCalculator{
         DurationField.setText("");
         WeightField.setText("");
         StepsField.setText("");
-        HeightField.setText("");
+        //HeightField.setText("");
         IntensityComboB.setSelectedIndex(0);
-        SexComboB.setSelectedIndex(0);
+        //SexComboB.setSelectedIndex(0);
 
     }
 

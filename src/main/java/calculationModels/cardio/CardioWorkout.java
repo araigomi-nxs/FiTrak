@@ -11,11 +11,11 @@ public abstract class CardioWorkout extends Workout {
     protected double userAge;
     protected double currentHeartRate;
 
-    public CardioWorkout(double durationMinutes, double weight, LocalDateTime dateTime,
+    public CardioWorkout(double durationMinutes, double weight, LocalDateTime startDT, LocalDateTime endDT,
                          String intensity, String cardioType,
                          double userAge, double currentHeartRate) {
 
-        super(durationMinutes, weight, dateTime, 0.0);
+        super(durationMinutes, weight, startDT,endDT, 0.0);
         this.intensity = (intensity == null || intensity.trim().isEmpty()) ? "moderate" : intensity;
         this.cardioType = (cardioType == null || cardioType.trim().isEmpty()) ? "Cardio:Generic" : "Cardio:"+ cardioType;
         this.userAge = userAge;

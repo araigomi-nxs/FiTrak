@@ -8,7 +8,8 @@ public abstract class Workout {
     // 🔹 Common attributes for all workouts
     protected double durationMinutes;
     protected double caloriesBurned;
-    protected LocalDateTime dateTime;   // updated to store both date and time
+    protected LocalDateTime startDT;
+    protected LocalDateTime endDT;// updated to store both date and time
     protected double metValue;
     protected double weight;
     protected String workoutType;
@@ -19,7 +20,7 @@ public abstract class Workout {
     public Workout() {
         this.durationMinutes = 0;
         this.caloriesBurned = 0;
-        this.dateTime = LocalDateTime.now(); // default to current date & time
+        this.startDT = LocalDateTime.now(); // default to current date & time
         this.metValue = 0;
         this.weight = 0;
         this.workoutType = "Generic";
@@ -27,7 +28,7 @@ public abstract class Workout {
     }
 
     // 🔹 Main constructor
-    public Workout(double durationMinutes, double weight, LocalDateTime dateTime, double metValue) {
+    public Workout(double durationMinutes, double weight, LocalDateTime startDT,LocalDateTime endDT ,double metValue) {
         if (durationMinutes <= 0) {
             throw new IllegalArgumentException("Duration must be greater than 0 minutes.");
         }
@@ -38,14 +39,15 @@ public abstract class Workout {
         this.durationMinutes = durationMinutes;
         this.weight = weight;
         this.metValue = metValue;
-        this.dateTime = (dateTime == null) ? LocalDateTime.now() : dateTime;
+        this.startDT = startDT;
+        this.endDT = endDT;
         this.caloriesBurned = 0; // will be handled by subclass
         this.workoutType = "Generic";
     }
 
 
-    public Workout(double durationMinutes, double weight, String dateStr, double metValue) {
-        this(durationMinutes, weight, parseDateTime(dateStr), metValue);
+    public Workout(double durationMinutes, double weight, String startDTStr, String endDTStr, double metValue) {
+        this(durationMinutes, weight, parseDateTime(startDTStr),parseDateTime(endDTStr), metValue);
     }
 
     private static LocalDateTime parseDateTime(String dateStr) {
@@ -65,8 +67,8 @@ public abstract class Workout {
     // 🔹 Getters
     public double getDurationMinutes() { return durationMinutes; }
     public double getCaloriesBurned() { return caloriesBurned; }
-    public LocalDateTime getDateTime() { return dateTime; } // now returns LocalDateTime
-    public String getFormattedDateTime() { return dateTime.format(formatter); } // for display
+    public LocalDateTime getDateTime() { return startDT; } // now returns LocalDateTime
+    public String getFormattedDateTime() { return startDT.format(formatter); } // for display
     public double getMetValue() { return metValue; }
     public double getWeight() { return weight; }
     public String getWorkoutType() { return workoutType; }
@@ -87,7 +89,7 @@ public abstract class Workout {
     }
 
     public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = (dateTime == null) ? LocalDateTime.now() : dateTime;
+        this.startDT = (dateTime == null) ? LocalDateTime.now() : dateTime;
     }
 
     public void setWorkoutType(String workoutType) {

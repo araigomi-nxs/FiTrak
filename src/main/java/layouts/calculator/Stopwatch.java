@@ -1,22 +1,28 @@
 package layouts.calculator;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 public class Stopwatch {
     private JPanel panel1;
-    private JLabel startStopButton;
+    private JLabel startPauseButton;
     private JLabel timeLabel;
+    private JLabel stopButton;
 
 
     private Timer timer;
     private long startTime;
     private long elapsedTime;
     private boolean running = false;
+    private boolean runOnce = false;
+    private LocalDateTime startDT;
+    private LocalDateTime endDT;
+    private String durationMinutes;
 
 
    public Stopwatch(){
@@ -24,6 +30,7 @@ public class Stopwatch {
        //setSize(300, 150);
        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+       stopButton.setVisible(false);
 
        timer = new Timer(100, new ActionListener() {
            @Override
@@ -33,23 +40,43 @@ public class Stopwatch {
                updateDisplay();
            }
        });
-
-
-       startStopButton.addMouseListener(new MouseAdapter() {
+       startPauseButton.addMouseListener(new MouseAdapter() {
            @Override
            public void mouseClicked(MouseEvent e) {
+               if(!runOnce){
+                   runOnce = true;
+                   startDT =LocalDateTime.now();
+                   //System.out.println(startDT.toString());
+               }
                if (!running) {
                    startTime = System.currentTimeMillis() - elapsedTime;
                    timer.start();
-                   running = true;
 
-                   startStopButton.setIcon(new javax.swing.ImageIcon("src/main/resources/images/stopButton.png"));
+                   running = true;
+                   startPauseButton.setIcon(new javax.swing.ImageIcon("src/main/resources/images/pauseButton.png"));
+                   stopButton.setVisible(false);
                } else {
                    // Stop
                    timer.stop();
                    running = false;
-                   startStopButton.setIcon(new javax.swing.ImageIcon("src/main/resources/images/playButton.png"));
+                   startPauseButton.setIcon(new javax.swing.ImageIcon("src/main/resources/images/playButton.png"));
+                   stopButton.setVisible(true);
+
+
                }
+           }
+       });
+       stopButton.addMouseListener(new MouseAdapter() {
+           @Override
+           public void mouseClicked(MouseEvent e) {
+               timer.stop();
+               endDT =  LocalDateTime.now();
+               stopButton.setVisible(false);
+               durationMinutes =String.format("%.2f", (elapsedTime / 60000.0));
+
+               //System.out.println(endDT.toString());
+               elapsedTime = 0;
+               updateDisplay();
            }
        });
 
@@ -81,10 +108,23 @@ public class Stopwatch {
         });
     }
 
-    /// return jBUTTON method
+   public JLabel getStartStopButton(){
+            return stopButton;
+   }
 
+   public boolean isRunning(){
+       return running;
+   }
 
-
+   public LocalDateTime getStartDT(){
+       return startDT;
+   }
+   public LocalDateTime getEndDT(){
+       return endDT;
+   }
+   public String getDurationMinutes(){
+       return durationMinutes;
+   }
 
 
     private void createUIComponents() {

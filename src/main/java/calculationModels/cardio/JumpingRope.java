@@ -10,11 +10,11 @@ public class JumpingRope extends CardioWorkout {
     private int restTimeSeconds;
     private boolean useReps;
 
-    public JumpingRope(double durationMinutes, double weight, LocalDateTime dateTime,
+    public JumpingRope(double durationMinutes, double weight,  LocalDateTime startDT, LocalDateTime endDT,
                        String intensity, int sets, int reps, int restTimeSeconds, boolean useReps,
                        double userAge, double currentHeartRate) {
 
-        super(durationMinutes, weight, dateTime, intensity, "JumpRope", userAge, currentHeartRate);
+        super(durationMinutes, weight, startDT,endDT, intensity, "JumpRope", userAge, currentHeartRate);
         this.sets = sets;
         this.reps = reps;
         this.restTimeSeconds = restTimeSeconds;

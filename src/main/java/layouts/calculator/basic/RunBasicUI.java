@@ -15,21 +15,21 @@ public class RunBasicUI {
         switch (sc.nextInt()) {
             case 1:
                 SwingUtilities.invokeLater(() -> {
-                    WalkingWorkoutCalculator frame = new WalkingWorkoutCalculator();
+                 //   WalkingWorkoutCalculator frame = new WalkingWorkoutCalculator();
                   //  frame.setVisible(true);
                 });
 
                 break;
             case 2:
                 SwingUtilities.invokeLater(() -> {
-                    CyclingWorkoutCalculator frame = new CyclingWorkoutCalculator();
+                    //CyclingWorkoutCalculator frame = new CyclingWorkoutCalculator();
                     //frame.setVisible(true);
                 });
 
                 break;
             case 3:
                 SwingUtilities.invokeLater(() -> {
-                    RunningWorkoutCalculator frame = new RunningWorkoutCalculator();
+                    //RunningWorkoutCalculator frame = new RunningWorkoutCalculator();
                     //frame.setVisible(true);
                 });
 
