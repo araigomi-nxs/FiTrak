@@ -10,6 +10,7 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
+
         FlatLightLaf.setup();
         Font poppins = new Font("Poppins", Font.PLAIN, 12);
         Font poppinsSmall = new Font("Poppins", Font.PLAIN, 10);

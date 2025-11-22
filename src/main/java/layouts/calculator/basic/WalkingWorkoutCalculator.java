@@ -1,17 +1,20 @@
 package layouts.calculator.basic;
 
 import calculationModels.basic.WalkingWorkout;
+import com.formdev.flatlaf.FlatClientProperties;
 import layouts.calculator.Stopwatch;
-import net.miginfocom.swing.MigLayout;
 import objects.Account;
+import raven.datetime.DatePicker;
 import raven.datetime.TimePicker;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class WalkingWorkoutCalculator{
 
@@ -19,7 +22,6 @@ public class WalkingWorkoutCalculator{
     private JPanel JPanel2;
     private JLabel TitleLabel;
     private JTextField DurationField;
-    private JLabel DurationLabel;
     //private JTextField WeightField;
     private JTextField StepsField;
     private JLabel StepsLabel;
@@ -33,11 +35,13 @@ public class WalkingWorkoutCalculator{
 
     private JTextArea outputTextArea;
     private JPanel stopWatchArea;
-    private TimePicker timePicker;
-    private TimePicker timePicker2;
-    private JFormattedTextField startTimeField;
+      private JFormattedTextField startTimeField;
     private JFormattedTextField endTimeField;
-
+    private JFormattedTextField endDateField;
+    private JFormattedTextField startDateField;
+    private JLabel DurationLabel;
+    TimePicker timePicker;
+    TimePicker timePicker2;
     JLabel stopwatchButton;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
 
@@ -61,12 +65,56 @@ public class WalkingWorkoutCalculator{
         stopWatchArea.add(stopwatch.getPanel(), "stopwatch" );
         cardLayout.show(stopWatchArea, "stopwatch");
 
+        JPanel2.putClientProperty(FlatClientProperties.STYLE,  "arc:20");
+
+
+
+        DatePicker datePicker = new DatePicker();
+        DatePicker datePicker2 = new DatePicker();
+        datePicker.setEditor(startDateField);
+        datePicker.setColor(new  Color(220, 228, 55));
+        datePicker.setBackground(new  Color(255, 255, 255));
+        datePicker.setForeground(new  Color(17, 60, 67));
+
+        datePicker2.setEditor(endDateField);
+        datePicker2.setColor(new  Color(220, 228, 55));
+        datePicker2.setBackground(new  Color(255, 255, 255));
+        datePicker2.setForeground(new  Color(17, 60, 67));
+
         timePicker = new TimePicker();
         timePicker.setColor(new  Color(220, 228, 55));
         timePicker.setEditor(startTimeField); // link popup to field
-        timePicker2 = new TimePicker();
+        timePicker.setBackground(new  Color(255, 255, 255));
+        timePicker.setForeground(new  Color(17, 60, 67));
+
+       timePicker2 = new TimePicker();
+        timePicker2.setBackground(new  Color(255, 255, 255));
         timePicker2.setColor(new  Color(220, 228, 55));
+        timePicker2.setForeground(new  Color(17, 60, 67));
         timePicker2.setEditor(endTimeField);
+
+
+        startDateField.addPropertyChangeListener("value", evt -> {
+            Object newValue = evt.getNewValue();
+            System.out.println("Value changed: " + newValue);
+            updateDurationField(timePicker, timePicker2,datePicker, datePicker2);
+        });
+        endDateField.addPropertyChangeListener("value", evt -> {
+            Object newValue = evt.getNewValue();
+            System.out.println("Value changed: " + newValue);
+            updateDurationField(timePicker, timePicker2,datePicker, datePicker2);
+        });
+        endTimeField.addPropertyChangeListener("value", evt -> {
+            Object newValue = evt.getNewValue();
+            System.out.println("Value changed: " + newValue);
+            updateDurationField(timePicker, timePicker2,datePicker, datePicker2);
+        });
+        startTimeField.addPropertyChangeListener("value", evt -> {
+            Object newValue = evt.getNewValue();
+            System.out.println("Value changed: " + newValue);
+            updateDurationField(timePicker, timePicker2,datePicker, datePicker2);
+        });
+
 
 
 
@@ -115,6 +163,8 @@ public class WalkingWorkoutCalculator{
             }
         });
 
+
+
         stopwatchButton.addMouseListener(new MouseAdapter() {
 
             @Override
@@ -125,18 +175,51 @@ public class WalkingWorkoutCalculator{
 
                 LocalDateTime startDT = stopwatch.getStartDT();
                 timePicker.setSelectedTime(startDT.toLocalTime());
+                datePicker.setSelectedDate(startDT.toLocalDate());
                 startTimeField.setValue(startDT.toLocalTime().format(formatter));
 
                 LocalDateTime endDT = stopwatch.getEndDT();
+
                 timePicker2.setSelectedTime(startDT.toLocalTime());
+                datePicker2.setSelectedDate(startDT.toLocalDate());
                 endTimeField.setValue(endDT.toLocalTime().format(formatter));
 
             }
         });
     }
 
+    private  void updateDurationField(TimePicker startTimePicker, TimePicker endTimePicker, DatePicker startDatePicker, DatePicker endDatePicker)
+    {
+       if(startTimePicker.getSelectedTime() != null && endTimePicker.getSelectedTime() != null && startDatePicker.getSelectedDate() != null && endDatePicker.getSelectedDate() != null )
+       {
+           LocalDateTime start = LocalDateTime.of(startDatePicker.getSelectedDate(),
+                   startTimePicker.getSelectedTime());
 
-    public void clearFields()
+           LocalDateTime end = LocalDateTime.of(endDatePicker.getSelectedDate(),
+                   endTimePicker.getSelectedTime());
+
+           long diffSeconds = Duration.between(start, end).getSeconds();
+           double diffMinutes = diffSeconds / 60.0;
+
+           System.out.println("Duration: " + diffMinutes);
+
+           if(diffMinutes <0 )
+           {
+               DurationField.setText("0");
+           }
+           else
+           {
+               DurationField.setText("" + diffMinutes);
+           }
+       }
+       else
+       {
+           System.out.println("Incomplete StartEndTime");
+       }
+    }
+
+
+    private void clearFields()
     {
 
         DurationField.setText("");
