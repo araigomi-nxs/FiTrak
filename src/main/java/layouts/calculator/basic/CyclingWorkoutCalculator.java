@@ -61,7 +61,6 @@ public class CyclingWorkoutCalculator  {
         // setLocationRelativeTo(null);
         //  setVisible(true);
 
-
         CalculateButton.addActionListener(e -> {
             try {
                 double duration = Double.parseDouble(DurationField.getText());
@@ -103,8 +102,6 @@ public class CyclingWorkoutCalculator  {
 
                 DurationField.setText(stopwatch.getDurationMinutes());
 
-    }
-    //for implementation/interface overload
 
                 LocalDateTime startDT = stopwatch.getStartDT();
                 timePicker.setSelectedTime(startDT.toLocalTime());

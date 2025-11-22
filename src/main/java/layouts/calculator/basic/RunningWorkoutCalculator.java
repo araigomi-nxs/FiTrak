@@ -28,7 +28,6 @@ public class RunningWorkoutCalculator {
     private JLabel DurationLabel;
     private JButton CalculateButton;
 
-    private JPanel OutputPanel;
     private JTextArea outputTextArea;
     private JPanel stopWatchArea;
     private TimePicker timePicker;
