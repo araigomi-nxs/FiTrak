@@ -1,11 +1,17 @@
 package layouts.calculator.basic;
 
 import calculationModels.basic.CyclingWorkout;
+import layouts.calculator.Stopwatch;
 import objects.Account;
+import raven.datetime.TimePicker;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 
 public class CyclingWorkoutCalculator  {
 
@@ -20,9 +26,33 @@ public class CyclingWorkoutCalculator  {
     private JLabel IntensityLabel;
     private JComboBox<String> IntensityComboB;
     private JButton CalculateButton;
+
+    private JPanel stopWatchArea;
     private JTextArea outputTextArea;
+    private TimePicker timePicker;
+    private TimePicker timePicker2;
+    private JFormattedTextField StartTimeField;
+    private JFormattedTextField EndTimeField;
+
+    JLabel stopwatchButton;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
 
     public CyclingWorkoutCalculator(Account account) {
+
+        CardLayout cardLayout = new CardLayout();
+        stopWatchArea.setLayout(cardLayout);
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatchButton = stopwatch.getStartStopButton();
+
+        stopWatchArea.add(stopwatch.getPanel(), "stopwatch" );
+        cardLayout.show(stopWatchArea, "stopwatch");
+
+        timePicker = new TimePicker();
+        timePicker.setColor(new  Color(220, 228, 55));
+        timePicker.setEditor(StartTimeField); // link popup to field
+        timePicker2 = new TimePicker();
+        timePicker2.setColor(new  Color(220, 228, 55));
+        timePicker2.setEditor(EndTimeField);
 
        // setContentPane(JPanel2);
         //  setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,7 +60,6 @@ public class CyclingWorkoutCalculator  {
         //  setSize(300, 400);
         // setLocationRelativeTo(null);
         //  setVisible(true);
-
 
         CalculateButton.addActionListener(e -> {
             try {
@@ -66,11 +95,24 @@ public class CyclingWorkoutCalculator  {
             }
         });
 
+        stopwatchButton.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                DurationField.setText(stopwatch.getDurationMinutes());
 
 
+                LocalDateTime startDT = stopwatch.getStartDT();
+                timePicker.setSelectedTime(startDT.toLocalTime());
+                StartTimeField.setValue(startDT.toLocalTime().format(formatter));
+
+                LocalDateTime endDT = stopwatch.getEndDT();
+                timePicker2.setSelectedTime(startDT.toLocalTime());
+                EndTimeField.setValue(endDT.toLocalTime().format(formatter));
+            }
+        });
     }
-    //for implementation/interface overload
-
 
     public void clearFields()
     {
