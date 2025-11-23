@@ -67,10 +67,10 @@ public abstract class Workout {
     // 🔹 Getters
     public double getDurationMinutes() { return durationMinutes; }
     public double getCaloriesBurned() { return caloriesBurned; }
-    public LocalDateTime getDateTime() { return startDT; } // now returns LocalDateTime
-    public String getFormattedDateTime() { return startDT.format(formatter); } // for display
+    public String getStartDT() { return startDT.format(formatter); } // now returns LocalDateTime
+    public String getEndDT() { return endDT.format(formatter); }
     public double getMetValue() { return metValue; }
-    public double getWeight() { return weight; }
+    public double getInitialWeight() { return initialWeight; }
     public String getWorkoutType() { return workoutType; }
     //public double getUserAge() { return userAge; }
 
