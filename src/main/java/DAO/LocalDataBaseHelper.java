@@ -9,6 +9,7 @@ import java.sql.*;
 public class LocalDataBaseHelper {
 
     private final String DB_URL = "jdbc:sqlite:FitrakAccount.db";
+    private final String SERVER_ORIGIN = "Client-JAM-PC-001";
 
     public LocalDataBaseHelper() {
         initializeDatabase();
@@ -71,7 +72,7 @@ public class LocalDataBaseHelper {
             pstmt.setDouble(8, 0);
             pstmt.setDouble(9, 0);
             pstmt.setDouble(10, 0);
-            pstmt.setString(11, "Client-JAM-PC-001");
+            pstmt.setString(11, SERVER_ORIGIN);
             pstmt.setDouble(12, 0);
             pstmt.setString(13, creationDT);
             pstmt.setString(14,lastUpdatedDT);
