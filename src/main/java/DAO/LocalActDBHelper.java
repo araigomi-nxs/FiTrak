@@ -55,7 +55,9 @@ public class LocalActDBHelper {
 
     public long insertActivity(long userID, double durationMinutes, double caloriesBurned, String startDT, String endDT, double metValue,double initialWeight,  String workoutType, String serverOrigin )
     {
-        String sql = "INSERT INTO activities (userID, durationMinutes, caloriesBurned, startDT,  endDT, metValue,initialWeight,weightLoss, workoutType,  serverOrigin) VALUES (?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO activities (userID, durationMinutes, caloriesBurned, startDT,  endDT, metValue,initialWeight,workoutType,  serverOrigin) VALUES (?,?,?,?,?,?,?,?,?)";
+
+        long activityID = -1;
 
         try( Connection conn = DriverManager.getConnection(DB_URL);
             PreparedStatement pstmt = conn.prepareStatement(sql))
