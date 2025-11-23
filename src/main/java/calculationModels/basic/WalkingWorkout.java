@@ -50,7 +50,7 @@ public class WalkingWorkout extends BasicWorkout {
     @Override
     public double calculateCaloriesBurned() {
         metValue= calculateMet(intensity);
-        return MetricsCalculator.calculateCalories(metValue, weight, durationMinutes);
+        return MetricsCalculator.calculateCalories(metValue, initialWeight, durationMinutes);
     }
 
     // Getters

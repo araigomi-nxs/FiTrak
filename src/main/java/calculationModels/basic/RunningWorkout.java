@@ -42,7 +42,7 @@ public class RunningWorkout extends BasicWorkout {
     @Override
     public double calculateCaloriesBurned() {
         metValue= calculateMet(intensity, terrain, speedKPH);
-        return MetricsCalculator.calculateCalories(metValue, weight, durationMinutes);
+        return MetricsCalculator.calculateCalories(metValue, initialWeight, durationMinutes);
     }
 
     // Getters

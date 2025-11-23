@@ -45,7 +45,7 @@ public class JumpingRope extends CardioWorkout {
 
         // Include sets + rest
         double totalActiveMinutes = (durationMinutes * sets) - (restTimeSeconds / 60.0);
-        return MetricsCalculator.calculateCalories(met, weight, Math.max(0, totalActiveMinutes));
+        return MetricsCalculator.calculateCalories(met, initialWeight, Math.max(0, totalActiveMinutes));
     }
 
     public int getSets() { return sets; }

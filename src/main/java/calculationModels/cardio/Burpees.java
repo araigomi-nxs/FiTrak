@@ -39,7 +39,7 @@ public class Burpees extends CardioWorkout {
         double totalRestMinutes = (restTimeSeconds * (sets - 1)) / 60.0;
         double totalActiveMinutes = (durationMinutes * sets) - totalRestMinutes;
 
-        return MetricsCalculator.calculateCalories(met, weight, Math.max(0, totalActiveMinutes));
+        return MetricsCalculator.calculateCalories(met, initialWeight, Math.max(0, totalActiveMinutes));
     }
 
     public int getSets() { return sets; }

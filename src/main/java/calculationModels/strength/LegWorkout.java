@@ -21,8 +21,8 @@ public class LegWorkout extends StrengthWorkout {
         if (activeMinutes < 0) activeMinutes = durationMinutes;
 
         double totalWeightMoved = isWeighted
-                ? (weightLiftedKG > 0 ? sets * reps * weightLiftedKG : sets * reps * weight * 0.6)
-                : sets * reps * weight * 0.4;
+                ? (weightLiftedKG > 0 ? sets * reps * weightLiftedKG : sets * reps * initialWeight * 0.6)
+                : sets * reps * initialWeight * 0.4;
 
         /*
         if (isWeighted) {
@@ -46,6 +46,6 @@ public class LegWorkout extends StrengthWorkout {
 
         if (isWeighted) metValue += 0.5;
 
-        return MetricsCalculator.calculateCalories(metValue, weight, activeMinutes);
+        return MetricsCalculator.calculateCalories(metValue, initialWeight, activeMinutes);
     }
 }

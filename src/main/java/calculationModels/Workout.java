@@ -11,7 +11,7 @@ public abstract class Workout {
     protected LocalDateTime startDT;
     protected LocalDateTime endDT;// updated to store both date and time
     protected double metValue;
-    protected double weight;
+    protected double initialWeight;
     protected String workoutType;
 
     protected static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -22,7 +22,7 @@ public abstract class Workout {
         this.caloriesBurned = 0;
         this.startDT = LocalDateTime.now(); // default to current date & time
         this.metValue = 0;
-        this.weight = 0;
+        this.initialWeight = 0;
         this.workoutType = "Generic";
         //this.userAge = 0;
     }
@@ -37,7 +37,7 @@ public abstract class Workout {
         }
 
         this.durationMinutes = durationMinutes;
-        this.weight = weight;
+        this.initialWeight = weight;
         this.metValue = metValue;
         this.startDT = startDT;
         this.endDT = endDT;

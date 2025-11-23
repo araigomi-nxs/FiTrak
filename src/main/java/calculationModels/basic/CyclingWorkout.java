@@ -18,7 +18,7 @@ public class CyclingWorkout extends BasicWorkout {
         this.distanceKM = distanceKM;
         this.speedKPH = calculateSpeed(distanceKM, durationMinutes);
         this.intensity = intensity;
-        this.caloriesBurned = MetricsCalculator.calculateCalories(metValue, weight, durationMinutes);
+        this.caloriesBurned = calculateCaloriesBurned();
     }
 
     private static double calculateSpeed(double distanceKM, double durationMinutes) {
@@ -48,7 +48,7 @@ public class CyclingWorkout extends BasicWorkout {
     @Override
     public double calculateCaloriesBurned() {
         metValue= calculateMet(distanceKM, durationMinutes, intensity);
-        return MetricsCalculator.calculateCalories(metValue, weight, durationMinutes);
+        return MetricsCalculator.calculateCalories(metValue, initialWeight, durationMinutes);
     }
 
     // Getters

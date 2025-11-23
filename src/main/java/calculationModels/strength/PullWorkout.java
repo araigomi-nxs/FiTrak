@@ -21,8 +21,8 @@ public class PullWorkout extends StrengthWorkout {
         if (activeMinutes < 0) activeMinutes = durationMinutes;
 
         double totalWeightMoved = isWeighted
-                ? (weightLiftedKG > 0 ? sets * reps * weightLiftedKG : sets * reps * weight * 0.5)
-                : sets * reps * weight * 0.3;
+                ? (weightLiftedKG > 0 ? sets * reps * weightLiftedKG : sets * reps * initialWeight * 0.5)
+                : sets * reps * initialWeight * 0.3;
 
         /*
         if (isWeighted) {
@@ -46,6 +46,6 @@ public class PullWorkout extends StrengthWorkout {
 
         if (isWeighted) metValue += 0.4;
 
-        return MetricsCalculator.calculateCalories(metValue, weight, activeMinutes);
+        return MetricsCalculator.calculateCalories(metValue, initialWeight, activeMinutes);
     }
 }
