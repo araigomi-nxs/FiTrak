@@ -39,7 +39,6 @@ public class WalkingWorkout extends BasicWorkout {
     private static double calculateMet(String intensity) {
         if (intensity == null) return 3.3;
         //
-
         switch (intensity.toLowerCase()) {
             case "brisk": return 3.9;
             case "calm":  return 2.8;
