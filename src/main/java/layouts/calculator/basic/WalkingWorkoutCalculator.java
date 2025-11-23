@@ -45,7 +45,7 @@ public class WalkingWorkoutCalculator{
     JLabel stopwatchButton;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
 
-
+    WalkingWorkout walk;
     public WalkingWorkoutCalculator(Account account) {
 
        // setContentPane(JPanel2);
@@ -75,11 +75,13 @@ public class WalkingWorkoutCalculator{
         datePicker.setColor(new  Color(220, 228, 55));
         datePicker.setBackground(new  Color(255, 255, 255));
         datePicker.setForeground(new  Color(17, 60, 67));
+        datePicker.setSelectedDate(LocalDate.now());
 
         datePicker2.setEditor(endDateField);
         datePicker2.setColor(new  Color(220, 228, 55));
         datePicker2.setBackground(new  Color(255, 255, 255));
         datePicker2.setForeground(new  Color(17, 60, 67));
+        datePicker2.setSelectedDate(LocalDate.now());
 
         timePicker = new TimePicker();
         timePicker.setColor(new  Color(220, 228, 55));
@@ -134,7 +136,7 @@ public class WalkingWorkoutCalculator{
 
                 LocalDateTime dateTime = LocalDateTime.now();
 
-                WalkingWorkout walk = new WalkingWorkout(duration, weight, dateTime,dateTime, steps, intensity, sex, height);
+                walk = new WalkingWorkout(duration, weight, dateTime,dateTime, steps, intensity, sex, height);
 
                 StringBuilder output = new StringBuilder();
 
@@ -163,6 +165,14 @@ public class WalkingWorkoutCalculator{
             }
         });
 
+        saveButton.addActionListener(e -> {
+
+            if(walk!= null)
+            {
+                WorkoutTracker.logWorkout(account.getId(),walk);
+            }
+
+        });
 
 
         stopwatchButton.addMouseListener(new MouseAdapter() {

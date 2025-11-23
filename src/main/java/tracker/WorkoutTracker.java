@@ -1,13 +1,38 @@
 package tracker;
 
+import DAO.LocalActDBHelper;
+import DAO.LocalWorkoutDBHelper;
+import calculationModels.Workout;
+import calculationModels.basic.RunningWorkout;
+import calculationModels.basic.WalkingWorkout;
+import objects.Account;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class WorkoutTracker {
-    //3 workout
-    //logWorkout( )
 
 
-    public static void logWorkout(){
+    private final static String SERVER_ORIGIN = "Client-JAM-PC-001";
+    protected static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+
+    public static void logWorkout(long userID, WalkingWorkout walkingWorkout){
+
+        LocalActDBHelper localActDBHelper = new LocalActDBHelper();
+        LocalWorkoutDBHelper localWorkoutDBHelper = new LocalWorkoutDBHelper();
+        LocalDateTime localDateTime = LocalDateTime.now();
+
+        localWorkoutDBHelper.insertWorkout(localActDBHelper.insertActivity(userID,walkingWorkout.getDurationMinutes(),
+                        walkingWorkout.getCaloriesBurned(), walkingWorkout.getStartDT(),walkingWorkout.getEndDT(),
+                        walkingWorkout.getMetValue(),walkingWorkout.getInitialWeight(),walkingWorkout.getWorkoutType(),SERVER_ORIGIN),
+                        walkingWorkout.getSteps(), walkingWorkout.getDistanceKM(), walkingWorkout.getIntensity(),
+                        walkingWorkout.getCalPerStep(), 0.0,0, 0,0.0,0.0, SERVER_ORIGIN,
+                        localDateTime.format(formatter));
 
     }
+    public static void logWorkout(long userID, RunningWorkout runningWorkout){}
 
 
     // group activities - summarize 20-11-25 1500 calburned today -dashboard
