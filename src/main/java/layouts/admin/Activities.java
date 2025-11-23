@@ -1,6 +1,7 @@
 package layouts.admin;
 
 import DAO.LocalActDBHelper;
+import com.formdev.flatlaf.FlatClientProperties;
 
 import javax.swing.*;
 
@@ -25,20 +26,28 @@ public class Activities {
     private JTextField searchField;
     private JLabel searchButton;
     private JLabel refreshTable;
-    private JPanel statsPanel;
+    private JPanel act2statsPanel;
+    private JPanel activityStat;
     private JPanel calLossStat;
     private JPanel weightLossStat;
-    private JPanel activityStat;
-    private JPanel accountStat;
-    private JLabel accCounter;
-    private JLabel adminCounter;
-    private JLabel userCounter;
-    private JLabel localCount;
-    private JLabel foreignCount;
+    private JPanel statsPanel;
+    private JPanel activityStatsPanel;
+    private JPanel tablesPanel;
+    private JPanel fieldsPanel;
+    private JPanel localDBPanel;
+    private JPanel onlineDBPanel;
 
 
     public Activities(){
      createTable();
+
+     activitiesPanel.putClientProperty(FlatClientProperties.STYLE,"arc:20");
+     statsPanel.putClientProperty(FlatClientProperties.STYLE,"arc:20");
+     act2statsPanel.putClientProperty(FlatClientProperties.STYLE,"arc:20");
+     tablesPanel.putClientProperty(FlatClientProperties.STYLE,"arc:20");
+     fieldsPanel.putClientProperty(FlatClientProperties.STYLE,"arc:20");
+     localDBPanel.putClientProperty(FlatClientProperties.STYLE,"arc:20");
+     onlineDBPanel.putClientProperty(FlatClientProperties.STYLE,"arc:20");
 
 
     }

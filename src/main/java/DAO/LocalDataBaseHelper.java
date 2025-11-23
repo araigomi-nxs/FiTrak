@@ -41,7 +41,8 @@ public class LocalDataBaseHelper {
                 BMI INTEGER NOT NULL,
                 serverOrigin TEXT NOT NULL,
                 preference INTEGER NOT NULL,
-                creationDT TEXT NOT NULL
+                creationDT TEXT NOT NULL,
+                lastUpdatedDT TEXT NOT NULL
                 
             );  
             """;
@@ -54,8 +55,8 @@ public class LocalDataBaseHelper {
     }
 
 
-    public void insertUser( long userID, String email, String password, int privilege, String creationDT ) {
-        String sql = "INSERT INTO accounts (userID,email, password, privilege, username, sex ,age, weight, height, BMI, serverOrigin,preference,creationDT) VALUES(?, ?, ?, ?,?, ? , ? , ?,?,?,?,?,?)";
+    public void insertUser( long userID, String email, String password, int privilege, String creationDT, String lastUpdatedDT) {
+        String sql = "INSERT INTO accounts (userID,email, password, privilege, username, sex ,age, weight, height, BMI, serverOrigin,preference,creationDT,lastUpdatedDT) VALUES(?, ?, ?, ?,?, ? , ? , ?,?,?,?,?,?, ?)";
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -73,6 +74,7 @@ public class LocalDataBaseHelper {
             pstmt.setString(11, "Client-JAM-PC-001");
             pstmt.setDouble(12, 0);
             pstmt.setString(13, creationDT);
+            pstmt.setString(14,lastUpdatedDT);
 
 
             pstmt.executeUpdate();
@@ -134,8 +136,8 @@ public class LocalDataBaseHelper {
     }
 
 
-    public void updateAll(long userID, String email, String password, int privilege, String username, String sex, int age, double weight, double height, double bmi, String serverOrigin, int preference, String createDT ) {
-        String sql = "UPDATE accounts SET email = ?,password = ?,privilege = ?,username = ?, sex =? ,age=?,  weight = ?, height = ?, BMI = ? ,serverOrigin = ?,preference =?,creationDT = ?  WHERE userID = ?";
+    public void updateAll(long userID, String email, String password, int privilege, String username, String sex, int age, double weight, double height, double bmi, String serverOrigin, int preference, String createDT,String lastUpdatedDT ) {
+        String sql = "UPDATE accounts SET email = ?,password = ?,privilege = ?,username = ?, sex =? ,age=?,  weight = ?, height = ?, BMI = ? ,serverOrigin = ?,preference =?,creationDT = ? , lastUpdatedDT= ?  WHERE userID = ?";
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -153,7 +155,8 @@ public class LocalDataBaseHelper {
             pstmt.setString(10, serverOrigin);
             pstmt.setInt(11, preference);
             pstmt.setString(12, createDT);
-            pstmt.setLong(13, userID);
+            pstmt.setString(13, lastUpdatedDT);
+            pstmt.setLong(14, userID);
 
 
             int rowsAffected = pstmt.executeUpdate();
@@ -309,7 +312,7 @@ public class LocalDataBaseHelper {
     }
 
     public DefaultTableModel getAccountsTableModel() {
-        String[] columnNames = {"ID", "UserID", "Email", "Password", "Privilege", "Username", "Sex","Age","Weight", "Height", "BMI","ServerOrigin", "Preference", "CreationDT" };
+        String[] columnNames = {"ID", "UserID", "Email", "Password", "Privilege", "Username", "Sex","Age","Weight", "Height", "BMI","ServerOrigin", "Preference", "CreationDT", "LastUpdatedDT" };
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 
         String sql = "SELECT * FROM accounts";
@@ -333,7 +336,8 @@ public class LocalDataBaseHelper {
                         rs.getDouble("BMI"),
                         rs.getString("serverOrigin"),
                         rs.getInt("preference"),
-                        rs.getString("creationDT")
+                        rs.getString("creationDT"),
+                        rs.getString("lastUpdatedDT")
                 };
                 model.addRow(row);
             }
@@ -386,7 +390,7 @@ public class LocalDataBaseHelper {
 
 
     public Account getAccount(long userID) {
-        String sql = "SELECT userID, email, password , privilege, username , weight, height, BMI, age, sex, serverOrigin, preference, creationDT  FROM accounts WHERE userID = ?";
+        String sql = "SELECT userID, email, password , privilege, username , weight, height, BMI, age, sex, serverOrigin, preference, creationDT , lastUpdatedDT FROM accounts WHERE userID = ?";
         Account account = null;
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -403,6 +407,7 @@ public class LocalDataBaseHelper {
                         rs.getInt("privilege"),
                         rs.getString("username"),
                         rs.getString("creationDT"),
+                        rs.getString("lastUpdatedDT"),
                         rs.getDouble("weight"),
                         rs.getDouble("height"),
                         rs.getDouble("BMI"),
@@ -425,7 +430,7 @@ public class LocalDataBaseHelper {
         String[] columnNames = {
                 "ID", "UserID", "Email", "Password", "Privilege",
                 "Username", "Sex", "Age", "Weight", "Height",
-                "BMI", "ServerOrigin", "Preference", "CreationDT"
+                "BMI", "ServerOrigin", "Preference", "CreationDT", "LastUpdatedDT"
         };
 
         DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
@@ -444,6 +449,7 @@ public class LocalDataBaseHelper {
            OR privilege = ? 
            OR preference = ?
             OR creationDT LIKE ?
+            OR lastUpdatedDT LIKE ?                       
         COLLATE NOCASE
     """;
 
@@ -455,6 +461,7 @@ public class LocalDataBaseHelper {
             pstmt.setString(2, searchPattern);
             pstmt.setString(3, searchPattern);
             pstmt.setString(12, searchPattern);
+            pstmt.setString(13, searchPattern);
 
             Integer intKeyword = null;
             try {
@@ -495,7 +502,8 @@ public class LocalDataBaseHelper {
                         rs.getDouble("BMI"),
                         rs.getString("serverOrigin"),
                         rs.getInt("preference"),
-                        rs.getString("creationDT")
+                        rs.getString("creationDT"),
+                        rs.getString("lastUpdatedDT")
                 };
                 tableModel.addRow(row);
             }

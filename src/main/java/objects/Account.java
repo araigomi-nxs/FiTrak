@@ -19,6 +19,7 @@ public class Account {
     private String serverOrigin;
     private int preference;
     private String creationDT;
+    private String lastUpdatedDT;
 
 
 
@@ -29,10 +30,12 @@ public class Account {
             this.password = password;
             this.privilege = privilege;
             this.creationDT =creationDT;
+            this.lastUpdatedDT = creationDT;
 
     }
 
-    public Account(long id, String email, String password, int privilege,  String username,String creationDT,  double weight, double height, double BMI, int age, String sex, String serverOrigin, int preference )
+    //localDB
+    public Account(long id, String email, String password, int privilege,  String username,String creationDT, String lastUpdatedDT, double weight, double height, double BMI, int age, String sex, String serverOrigin, int preference )
     {
         this.id = id;
         this.email = email;
@@ -47,6 +50,8 @@ public class Account {
         this.serverOrigin = serverOrigin;
         this.preference = preference;
         this.creationDT = creationDT;
+        this.lastUpdatedDT = lastUpdatedDT;
+
 
     }
 
@@ -59,11 +64,6 @@ public class Account {
         this.height = height;
         this.BMI = BMI;
         this.preference = preference;
-    }
-
-    public void setBMI(double weight, double height)
-    {
-        this.BMI = weight/height * height;
     }
 
     public void setServerOrigin() {
@@ -125,6 +125,7 @@ public class Account {
     public String getCreationDT() {
         return creationDT;
     }
+    public String getLastUpdatedDT() {return lastUpdatedDT;}
 
 
 

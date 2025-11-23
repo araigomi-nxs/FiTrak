@@ -73,6 +73,12 @@ public class AdminPanel extends JFrame {
     private JTextField createDTField;
     private JTextField prefField;
     private JLabel matches;
+    private JPanel fieldsPanel;
+    private JPanel tablesPanel;
+    private JPanel accountStats;
+    private JPanel localDBPanel;
+    private JPanel onlineDBPanel;
+    private JTextField lastUpDTField;
     private CardLayout cardLayout;
 
     protected static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -126,19 +132,8 @@ public class AdminPanel extends JFrame {
 
 
         createTable();
-        updateButton.putClientProperty(FlatClientProperties.STYLE, "arc:20");
-        removeButton.putClientProperty(FlatClientProperties.STYLE, "arc:20");
-        clearFieldButton.putClientProperty(FlatClientProperties.STYLE, "arc:20");
-        refreshTable.putClientProperty(FlatClientProperties.STYLE, "arc:20");
-        insertButton.putClientProperty(FlatClientProperties.STYLE, "arc:20");
-        emptyStat.putClientProperty(FlatClientProperties.STYLE, "arc:20");
-        accountStat.putClientProperty(FlatClientProperties.STYLE,  "arc:20");
-        calLossStat.putClientProperty(FlatClientProperties.STYLE,  "arc:20");
-        weightLossStat.putClientProperty(FlatClientProperties.STYLE, "arc:20");
-        accountStat.putClientProperty(FlatClientProperties.STYLE,  "arc:20");
-        activityStat.putClientProperty(FlatClientProperties.STYLE,  "arc:20");
-        sidebar.putClientProperty(FlatClientProperties.STYLE,  "arc:20");
-        panelToo.putClientProperty(FlatClientProperties.STYLE,  "arc:20");
+        arcSetup();
+
 
 
 
@@ -271,6 +266,7 @@ public class AdminPanel extends JFrame {
                 servOriginField.setText(accountsTable.getValueAt(selectedRow, 11).toString());
                 prefField.setText(accountsTable.getValueAt(selectedRow, 12).toString());
                 createDTField.setText(accountsTable.getValueAt(selectedRow, 13).toString());
+                lastUpDTField.setText(accountsTable.getValueAt(selectedRow, 14).toString());
             }
         });
 
@@ -294,7 +290,9 @@ public class AdminPanel extends JFrame {
                     localDataBaseHelper.updateAll(Long.parseLong(userIDField.getText().trim()), emailField.getText(), passwordField.getText(),
                             Integer.parseInt(privilegeField.getText()),usernameField.getText() , sexField.getText(),
                             Integer.parseInt(ageField.getText()), Double.parseDouble(weightField.getText()),
-                            Double.parseDouble(heightField.getText()), Double.parseDouble(bmiField.getText()), servOriginField.getText(), Integer.parseInt(prefField.getText()),createDTField.getText());
+                            Double.parseDouble(heightField.getText()), Double.parseDouble(bmiField.getText()),
+                            servOriginField.getText(), Integer.parseInt(prefField.getText()),createDTField.getText(),
+                            LocalDateTime.now().format(formatter));
                     createTable();
                     clearTextFields();
 
@@ -320,7 +318,7 @@ public class AdminPanel extends JFrame {
 
                            Admin admin = new Admin(Long.parseLong(userIDField.getText()), emailField.getText(), passwordField.getText(), localDateTime.format(formatter));
                            admin.setupAccount(usernameField.getText(), sexField.getText(), Integer.parseInt(ageField.getText()), Double.parseDouble(weightField.getText()), Double.parseDouble(heightField.getText()), Double.parseDouble(bmiField.getText()), servOriginField.getText(), 1);
-                           localDataBaseHelper.insertUser(admin.getId(), admin.getEmail(), admin.getPassword(), admin.getPrivilege(), admin.getCreationDT());
+                           localDataBaseHelper.insertUser(admin.getId(), admin.getEmail(), admin.getPassword(), admin.getPrivilege(), admin.getCreationDT(),admin.getLastUpdatedDT());
                            localDataBaseHelper.updateWH(admin.getId(), admin.getUsername(), admin.getWeight(), admin.getHeight(), admin.getSex(), admin.getAge());
                            createTable();
                            clearTextFields();
@@ -329,7 +327,7 @@ public class AdminPanel extends JFrame {
                         else if (Integer.parseInt(privilegeField.getText()) == 0) {
                             User user = new User(Long.parseLong(userIDField.getText()), emailField.getText(), passwordField.getText(), localDateTime.format(formatter));
                             user.setupAccount(usernameField.getText(), sexField.getText(), Integer.parseInt(ageField.getText()), Double.parseDouble(weightField.getText()), Double.parseDouble(heightField.getText()), Double.parseDouble(bmiField.getText()), servOriginField.getText(), 1);
-                            localDataBaseHelper.insertUser(user.getId(), user.getEmail(), user.getPassword(), user.getPrivilege(), user.getCreationDT());
+                            localDataBaseHelper.insertUser(user.getId(), user.getEmail(), user.getPassword(), user.getPrivilege(), user.getCreationDT(), user.getLastUpdatedDT());
                             localDataBaseHelper.updateWH(user.getId(), user.getUsername(), user.getWeight(), user.getHeight(), user.getSex(), user.getAge());
                             createTable();
                             clearTextFields();
@@ -398,6 +396,28 @@ public class AdminPanel extends JFrame {
         });
     }
 
+    private void arcSetup() {
+        updateButton.putClientProperty(FlatClientProperties.STYLE, "arc:10");
+        removeButton.putClientProperty(FlatClientProperties.STYLE, "arc:10");
+        clearFieldButton.putClientProperty(FlatClientProperties.STYLE, "arc:10");
+        refreshTable.putClientProperty(FlatClientProperties.STYLE, "arc:20");
+        insertButton.putClientProperty(FlatClientProperties.STYLE, "arc:20");
+        emptyStat.putClientProperty(FlatClientProperties.STYLE, "arc:20");
+        accountStat.putClientProperty(FlatClientProperties.STYLE,  "arc:20");
+        calLossStat.putClientProperty(FlatClientProperties.STYLE,  "arc:20");
+        weightLossStat.putClientProperty(FlatClientProperties.STYLE, "arc:20");
+        accountStat.putClientProperty(FlatClientProperties.STYLE,  "arc:20");
+        activityStat.putClientProperty(FlatClientProperties.STYLE,  "arc:20");
+        sidebar.putClientProperty(FlatClientProperties.STYLE,  "arc:20");
+        panelToo.putClientProperty(FlatClientProperties.STYLE,  "arc:20");
+        fieldsPanel.putClientProperty(FlatClientProperties.STYLE,  "arc:20");
+        statsPanel.putClientProperty(FlatClientProperties.STYLE,  "arc:20");
+        tablesPanel.putClientProperty(FlatClientProperties.STYLE,  "arc:20");
+        accountStats.putClientProperty(FlatClientProperties.STYLE,  "arc:20");
+        localDBPanel.putClientProperty(FlatClientProperties.STYLE,  "arc:20");
+        onlineDBPanel.putClientProperty(FlatClientProperties.STYLE,  "arc:20");
+    }
+
     private void setStats() {
         accCounter.setText( String.valueOf(dataBaseHelper.getRowCount(0)));
         adminCounter.setText("Admins: "+ String.valueOf(dataBaseHelper.getRowCount(1)));
@@ -419,6 +439,7 @@ public class AdminPanel extends JFrame {
         bmiField.setText("");
         servOriginField.setText("");
         createDTField.setText("");
+        lastUpDTField.setText("");
         prefField.setText("");
 
     }

@@ -1,4 +1,4 @@
-package layouts.loginFlow.user;
+package layouts.loginFlow;
 
 import DAO.LocalDataBaseHelper;
 

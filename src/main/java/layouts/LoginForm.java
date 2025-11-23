@@ -8,7 +8,7 @@ import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
 
-import layouts.loginFlow.user.SignUpForm;
+import layouts.loginFlow.SignUpForm;
 
 
 public class LoginForm extends JFrame {

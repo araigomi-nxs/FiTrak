@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="layouts.UserPanel">
-  <grid id="27dc6" binding="UserPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="UserPanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="500" height="413"/>
+      <xy x="20" y="20" width="500" height="418"/>
     </constraints>
     <properties/>
     <border type="none"/>
     <children>
-      <grid id="25fc1" binding="userDashBoard" layout-manager="GridLayoutManager" row-count="5" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="25fc1" binding="userDashBoard" layout-manager="GridLayoutManager" row-count="7" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <background color="-1"/>
@@ -21,7 +21,7 @@
           <grid id="90dd9" binding="sidebar" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="5" bottom="0" right="5"/>
             <constraints>
-              <grid row="0" column="0" row-span="5" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="0" row-span="7" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <background color="-15653588"/>
@@ -157,7 +157,7 @@
                               <text value="Dashboard"/>
                             </properties>
                           </component>
-                          <component id="b7b3d" class="javax.swing.JButton" binding="accountsButton">
+                          <component id="b7b3d" class="javax.swing.JButton" binding="workoutButton">
                             <constraints/>
                             <properties>
                               <font name="Poppins" size="14" style="0"/>
@@ -172,7 +172,7 @@
                               <text value="Workout"/>
                             </properties>
                           </component>
-                          <component id="29412" class="javax.swing.JButton" binding="activitiesButton">
+                          <component id="29412" class="javax.swing.JButton" binding="goalsButton">
                             <constraints/>
                             <properties>
                               <font name="Poppins" size="14" style="0"/>
@@ -187,7 +187,7 @@
                               <text value="Goals"/>
                             </properties>
                           </component>
-                          <component id="407e2" class="javax.swing.JButton" binding="calculationButton">
+                          <component id="407e2" class="javax.swing.JButton" binding="accountsButton">
                             <constraints/>
                             <properties>
                               <font name="Poppins" size="14" style="0"/>
@@ -211,62 +211,95 @@
               </grid>
             </children>
           </grid>
-          <grid id="7a9e2" binding="row1" layout-manager="CardLayout" hgap="0" vgap="0">
+          <grid id="4be28" binding="userPanelContainer" layout-manager="CardLayout" hgap="0" vgap="0">
             <constraints>
-              <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="1" column="1" row-span="6" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties/>
             <border type="none"/>
             <children>
-              <grid id="661b2" binding="basicRow" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="0" right="0"/>
+              <grid id="79485" binding="workoutPanel" layout-manager="CardLayout" hgap="0" vgap="0">
                 <constraints>
-                  <card name="Card1"/>
+                  <card name="Card2"/>
                 </constraints>
-                <properties>
-                  <background color="-1"/>
-                </properties>
+                <properties/>
                 <border type="none"/>
                 <children>
-                  <grid id="10f94" binding="cycPos" layout-manager="CardLayout" hgap="0" vgap="0">
+                  <grid id="161ae" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <card name="Card1"/>
                     </constraints>
                     <properties/>
                     <border type="none"/>
-                    <children/>
-                  </grid>
-                  <grid id="dccd4" binding="runPos" layout-manager="CardLayout" hgap="0" vgap="0">
-                    <constraints>
-                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties/>
-                    <border type="none"/>
-                    <children/>
-                  </grid>
-                  <grid id="176bd" binding="walkPos" layout-manager="CardLayout" hgap="0" vgap="0">
-                    <constraints>
-                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties/>
-                    <border type="none"/>
-                    <children/>
+                    <children>
+                      <grid id="7a9e2" binding="row1" layout-manager="CardLayout" hgap="0" vgap="0">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties/>
+                        <border type="none"/>
+                        <children>
+                          <grid id="661b2" binding="basicRow" layout-manager="GridLayoutManager" row-count="2" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                            <margin top="0" left="0" bottom="0" right="0"/>
+                            <constraints>
+                              <card name="Card1"/>
+                            </constraints>
+                            <properties>
+                              <background color="-1"/>
+                            </properties>
+                            <border type="none"/>
+                            <children>
+                              <grid id="10f94" binding="cycPos" layout-manager="CardLayout" hgap="0" vgap="0">
+                                <constraints>
+                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties/>
+                                <border type="none"/>
+                                <children/>
+                              </grid>
+                              <grid id="dccd4" binding="runPos" layout-manager="CardLayout" hgap="0" vgap="0">
+                                <constraints>
+                                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties/>
+                                <border type="none"/>
+                                <children/>
+                              </grid>
+                              <grid id="176bd" binding="walkPos" layout-manager="CardLayout" hgap="0" vgap="0">
+                                <constraints>
+                                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties/>
+                                <border type="none"/>
+                                <children/>
+                              </grid>
+                              <vspacer id="cceff">
+                                <constraints>
+                                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                              </vspacer>
+                            </children>
+                          </grid>
+                        </children>
+                      </grid>
+                    </children>
                   </grid>
                 </children>
               </grid>
             </children>
           </grid>
-          <grid id="f100f" binding="titleArea" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="7" left="0" bottom="0" right="10"/>
+          <grid id="a5d73" binding="titleArea" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="7" left="0" bottom="10" right="10"/>
             <constraints>
-              <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="1" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <background color="-1"/>
             </properties>
             <border type="empty"/>
             <children>
-              <component id="7ef2a" class="javax.swing.JLabel" binding="exitButton">
+              <component id="8ae2f" class="javax.swing.JLabel" binding="exitButton">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="6" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -279,16 +312,6 @@
               </component>
             </children>
           </grid>
-          <vspacer id="adafe">
-            <constraints>
-              <grid row="3" column="1" row-span="2" col-span="2" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-            </constraints>
-          </vspacer>
-          <hspacer id="9807e">
-            <constraints>
-              <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-          </hspacer>
         </children>
       </grid>
     </children>

@@ -14,6 +14,7 @@ public class CyclingWorkout extends BasicWorkout {
 
         super(durationMinutes, weight, startDT, endDT, 0.0 , "Cycling"  );
 
+
         this.distanceKM = distanceKM;
         this.speedKPH = calculateSpeed(distanceKM, durationMinutes);
         this.intensity = intensity;

@@ -37,6 +37,16 @@ public class Main {
         UIManager.put("Button.toolbar.hoverForeground",  new Color(220, 228, 55));
         UIManager.put("Button.toolbar.hoverBackground",  new Color(31, 52, 62));
         UIManager.put("Button.toolbar.pressedBackground",  new Color(39, 65, 75));
+        UIManager.put("ScrollBar.track", new Color(0,0,0,0));
+        UIManager.put("ScrollBar.hoverTrackColor", new Color(0,0,0,0));
+        UIManager.put("ScrollBar.pressedTrackColor", new Color(0,0,0,0));
+        UIManager.put("ScrollBar.trackInsets", new Insets(0,0,0,0));
+
+        UIManager.put("ScrollBar.thumb", new Color(255, 255, 255, 223));
+        UIManager.put("ScrollBar.hoverThumbColor", new Color(255, 255, 255, 223));
+        UIManager.put("ScrollBar.pressedThumbColor", new Color(222, 228, 109, 255));
+
+
         UIManager.put("TableHeader.font", poppins );
         UIManager.put("Table.font", poppinsSmall );
 

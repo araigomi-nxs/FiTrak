@@ -1,5 +1,5 @@
 
-package layouts.loginFlow.user;
+package layouts.loginFlow;
 
 import objects.Admin;
 import objects.User;
@@ -122,14 +122,14 @@ public class SignUpForm {
                                    if( accountCreationType == 1)
                                    {
                                        Admin admin = new Admin(emailSUField.getText().trim() , passwordSUField.getText().trim(), dateTime.format(formatter));
-                                       dataBaseHelper.insertUser(admin.getId(),admin.getEmail(), admin.getPassword(), 1, admin.getCreationDT());
+                                       dataBaseHelper.insertUser(admin.getId(),admin.getEmail(), admin.getPassword(), 1, admin.getCreationDT(), admin.getLastUpdatedDT());
                                        JOptionPane.showMessageDialog(null, "Admin account Created" + admin.getEmail() + "\n"+admin.getPassword() +"\n"+ admin.getPrivilege());
                                        userIDtemp = admin.getId();
                                    }
                                    else
                                    {
                                        User user = new User(emailSUField.getText().trim() , passwordSUField.getText().trim(), dateTime.format(formatter));
-                                       dataBaseHelper.insertUser(user.getId(),user.getEmail(), user.getPassword(), 0, user.getCreationDT() );
+                                       dataBaseHelper.insertUser(user.getId(),user.getEmail(), user.getPassword(), 0, user.getCreationDT(), user.getLastUpdatedDT() );
                                        JOptionPane.showMessageDialog(null, "User account Created\n" +user.getId()+  user.getEmail() +"\n"+ user.getPassword() +"\n"+ user.getPrivilege());
                                        userIDtemp = user.getId();
                                    }
