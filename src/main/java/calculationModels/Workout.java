@@ -72,7 +72,7 @@ public abstract class Workout {
     public double getMetValue() { return metValue; }
     public double getInitialWeight() { return initialWeight; }
     public String getWorkoutType() { return workoutType; }
-    //public double getUserAge() { return userAge; }
+
 
 
     // 🔹 Setters with validation
@@ -85,7 +85,7 @@ public abstract class Workout {
     public void setWeight(double weight) {
         if (weight <= 0)
             throw new IllegalArgumentException("Weight must be positive.");
-        this.weight = weight;
+        this.initialWeight = weight;
     }
 
     public void setDateTime(LocalDateTime dateTime) {
