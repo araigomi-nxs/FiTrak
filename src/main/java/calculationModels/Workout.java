@@ -24,7 +24,7 @@ public abstract class Workout {
         this.metValue = 0;
         this.initialWeight = 0;
         this.workoutType = "Generic";
-        //this.userAge = 0;
+      
     }
 
     // 🔹 Main constructor
