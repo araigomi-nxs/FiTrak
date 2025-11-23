@@ -49,7 +49,7 @@ public class MetricsCalculator {
     public static double computeBMR ( double weight, double height , int age, String sex ) {
         double BMR;
 
-        BMR  =(10 * weight) + (6.25 * (height * 100)) -( 5 * age );
+        BMR  =(10 * weight) + (6.25 * (height * 100)) - ( 5 * age );
         BMR = sex.equals("male")? BMR+5:BMR-161;
         return BMR;
     }
@@ -67,6 +67,7 @@ public class MetricsCalculator {
             default: // Sedentary
                 activityFactor = 1.2;
         }
+
         double TDEE = BMR * activityFactor;
 
         if (dailyExerciseCalBurn > 0) {
@@ -76,9 +77,10 @@ public class MetricsCalculator {
     }
 
 
+
     //Daily Cal Deficit assume calIntake for now edit later
-    public static double computeDailyCalDeficit(double TDEE, double calConsumed) {
-        return  TDEE - calConsumed;
+    public static double computeDailyCalDeficit(double TDEE, double calIntake) {
+        return  TDEE - calIntake;
     }
 
     //Daily FatLoss in grams
