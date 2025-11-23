@@ -6,6 +6,7 @@ import layouts.calculator.Stopwatch;
 import objects.Account;
 import raven.datetime.DatePicker;
 import raven.datetime.TimePicker;
+import tracker.WorkoutTracker;
 
 import javax.swing.*;
 import java.awt.*;
@@ -42,6 +43,9 @@ public class WalkingWorkoutCalculator{
     private JLabel DurationLabel;
     TimePicker timePicker;
     TimePicker timePicker2;
+
+    private JButton saveButton;
+
     JLabel stopwatchButton;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
 
