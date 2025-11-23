@@ -111,7 +111,6 @@ public class LocalActDBHelper {
                         rs.getString("endDT"),
                         rs.getDouble("metValue"),
                         rs.getDouble("initialWeight"),
-                        rs.getDouble("weightLoss"),
                         rs.getString("serverOrigin")
                 };
                 model.addRow(row);
