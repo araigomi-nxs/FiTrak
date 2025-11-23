@@ -36,7 +36,6 @@ public class LocalActDBHelper {
                 endDT TEXT NOT NULL,
                 metValue REAL,
                 workoutType TEXT,
-                weightLoss REAL,
                 serverOrigin TEXT,
                 
                 FOREIGN KEY (userID) REFERENCES accounts(userID)
