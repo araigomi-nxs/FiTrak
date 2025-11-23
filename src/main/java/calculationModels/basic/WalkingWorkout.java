@@ -19,7 +19,7 @@ public class WalkingWorkout extends BasicWorkout {
 
         super(durationMinutes, weight, startDT,endDT,0 , "Walking");
         this.steps = steps;
-        this.height = height;
+        this.height = (height*100);
         this.intensity = intensity;
         this.sex = sex;
         this.distanceKM = calculateDistance(steps, sex, this.height);
