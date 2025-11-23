@@ -49,9 +49,6 @@ public class LocalWorkoutDBHelper {
         } catch (SQLException e) {
             System.err.println("Table creation error: " + e.getMessage());
         }
-
-
-
     }
 
 
