@@ -40,7 +40,8 @@ public class LocalWorkoutDBHelper {
                 serverOrigin TEXT,
                 logDT TEXT NOT NULL,
                 FOREIGN KEY (activityID) REFERENCES accounts(userID)
-                ); 
+                );
+                
                 """;
 
         try (Statement stmt = conn.createStatement()) {
@@ -52,5 +53,50 @@ public class LocalWorkoutDBHelper {
 
 
     }
+
+
+    public void insertWorkout(long activityID, int steps, double distanceKM, String intensity,
+                              double calPerStep, double speedKPH, int sets, int reps,
+                              double currentHeartRate, double weightLifted, String serverOrigin, String logDT) {
+        String sql = "INSERT INTO workouts (activityID, steps, distanceKM, intensity, calPerStep, speedKPH, sets, reps, currentHeartRate, weightLifted, serverOrigin, logDT) "
+                + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+
+        long workID = -1; // default if insert fails
+
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            pstmt.setLong(1, activityID);
+            pstmt.setInt(2, steps);
+            pstmt.setDouble(3, distanceKM);
+            pstmt.setString(4, intensity);
+            pstmt.setDouble(5, calPerStep);
+            pstmt.setDouble(6, speedKPH);
+            pstmt.setInt(7, sets);
+            pstmt.setInt(8, reps);
+            pstmt.setDouble(9, currentHeartRate);
+            pstmt.setDouble(10, weightLifted);
+            pstmt.setString(11, serverOrigin);
+            pstmt.setString(12, logDT);
+
+            int affectedRows = pstmt.executeUpdate();
+
+            if (affectedRows > 0) {
+                try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        workID = rs.getLong(1); // retrieve auto-generated workID
+                    }
+                }
+            }
+
+            System.out.println("Workout inserted successfully with ID: " + workID);
+
+        } catch (SQLException e) {
+            System.err.println("Insert failed: " + e.getMessage());
+        }
+
+    }
+
+
 
 }
