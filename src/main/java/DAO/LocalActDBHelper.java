@@ -69,22 +69,30 @@ public class LocalActDBHelper {
             pstmt.setString(5, endDT);
             pstmt.setDouble(6, metValue);
             pstmt.setDouble(7, initialWeight);
-            pstmt.setDouble(8, weightLoss);
-            pstmt.setString(9, workoutType);
-            pstmt.setString(10, serverOrigin);
+            pstmt.setString(8, workoutType);
+            pstmt.setString(9, serverOrigin);
 
-            pstmt.executeUpdate();
+            int affectedRows = pstmt.executeUpdate();
+
+            if (affectedRows > 0) {
+                try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        activityID = rs.getLong(1); // retrieve the auto-generated key
+                    }
+                }
+            }
 
             System.out.println("Activities inserted successfully");
         }
         catch (SQLException e) {
             System.err.println("Insert  failed: " + e.getMessage());
         }
+        return activityID;
     }
 
 
     public DefaultTableModel getActivitiesTable() {
-        String[] columnNames = {"activityID", "userID", "workoutType","durMin", "calBurn", "startDT", "endDT", "metValue","initialWeight",  "weightLoss", "serverOrigin"};
+        String[] columnNames = {"activityID", "userID", "workoutType","durMin", "calBurn", "startDT", "endDT", "metValue","initialWeight",  "serverOrigin"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 
         String sql = "SELECT * FROM activities";
