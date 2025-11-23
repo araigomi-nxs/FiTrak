@@ -18,7 +18,6 @@ public class Activities {
     private JTextField serverOriginFIeld;
     private JTextField initialWeightField;
     private JTextField workoutTypeField;
-    private JTextField weightLossField;
     private JButton updateButton;
     private JButton insertButton;
     private JButton removeButton;
