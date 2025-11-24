@@ -2,6 +2,8 @@ package layouts;
 
 
 import DAO.LocalDataBaseHelper;
+import DAO.OnlineDataBaseHelper;
+import DAO.SyncManager;
 import layouts.admin.Activities;
 import layouts.admin.AdminDashboard;
 import layouts.admin.Calculations;
@@ -81,6 +83,10 @@ public class AdminPanel extends JFrame {
     private JTextField lastUpDTField;
     private JComboBox comboBox1;
     private JLabel limboCount;
+    private JLabel refreshOnlineTable;
+    private JButton syncButton;
+    private JTextArea syncLogs;
+    private JTextArea syncLogArea;
     private CardLayout cardLayout;
 
     protected static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -123,14 +129,11 @@ public class AdminPanel extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20));
 
-
         JPopupMenu popupMenu = new JPopupMenu();
         JMenuItem editItem = new JMenuItem("Edit");
         JMenuItem removeItem = new JMenuItem("Remove");
         popupMenu.add(editItem);
         popupMenu.add(removeItem);
-
-
         createTable();
         arcSetup();
         setStats();
@@ -273,6 +276,20 @@ public class AdminPanel extends JFrame {
                 // Confirm and remove user from DB
             }
         });
+        syncButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SyncManager  syncManager = new SyncManager();
+                try {
+                    syncManager.compareAccountsODB();
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+                syncManager.getSyncLogs(syncLogs);
+            }
+
+        });
+
 
         updateButton.addActionListener(new ActionListener() {
 
@@ -371,6 +388,14 @@ public class AdminPanel extends JFrame {
             }
 
         });
+        refreshOnlineTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                OnlineDataBaseHelper onlineDBHelper = new OnlineDataBaseHelper();
+                onlineAccountsTable.setModel(onlineDBHelper.getAccountsTableModelOnline());
+            }
+        });
 
         generateButton.addActionListener(new ActionListener() {
             @Override
@@ -458,8 +483,12 @@ public class AdminPanel extends JFrame {
     public void createTable() {
        dataBaseHelper = new LocalDataBaseHelper();
        accountsTable.setModel(new LocalDataBaseHelper().getAccountsTableModel());
-       onlineAccountsTable.setModel(new LocalDataBaseHelper().getAccountsTableModel());
 
+       OnlineDataBaseHelper onlineDBHelper = new OnlineDataBaseHelper();
+
+       onlineAccountsTable.setModel( onlineDBHelper.getAccountsTableModelOnline() );
+       SyncManager syncManager = new SyncManager();
+       syncManager.getSyncLogs(syncLogs);
 
 
     }

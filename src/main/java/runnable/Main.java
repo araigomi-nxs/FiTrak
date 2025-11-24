@@ -54,7 +54,7 @@ public class Main {
 
 
         SyncManager syncManager = new SyncManager();
-        syncManager.migrateAccounts();
+        syncManager.startSyncThread();
 
 
         SwingUtilities.invokeLater(() -> {

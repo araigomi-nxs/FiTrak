@@ -1,12 +1,14 @@
 package DAO;
 
+import javax.swing.*;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class SyncManager extends OnlineDataBaseHelper {
+public class SyncManager extends OnlineDataBaseHelper implements Runnable {
     private final String DB_URL = "jdbc:sqlite:FitrakAccount.db";
+    private final String SERVER_ORIGIN = "Client-JAM-PC-001";
 
     private LocalDataBaseHelper localDataBaseHelper;
 
@@ -49,7 +51,7 @@ public class SyncManager extends OnlineDataBaseHelper {
     /**
      * Sync one account between SQLite and Supabase (JDBC)
      */
-    public void syncAccount(Map<String, Object> sqliteAccount) throws Exception {
+    public void syncLocalAccount(Map<String, Object> sqliteAccount) throws Exception {
         try (Connection supabaseConn = getConnection()) {
             PreparedStatement stmt = supabaseConn.prepareStatement(
                     "SELECT * FROM accounts WHERE user_id = ?");
@@ -59,7 +61,7 @@ public class SyncManager extends OnlineDataBaseHelper {
             if (!rs.next()) {
                 // No Supabase record → insert new
                 insertAccountToSupabase(sqliteAccount);
-                logSyncEvent((Long) sqliteAccount.get("user_id"), "INSERTED", "Upload");
+                logSyncEvent((Long) sqliteAccount.get("user_id"), "INSERTED", "Upload","ACCOUNT");
             } else {
                 String supabaseUpdatedStr = rs.getString("last_updated_dt");
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -86,12 +88,12 @@ public class SyncManager extends OnlineDataBaseHelper {
                             rs.getString("creation_dt"),
                             rs.getString("last_updated_dt")
                     );
-                    logSyncEvent((Long) sqliteAccount.get("user_id"), "UPDATED", "PULL");
+                    logSyncEvent((Long) sqliteAccount.get("user_id"), "UPDATED", "PULL" ,"ACCOUNT");
 
                 } else if (sqliteUpdated.isAfter(supabaseUpdated)) {
                     // SQLite newer → update Supabase
                     updateSupabaseAccount(sqliteAccount);;
-                    logSyncEvent((Long) sqliteAccount.get("user_id"), "UPDATED", "PUSH");
+                    logSyncEvent((Long) sqliteAccount.get("user_id"), "UPDATED", "PUSH" ,"ACCOUNT");
 
                 } else {
                     System.out.println("Account already in sync for user_id: " + sqliteAccount.get("user_id"));
@@ -160,9 +162,135 @@ public class SyncManager extends OnlineDataBaseHelper {
             System.out.println("Updated Supabase for user_id: " + account.get("user_id"));
         }
     }
-    protected void logSyncEvent(long userId, String entry, String direction) {
-        String sql = "INSERT INTO syncLogs (user_id, entry, direction) VALUES (?, ?::sync_entry, ?::sync_direction)";
 
+    public void getSyncLogs(JTextArea textArea) {
+        String sql = "SELECT log_id, user_id, entry, direction, log_date, server_origin, table_ref " +
+                "FROM syncLogs ORDER BY log_date DESC";
+
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            StringBuilder sb = new StringBuilder();
+            while (rs.next()) {
+                long logId = rs.getLong("log_id");
+                long userId = rs.getLong("user_id");
+                String entry = rs.getString("entry");
+                String direction = rs.getString("direction");
+                String logDate = rs.getTimestamp("log_date").toString();
+                String origin = rs.getString("server_origin");
+                String table = rs.getString("table_ref");
+
+                sb.append("Log #").append(logId)
+                        .append(" |USR: ").append(userId)
+                        .append(" |OP: ").append(entry)
+                        .append(":").append(direction)
+                        .append(" |DT: ").append(logDate)
+                        .append(" |SRC: ").append(origin)
+                        .append(" |TBL: ").append(table)
+                        .append("\n");
+            }
+
+            // Update JTextArea on the Event Dispatch Thread
+            SwingUtilities.invokeLater(() -> textArea.setText(sb.toString()));
+
+        } catch (SQLException e) {
+            System.err.println("Failed to fetch sync logs: " + e.getMessage());
+        }
+    }
+
+
+    /**
+     * Check Supabase for privilege = -1 and delete local account if found
+     */
+    public void deleteLocalInvalidAccounts() throws Exception {
+        String sql = "SELECT user_id, privilege FROM accounts";
+
+        try (Connection supabaseConn = getConnection();
+             PreparedStatement stmt = supabaseConn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                long userID = rs.getLong("user_id");
+                int privilege = rs.getInt("privilege");
+
+                if (privilege == -1) {
+                    try (Connection localConn = DriverManager.getConnection(DB_URL);
+                         PreparedStatement deleteStmt = localConn.prepareStatement(
+                                 "DELETE FROM accounts WHERE userID = ?")) {
+
+                        deleteStmt.setLong(1, userID);
+                        int rowsDeleted = deleteStmt.executeUpdate();
+
+                        if (rowsDeleted > 0) {
+                            System.out.println("Deleted local account for user_id " + userID +
+                                    " because Supabase privilege = -1");
+                            logSyncEvent(userID, "DELETED", "PULL","ACCOUNT");
+                        } else {
+                            System.out.println("No local account found for user_id " + userID +
+                                    " to delete.");
+                        }
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Failed to check Supabase accounts: " + e.getMessage());
+        }
+    }
+    /**
+     * Full migration loop: SQLite → Supabase with sync
+     */
+    public void syncOnlineAccount() throws Exception {
+        try (Connection supabaseConn = getConnection();
+             PreparedStatement stmt = supabaseConn.prepareStatement("SELECT * FROM accounts");
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                long userId = rs.getLong("user_id");
+                int privilege = rs.getInt("privilege");
+
+                // Skip invalid accounts
+                if (privilege == -1) {
+                    System.out.println("Skipping account with user_id " + userId + " (privilege = -1)");
+                    continue;
+                }
+
+                // Check if this user exists locally
+                try (Connection localConn = DriverManager.getConnection(DB_URL);
+                     PreparedStatement localStmt = localConn.prepareStatement("SELECT * FROM accounts WHERE userID = ?")) {
+
+                    localStmt.setLong(1, userId);
+                    ResultSet localRs = localStmt.executeQuery();
+
+                    if (!localRs.next()) {
+                        // Not found locally → insert into SQLite
+                        localDataBaseHelper.insertUser(
+                                userId,
+                                rs.getString("email"),
+                                rs.getString("password"),
+                                privilege,
+                                rs.getString("username"),
+                                rs.getString("sex"),
+                                rs.getInt("age"),
+                                rs.getDouble("weight"),
+                                rs.getDouble("height"),
+                                rs.getDouble("bmi"),
+                                rs.getString("server_origin"),
+                                rs.getInt("preference"),
+                                rs.getString("creation_dt"),
+                                rs.getString("last_updated_dt")
+                        );
+                        logSyncEvent(userId, "INSERTED", "PULL", "ACCOUNT");
+
+                    }
+                }
+            }
+        }
+    }
+    protected void logSyncEvent(long userId, String entry, String direction, String tableRef) {
+        String sql = "INSERT INTO syncLogs (user_id, entry, direction, server_origin, table_ref) " +
+                "VALUES (?, ?::sync_entry, ?::sync_direction, ? ,?::table_ref)";
 
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -170,23 +298,41 @@ public class SyncManager extends OnlineDataBaseHelper {
             stmt.setLong(1, userId);
             stmt.setString(2, entry);
             stmt.setString(3, direction);
+            stmt.setString(4, SERVER_ORIGIN);
+            stmt.setString(5, tableRef);
 
             stmt.executeUpdate();
-            System.out.println("Logged sync event: " + entry + " / " + direction + " for user_id " + userId);
+            System.out.println("LOG sync event: " + entry + " / " + direction +
+                    " for user_id " + userId + " from" + SERVER_ORIGIN +":" + tableRef);
 
         } catch (SQLException e) {
-            System.err.println("Failed to log sync event: " + e.getMessage());
+            System.err.println("LOG FAILED sync event: " + e.getMessage());
         }
     }
 
-
-    /**
-     * Full migration loop: SQLite → Supabase with sync
-     */
-    public void migrateAccounts() throws Exception {
+    public void compareAccountsODB() throws Exception {
         List<Map<String, Object>> accounts = readAccountsFromSQLite();
         for (Map<String, Object> account : accounts) {
-            syncAccount(account);
+            syncLocalAccount(account);
+        }
+        deleteLocalInvalidAccounts();
+        syncOnlineAccount();
+    }
+
+
+    @Override
+    public void run() {
+        try {
+            compareAccountsODB(); // Your sync logic here
+        } catch (Exception e) {
+            System.err.println("Sync thread failed: " + e.getMessage());
         }
     }
+
+    public void startSyncThread() {
+        Thread thread = new Thread(this);
+        thread.start();
+    }
+
+
 }
