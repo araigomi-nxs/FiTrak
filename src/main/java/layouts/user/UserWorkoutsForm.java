@@ -136,4 +136,5 @@ public class UserWorkoutsForm extends JPanel {
     public JPanel getUserWorkoutsPanel() {
         return userWorkoutsPanel;
     }
+
 }

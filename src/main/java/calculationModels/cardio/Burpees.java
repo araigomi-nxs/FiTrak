@@ -45,4 +45,5 @@ public class Burpees extends CardioWorkout {
     public int getSets() { return sets; }
     public int getReps() { return reps; }
     public int getRestTimeSeconds() { return restTimeSeconds; }
+
 }

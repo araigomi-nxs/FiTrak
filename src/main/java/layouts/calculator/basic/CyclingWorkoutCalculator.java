@@ -203,4 +203,5 @@ public class CyclingWorkoutCalculator  {
     public JPanel getPanel() {
         return MainPanel;
     }
+
 }

@@ -35,6 +35,7 @@ public class RunStrengthUI {
 
             default:
                 break;
+
         }
     }
 }

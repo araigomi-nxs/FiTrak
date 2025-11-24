@@ -124,5 +124,6 @@ public class PushCalculator extends JFrame {
         public JPanel getPanel() {
         return MainPanel;
         }
+
     }
 

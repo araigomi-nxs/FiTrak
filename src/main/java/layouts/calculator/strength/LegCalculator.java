@@ -20,7 +20,6 @@ public class LegCalculator extends JFrame {
     private JLabel DurationDisplay;
     private JLabel SetsLabel;
     private JLabel RepsLabel;
-    private JLabel WeightLiftedLabel;
     private JLabel IntensityLabel;
     private JLabel RestTimeLabel;
     private JTextField WeightField;
@@ -29,6 +28,7 @@ public class LegCalculator extends JFrame {
     private JTextField WeightLiftedField;
     private JComboBox IntensityComboB;
     private JTextField RestTimeField;
+    private JLabel WeightLiftedLabel;
 
 
     private boolean hasCalculated = false;
@@ -122,6 +122,7 @@ public class LegCalculator extends JFrame {
     public JPanel getPanel() {
         return MainPanel;
     }
+
 }
 
 

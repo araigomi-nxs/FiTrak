@@ -63,4 +63,6 @@ public class CyclingWorkout extends BasicWorkout {
     public String getIntensity() {
         return intensity;
     }
+
 }
+

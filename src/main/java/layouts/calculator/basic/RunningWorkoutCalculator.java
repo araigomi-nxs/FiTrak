@@ -14,7 +14,6 @@ import java.awt.event.MouseEvent;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 public class RunningWorkoutCalculator {
 
@@ -201,4 +200,5 @@ public class RunningWorkoutCalculator {
     public JPanel getPanel() {
         return MainPanel;
     }
+
 }

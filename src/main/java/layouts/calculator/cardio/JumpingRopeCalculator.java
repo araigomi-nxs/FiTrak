@@ -159,5 +159,6 @@ public class JumpingRopeCalculator extends JFrame {
     public JPanel getPanel() {
         return MainPanel;
     }
+
 }
 

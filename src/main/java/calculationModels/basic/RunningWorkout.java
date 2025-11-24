@@ -50,4 +50,5 @@ public class RunningWorkout extends BasicWorkout {
     public double getSpeedKPH() { return speedKPH; }
     public String getIntensity() { return intensity; }
     public String getTerrain() { return terrain; }
+
 }

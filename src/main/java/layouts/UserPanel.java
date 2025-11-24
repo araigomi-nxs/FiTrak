@@ -163,5 +163,6 @@ public class UserPanel extends JFrame {
 
         accountsButton.setBackground(new Color(17, 37, 44));
         accountsButton.setForeground(new Color(79, 96, 115));
+
     }
 }

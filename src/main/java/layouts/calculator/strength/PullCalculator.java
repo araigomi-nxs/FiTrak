@@ -16,7 +16,6 @@ public class PullCalculator extends JFrame {
     private JCheckBox yesCheckBox;
     private JCheckBox noCheckBox;
     private JLabel DurationLabel;
-    private JLabel WeightLiftedLabel;
     private JLabel RestTimeLabel;
     private JLabel IntensityLabel;
     private JButton calculateButton;
@@ -30,6 +29,7 @@ public class PullCalculator extends JFrame {
     private JTextField RepsField;
     private JTextField WeightLiftedField;
     private JTextField RestTimeField;
+    private JLabel WeightLiftedLabel;
 
     private boolean hasCalculated = false;
 
@@ -120,6 +120,7 @@ public class PullCalculator extends JFrame {
     public JPanel getPanel() {
         return MainPanel;
     }
+
 }
 
 

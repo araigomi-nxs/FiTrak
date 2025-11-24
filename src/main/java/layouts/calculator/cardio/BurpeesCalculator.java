@@ -22,11 +22,11 @@ public class BurpeesCalculator extends JFrame {
     private JButton calculateButton;
     private JTextArea OutputTextArea;
     private JLabel DurationLabel;
-    private JLabel IntensityLabel;
     private JLabel SetsLabel;
     private JLabel RepsLabel;
     private JLabel RestTimeLabel;
     private JLabel HeartRateLabel;
+    private JLabel IntensityLabel;
 
     private boolean hasCalculated = false;
 
@@ -101,5 +101,6 @@ public class BurpeesCalculator extends JFrame {
         public JPanel getPanel() {
             return MainPanel;
         }
+
     }
 

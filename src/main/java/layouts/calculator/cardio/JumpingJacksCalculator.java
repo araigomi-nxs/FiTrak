@@ -157,5 +157,6 @@ public class JumpingJacksCalculator extends JFrame {
     public JPanel getPanel() {
         return MainPanel;
     }
+
 }
 

@@ -249,5 +249,6 @@ public class WalkingWorkoutCalculator{
 
     public JPanel getPanel() {
         return MainPanel;
+
     }
 }

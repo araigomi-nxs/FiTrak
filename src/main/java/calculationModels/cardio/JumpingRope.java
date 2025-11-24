@@ -52,4 +52,5 @@ public class JumpingRope extends CardioWorkout {
     public int getReps() { return reps; }
     public int getRestTimeSeconds() { return restTimeSeconds; }
     public boolean isUseReps() { return useReps; }
+
 }
