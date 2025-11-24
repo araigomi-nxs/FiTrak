@@ -1,5 +1,7 @@
 package runnable;
 
+import DAO.OnlineDataBaseHelper;
+import DAO.SyncManager;
 import com.formdev.flatlaf.FlatLightLaf;
 import layouts.LoginForm;
 
@@ -9,7 +11,7 @@ import java.io.IOException;
 
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
 
         FlatLightLaf.setup();
         Font poppins = new Font("Poppins", Font.PLAIN, 12);
@@ -50,6 +52,9 @@ public class Main {
         UIManager.put("TableHeader.font", poppins );
         UIManager.put("Table.font", poppinsSmall );
 
+
+        SyncManager syncManager = new SyncManager();
+        syncManager.migrateAccounts();
 
 
         SwingUtilities.invokeLater(() -> {

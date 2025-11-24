@@ -58,5 +58,4 @@ public class WalkingWorkout extends BasicWorkout {
     public String getIntensity() { return intensity; }
     public String getGender() { return sex; }
     public double getCalPerStep() { return calPerStep/ steps; }
-
 }

@@ -10,7 +10,7 @@ public class LegWorkout extends StrengthWorkout {
                       String intensity, int restTimeSeconds, boolean useEquipment) {
 
         super(durationMinutes, bodyWeight, startDT, endDT, sets, reps, weightLiftedKG,
-                intensity, restTimeSeconds, "legs", useEquipment);
+                intensity, restTimeSeconds, "Leg", useEquipment);
         this.caloriesBurned = calculateCaloriesBurned();
     }
 
