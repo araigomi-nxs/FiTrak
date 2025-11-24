@@ -5,6 +5,7 @@ import calculationModels.strength.PushWorkout;
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDateTime;
+import objects.Account;
 
 public class PushCalculator extends JFrame {
 
@@ -14,8 +15,7 @@ public class PushCalculator extends JFrame {
     private JCheckBox yesCheckBox;
     private JCheckBox noCheckBox;
     private JLabel DurationLabel;
-    private JTextField DurationField;
-    private JLabel WeightLabel;
+    private JLabel DurationDisplay;
     private JTextField WeightField;
     private JLabel SetsLabel;
     private JLabel RepsLabel;
@@ -33,8 +33,8 @@ public class PushCalculator extends JFrame {
 
     private boolean hasCalculated = false;
 
-    public PushCalculator() {
-        setContentPane(JPanel2);
+    public PushCalculator(Account account) {
+        setContentPane(MainPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(300, 400);
         setLocationRelativeTo(null);
@@ -68,8 +68,9 @@ public class PushCalculator extends JFrame {
             }
 
             try {
-                double duration = Double.parseDouble(DurationField.getText());
-                double bodyWeight = Double.parseDouble(WeightField.getText());
+                double duration = Double.parseDouble(DurationDisplay.getText());
+//                double bodyWeight = Double.parseDouble(WeightField.getText());
+                double weight = account.getWeight();
                 int sets = Integer.parseInt(SetsField.getText());
                 int reps = Integer.parseInt(RepsField.getText());
                 int restTime = Integer.parseInt(RestTimeField.getText());
@@ -79,7 +80,7 @@ public class PushCalculator extends JFrame {
 
                 LocalDateTime dateTime = LocalDateTime.now();
 
-                PushWorkout push = new PushWorkout(duration, bodyWeight, dateTime,dateTime,
+                PushWorkout push = new PushWorkout(duration, weight, dateTime,dateTime,
                         sets, reps, weightLifted, intensity, restTime, useEquipment);
 
                 StringBuilder output = new StringBuilder();
@@ -108,8 +109,7 @@ public class PushCalculator extends JFrame {
         });
 }
         public void clearFields () {
-            DurationField.setText("");
-            WeightField.setText("");
+            DurationDisplay.setText("");
             SetsField.setText("");
             RepsField.setText("");
             WeightLiftedField.setText("");

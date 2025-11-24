@@ -4,38 +4,37 @@ import calculationModels.cardio.JumpingRope;
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDateTime;
+import objects.Account;
 
 public class JumpingRopeCalculator extends JFrame {
 
     private JPanel MainPanel;
     private JPanel JPanel2;
     private JLabel TitleLabel;
-    private JTextField DurationField;
-    private JTextField WeightField;
+    private JLabel DurationDisplay;
+//    private JTextField WeightField;
     private JComboBox<String> IntensityComboB;
     private JTextField SetsField;
     private JTextField RepsField;
     private JTextField RestTimeField;
     private JCheckBox yesCheckBox;
     private JCheckBox noCheckBox;
-    private JTextField AgeField;
+//    private JTextField AgeField;
     private JTextField HeartRateField;
     private JButton calculateButton;
     private JTextArea OutputTextArea;
     private JLabel DurationLabel;
-    private JLabel WeightLabel;
     private JLabel IntensityLabel;
     private JLabel SetsLabel;
     private JLabel RepsLabel;
     private JLabel RestTimeLabel;
-    private JLabel AgeLabel;
     private JLabel HeartRateLabel;
     private JLabel UseRepsLabel;
 
     private boolean hasCalculated = false;
 
-    public JumpingRopeCalculator() {
-        setContentPane(JPanel2);
+    public JumpingRopeCalculator(Account account) {
+        setContentPane(MainPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setSize(300, 400);
@@ -93,11 +92,13 @@ public class JumpingRopeCalculator extends JFrame {
             }
 
             try {
-                double duration = Double.parseDouble(DurationField.getText());
-                double weight = Double.parseDouble(WeightField.getText());
+                double duration = Double.parseDouble(DurationDisplay.getText());
+//                double weight = Double.parseDouble(WeightField.getText());
+                double weight = account.getWeight();
                 int sets = Integer.parseInt(SetsField.getText());
                 int restTime = Integer.parseInt(RestTimeField.getText());
-                double age = Double.parseDouble(AgeField.getText());
+//                double age = Double.parseDouble(AgeField.getText());
+                double age = account.getAge();
                 double heartRate = HeartRateField.getText().isEmpty()
                         ? 0
                         : Double.parseDouble(HeartRateField.getText());
@@ -145,12 +146,10 @@ public class JumpingRopeCalculator extends JFrame {
 
     public void clearFields()
     {
-        DurationField.setText("");
-        WeightField.setText("");
+        DurationDisplay.setText("");
         SetsField.setText("");
         RepsField.setText("");
         RestTimeField.setText("");
-        AgeField.setText("");
         HeartRateField.setText("");
         yesCheckBox.setSelected(false);
         noCheckBox.setSelected(false);

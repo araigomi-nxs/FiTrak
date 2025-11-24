@@ -1,6 +1,7 @@
 package layouts.calculator.cardio;
 
 import calculationModels.cardio.JumpingJacks;
+import objects.Account;
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDateTime;
@@ -9,10 +10,8 @@ public class JumpingJacksCalculator extends JFrame {
 
     private JPanel MainPanel;
     private JPanel Jpanel2;
-    private JTextField DurationField;
+    private JLabel DurationDisplay;
     private JLabel DurationLabel;
-    private JTextField WeightField;
-    private JLabel WeightLabel;
     private JComboBox<String> IntensityComboB;
     private JLabel IntensityLabel;
     private JTextField SetsField;
@@ -21,8 +20,7 @@ public class JumpingJacksCalculator extends JFrame {
     private JLabel RepsLabel;
     private JTextField RestTimeField;
     private JLabel RestTimeLabel;
-    private JTextField AgeField;
-    private JLabel AgeLabel;
+//    private JTextField AgeField;
     private JTextField HeartRateField;
     private JCheckBox yesCheckBox;
     private JCheckBox noCheckBox;
@@ -34,8 +32,8 @@ public class JumpingJacksCalculator extends JFrame {
 
     private boolean hasCalculated = false;
 
-    public JumpingJacksCalculator() {
-        setContentPane(Jpanel2);
+    public JumpingJacksCalculator(Account account) {
+        setContentPane(MainPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setSize(300, 400);
@@ -93,11 +91,13 @@ public class JumpingJacksCalculator extends JFrame {
             }
 
             try {
-                double duration = Double.parseDouble(DurationField.getText());
-                double weight = Double.parseDouble(WeightField.getText());
+                double duration = Double.parseDouble(DurationDisplay.getText());
+//                double weight = Double.parseDouble(WeightField.getText());
+                double weight = account.getWeight();
                 int sets = Integer.parseInt(SetsField.getText());
                 int restTime = Integer.parseInt(RestTimeField.getText());
-                double age = Double.parseDouble(AgeField.getText());
+//                double age = Double.parseDouble(AgeField.getText());
+                double age = account.getAge();
                 double heartRate = HeartRateField.getText().isEmpty()
                         ? 0
                         : Double.parseDouble(HeartRateField.getText());
@@ -144,12 +144,10 @@ public class JumpingJacksCalculator extends JFrame {
     }
 
     public void clearFields() {
-        DurationField.setText("");
-        WeightField.setText("");
+        DurationDisplay.setText("");
         SetsField.setText("");
         RepsField.setText("");
         RestTimeField.setText("");
-        AgeField.setText("");
         HeartRateField.setText("");
         yesCheckBox.setSelected(false);
         noCheckBox.setSelected(false);

@@ -3,8 +3,8 @@ package layouts.calculator.strength;
 import calculationModels.strength.LegWorkout;
 
 import javax.swing.*;
-import java.awt.*;
 import java.time.LocalDateTime;
+import objects.Account;
 
 public class LegCalculator extends JFrame {
 
@@ -17,13 +17,12 @@ public class LegCalculator extends JFrame {
     private JButton calculateButton;
     private JTextArea OutputTextArea;
     private JLabel DurationLabel;
-    private JLabel WeightLabel;
+    private JLabel DurationDisplay;
     private JLabel SetsLabel;
     private JLabel RepsLabel;
     private JLabel WeightLiftedLabel;
     private JLabel IntensityLabel;
     private JLabel RestTimeLabel;
-    private JTextField DurationField;
     private JTextField WeightField;
     private JTextField SetsField;
     private JTextField RepsField;
@@ -31,10 +30,11 @@ public class LegCalculator extends JFrame {
     private JComboBox IntensityComboB;
     private JTextField RestTimeField;
 
+
     private boolean hasCalculated = false;
 
-    public LegCalculator() {
-        setContentPane(JPanel2);
+    public LegCalculator(Account account) {
+        setContentPane(MainPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(300, 400);
         setLocationRelativeTo(null);
@@ -68,8 +68,9 @@ public class LegCalculator extends JFrame {
             }
 
             try {
-                double duration = Double.parseDouble(DurationField.getText());
-                double bodyWeight = Double.parseDouble(WeightField.getText());
+                double duration = Double.parseDouble(DurationDisplay.getText());
+//                double bodyWeight = Double.parseDouble(WeightField.getText());
+                double weight = account.getWeight();
                 int sets = Integer.parseInt(SetsField.getText());
                 int reps = Integer.parseInt(RepsField.getText());
                 int restTime = Integer.parseInt(RestTimeField.getText());
@@ -79,7 +80,7 @@ public class LegCalculator extends JFrame {
 
                 LocalDateTime dateTime = LocalDateTime.now();
 
-                LegWorkout leg = new LegWorkout(duration, bodyWeight, dateTime,dateTime,
+                LegWorkout leg = new LegWorkout(duration, weight, dateTime,dateTime,
                         sets, reps, weightLifted, intensity, restTime, useEquipment);
 
                 StringBuilder output = new StringBuilder();
@@ -108,8 +109,7 @@ public class LegCalculator extends JFrame {
         });
     }
         public void clearField() {
-            DurationField.setText("");
-            WeightField.setText("");
+            DurationDisplay.setText("");
             SetsField.setText("");
             RepsField.setText("");
             WeightLiftedField.setText("");
@@ -119,5 +119,10 @@ public class LegCalculator extends JFrame {
             noCheckBox.setSelected(true);
             WeightLiftedField.setEnabled(false);
         }
+    public JPanel getPanel() {
+        return MainPanel;
     }
+}
+
+
 

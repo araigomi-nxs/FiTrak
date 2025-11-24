@@ -27,14 +27,6 @@
               <text value="Walking Calory Counter"/>
             </properties>
           </component>
-          <component id="f996d" class="javax.swing.JTextField" binding="DurationField">
-            <constraints>
-              <grid row="1" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="-1"/>
-              </grid>
-            </constraints>
-            <properties/>
-          </component>
           <component id="8be5f" class="javax.swing.JTextField" binding="StepsField">
             <constraints>
               <grid row="6" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
@@ -166,6 +158,14 @@
             <properties>
               <background color="-2300873"/>
               <text value="Calculate"/>
+            </properties>
+          </component>
+          <component id="222e" class="javax.swing.JLabel" binding="DurationDisplay">
+            <constraints>
+              <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value=""/>
             </properties>
           </component>
         </children>

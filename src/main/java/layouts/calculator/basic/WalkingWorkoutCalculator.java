@@ -23,7 +23,8 @@ public class WalkingWorkoutCalculator{
     private JPanel MainPanel;
     private JPanel JPanel2;
     private JLabel TitleLabel;
-    private JTextField DurationField;
+    private JLabel DurationLabel;
+    private JLabel DurationDisplay;
     //private JTextField WeightField;
     private JTextField StepsField;
     private JLabel StepsLabel;
@@ -37,11 +38,11 @@ public class WalkingWorkoutCalculator{
 
     private JTextArea outputTextArea;
     private JPanel stopWatchArea;
-      private JFormattedTextField startTimeField;
+    private JFormattedTextField startTimeField;
     private JFormattedTextField endTimeField;
     private JFormattedTextField endDateField;
     private JFormattedTextField startDateField;
-    private JLabel DurationLabel;
+
     TimePicker timePicker;
     TimePicker timePicker2;
 
@@ -53,12 +54,12 @@ public class WalkingWorkoutCalculator{
     WalkingWorkout walk;
     public WalkingWorkoutCalculator(Account account) {
 
-       // setContentPane(JPanel2);
-       // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      //  pack();
-       // setSize(300, 400);
-       // setLocationRelativeTo(null);
-       // setVisible(true);
+        // setContentPane(JPanel2);
+        // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //  pack();
+        // setSize(300, 400);
+        // setLocationRelativeTo(null);
+        // setVisible(true);
 
         CardLayout cardLayout = new CardLayout();
         stopWatchArea.setLayout(cardLayout);
@@ -94,7 +95,7 @@ public class WalkingWorkoutCalculator{
         timePicker.setBackground(new  Color(255, 255, 255));
         timePicker.setForeground(new  Color(17, 60, 67));
 
-       timePicker2 = new TimePicker();
+        timePicker2 = new TimePicker();
         timePicker2.setBackground(new  Color(255, 255, 255));
         timePicker2.setColor(new  Color(220, 228, 55));
         timePicker2.setForeground(new  Color(17, 60, 67));
@@ -127,7 +128,7 @@ public class WalkingWorkoutCalculator{
 
         calculateButton.addActionListener(e -> {
             try {
-                double duration = Double.parseDouble(DurationField.getText());
+                double duration = Double.parseDouble(DurationDisplay.getText());
                 //double weight = Double.parseDouble(WeightField.getText());
                 double weight = account.getWeight();
                 int steps = Integer.parseInt(StepsField.getText());
@@ -185,7 +186,7 @@ public class WalkingWorkoutCalculator{
             @Override
             public void mouseClicked(MouseEvent e) {
 
-                DurationField.setText(stopwatch.getDurationMinutes());
+                DurationDisplay.setText(stopwatch.getDurationMinutes());
 
 
                 LocalDateTime startDT = stopwatch.getStartDT();
@@ -205,39 +206,39 @@ public class WalkingWorkoutCalculator{
 
     private  void updateDurationField(TimePicker startTimePicker, TimePicker endTimePicker, DatePicker startDatePicker, DatePicker endDatePicker)
     {
-       if(startTimePicker.getSelectedTime() != null && endTimePicker.getSelectedTime() != null && startDatePicker.getSelectedDate() != null && endDatePicker.getSelectedDate() != null )
-       {
-           LocalDateTime start = LocalDateTime.of(startDatePicker.getSelectedDate(),
-                   startTimePicker.getSelectedTime());
+        if(startTimePicker.getSelectedTime() != null && endTimePicker.getSelectedTime() != null && startDatePicker.getSelectedDate() != null && endDatePicker.getSelectedDate() != null )
+        {
+            LocalDateTime start = LocalDateTime.of(startDatePicker.getSelectedDate(),
+                    startTimePicker.getSelectedTime());
 
-           LocalDateTime end = LocalDateTime.of(endDatePicker.getSelectedDate(),
-                   endTimePicker.getSelectedTime());
+            LocalDateTime end = LocalDateTime.of(endDatePicker.getSelectedDate(),
+                    endTimePicker.getSelectedTime());
 
-           long diffSeconds = Duration.between(start, end).getSeconds();
-           double diffMinutes = diffSeconds / 60.0;
+            long diffSeconds = Duration.between(start, end).getSeconds();
+            double diffMinutes = diffSeconds / 60.0;
 
-           System.out.println("Duration: " + diffMinutes);
+            System.out.println("Duration: " + diffMinutes);
 
-           if(diffMinutes <0 )
-           {
-               DurationField.setText("0");
-           }
-           else
-           {
-               DurationField.setText("" + diffMinutes);
-           }
-       }
-       else
-       {
-           System.out.println("Incomplete StartEndTime");
-       }
+            if(diffMinutes <0 )
+            {
+                DurationDisplay.setText("0");
+            }
+            else
+            {
+                DurationDisplay.setText("" + diffMinutes);
+            }
+        }
+        else
+        {
+            System.out.println("Incomplete StartEndTime");
+        }
     }
 
 
     private void clearFields()
     {
 
-        DurationField.setText("");
+        DurationDisplay.setText("");
         //WeightField.setText("");
         StepsField.setText("");
         //HeightField.setText("");
