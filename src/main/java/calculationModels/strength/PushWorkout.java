@@ -10,7 +10,7 @@ public class PushWorkout extends StrengthWorkout {
                        String intensity, int restTimeSeconds, boolean useEquipment) {
 
         super(durationMinutes, bodyWeight, startDT, endDT, sets, reps, weightLiftedKG,
-                intensity, restTimeSeconds, "push", useEquipment);
+                intensity, restTimeSeconds, "Push", useEquipment);
         this.caloriesBurned = calculateCaloriesBurned();
     }
 

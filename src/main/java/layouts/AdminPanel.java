@@ -79,6 +79,8 @@ public class AdminPanel extends JFrame {
     private JPanel localDBPanel;
     private JPanel onlineDBPanel;
     private JTextField lastUpDTField;
+    private JComboBox comboBox1;
+    private JLabel limboCount;
     private CardLayout cardLayout;
 
     protected static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -86,6 +88,7 @@ public class AdminPanel extends JFrame {
     private LocalDataBaseHelper dataBaseHelper ;
     private Account accountInSession;
     private Point initialClick;
+
 
 
     public AdminPanel(long SessionAdmin) {
@@ -99,8 +102,8 @@ public class AdminPanel extends JFrame {
         setContentPane(dashBoardPanel);
         cardLayout = new CardLayout();
         adminContainer.setLayout(cardLayout);
-
         adminContainer.add(accountsPanel, "accounts");
+
         Activities activities = new Activities();
         AdminDashboard adminDashboard = new AdminDashboard();
         Calculations calculations = new Calculations();
@@ -121,7 +124,6 @@ public class AdminPanel extends JFrame {
         setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 20, 20));
 
 
-
         JPopupMenu popupMenu = new JPopupMenu();
         JMenuItem editItem = new JMenuItem("Edit");
         JMenuItem removeItem = new JMenuItem("Remove");
@@ -129,22 +131,16 @@ public class AdminPanel extends JFrame {
         popupMenu.add(removeItem);
 
 
-
-
         createTable();
         arcSetup();
-
-
-
-
         setStats();
+
 
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 initialClick = e.getPoint();
             }
         });
-
         addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseDragged(MouseEvent e) {
                 // get current location
@@ -355,7 +351,8 @@ public class AdminPanel extends JFrame {
                 dataBaseHelper = new LocalDataBaseHelper();
                 if(dataBaseHelper.checkUserExists(Long.parseLong(userIDField.getText())) == 1)
                 {
-                    dataBaseHelper.removeUser(Long.parseLong(userIDField.getText()));
+                    LocalDateTime localDateTime = LocalDateTime.now();
+                    dataBaseHelper.removeUser(Long.parseLong(userIDField.getText()), localDateTime.format(formatter));
                     createTable();
                     clearTextFields();
                     setStats();
@@ -388,7 +385,7 @@ public class AdminPanel extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 dataBaseHelper  = new LocalDataBaseHelper();
-                accountsTable.setModel(dataBaseHelper.searchAccounts(searchField.getText()));
+                accountsTable.setModel(dataBaseHelper.searchAccounts(searchField.getText(), comboBox1.getSelectedItem().toString().toLowerCase()));
                 matches.setText(String.valueOf(accountsTable.getRowCount()) + " matches");
 
 
@@ -424,6 +421,7 @@ public class AdminPanel extends JFrame {
         userCounter.setText("Users: "+ String.valueOf(dataBaseHelper.getRowCount(2)));
         localCount.setText("Local: "+ String.valueOf(dataBaseHelper.getRowCount(3)));
         foreignCount.setText("Foreign: "+ String.valueOf(dataBaseHelper.getRowCount(0)- dataBaseHelper.getRowCount(3)));
+        limboCount.setText("Accounts in Limbo: "+ String.valueOf(dataBaseHelper.getRowCount(4)));
     }
 
     private void clearTextFields() {

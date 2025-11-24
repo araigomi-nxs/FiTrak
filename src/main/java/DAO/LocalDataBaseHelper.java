@@ -5,11 +5,16 @@ import objects.Account;
 
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
+import java.time.LocalDateTime;
+
+
 
 public class LocalDataBaseHelper {
 
     private final String DB_URL = "jdbc:sqlite:FitrakAccount.db";
     private final String SERVER_ORIGIN = "Client-JAM-PC-001";
+    LocalDateTime localDateTime = LocalDateTime.now();
+
 
     public LocalDataBaseHelper() {
         initializeDatabase();
@@ -44,9 +49,9 @@ public class LocalDataBaseHelper {
                 preference INTEGER NOT NULL,
                 creationDT TEXT NOT NULL,
                 lastUpdatedDT TEXT NOT NULL
-                
-            );  
+            );
             """;
+
 
         try (Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
@@ -271,23 +276,40 @@ public class LocalDataBaseHelper {
             return 0;
         }
     }
-    public void removeUser(long userID) {
-        String sql = "DELETE FROM accounts WHERE userID = ?";
+    public void removeUser(long userID, String lastUpdateTime) {
+        String sql = """
+        UPDATE accounts
+        SET password = 'DELETED',
+            username = 'DELETED',
+            sex = 'DELETED',
+            lastUpdatedDT = ?,
+            
+            privilege = -1,
+            age = 0,
+            weight = 0,
+            height = 0,
+            BMI = 0,
+            preference = 0
+        WHERE userID = ?
+    """;
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setLong(1, userID);
+
+            pstmt.setString(1, lastUpdateTime);
+            pstmt.setLong(2, userID);
+
             int rowsAffected = pstmt.executeUpdate();
 
             if (rowsAffected > 0) {
-                System.out.println("User removed successfully.");
+                System.out.println("User marked as deleted successfully.");
             } else {
                 System.out.println("No user found with the given userID.");
             }
 
         } catch (SQLException e) {
-            System.err.println("Delete failed: " + e.getMessage());
+            System.err.println("Update failed: " + e.getMessage());
         }
     }
 
@@ -371,6 +393,10 @@ public class LocalDataBaseHelper {
             case 3:
                 sql = "SELECT COUNT(*) FROM  accounts WHERE serverOrigin = 'Client-JAM-PC-001'";
                 break;
+            case 4:
+                sql = "SELECT COUNT(*) FROM  accounts WHERE privilege = -1";
+                break;
+
             default:
                 throw new IllegalArgumentException("Invalid mode: " + mode);
         }
@@ -427,7 +453,7 @@ public class LocalDataBaseHelper {
     }
 
 
-    public DefaultTableModel searchAccounts(String keyword) {
+    public DefaultTableModel searchAccounts(String keyword, String filter) {
         String[] columnNames = {
                 "ID", "UserID", "Email", "Password", "Privilege",
                 "Username", "Sex", "Age", "Weight", "Height",
@@ -436,23 +462,51 @@ public class LocalDataBaseHelper {
 
         DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
 
+        // Base query
         String sql = """
-        SELECT * FROM accounts
-        WHERE email LIKE ? 
-           OR username LIKE ? 
-           OR serverOrigin LIKE ?
-           OR id = ? 
-           OR userID = ? 
-           OR age = ? 
-           OR weight = ? 
-           OR height = ? 
-           OR BMI = ? 
-           OR privilege = ? 
-           OR preference = ?
-            OR creationDT LIKE ?
-            OR lastUpdatedDT LIKE ?                       
-        COLLATE NOCASE
-    """;
+            SELECT * FROM accounts
+            WHERE (
+               email LIKE ? 
+               OR username LIKE ? 
+               OR serverOrigin LIKE ?
+               OR id = ? 
+               OR userID = ? 
+               OR age = ? 
+               OR weight = ? 
+               OR height = ? 
+               OR BMI = ? 
+               OR privilege = ? 
+               OR preference = ?
+               OR creationDT LIKE ?
+               OR lastUpdatedDT LIKE ?
+            )
+            COLLATE NOCASE
+        """;
+
+        // Apply filter
+        switch (filter.toLowerCase()) {
+            case "latest":
+                sql += " ORDER BY creationDT DESC";
+                break;
+            case "oldest":
+                sql += " ORDER BY creationDT ASC";
+                break;
+            case "male":
+                sql += " AND sex = 'male'";
+                break;
+            case "female":
+                sql += " AND sex = 'female'";
+                break;
+            case "admin":
+                sql += " AND privilege = 1";
+                break;
+            case "user":
+                sql += " AND privilege = 0";
+                break;
+            default:
+                // no extra filter
+                break;
+        }
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -469,7 +523,6 @@ public class LocalDataBaseHelper {
                 intKeyword = Integer.parseInt(keyword);
             } catch (NumberFormatException ignored) {}
 
-            // Bind int parameters (if parse fails, bind -1 or null-safe value)
             if (intKeyword != null) {
                 pstmt.setInt(4, intKeyword);
                 pstmt.setInt(5, intKeyword);
@@ -480,7 +533,6 @@ public class LocalDataBaseHelper {
                 pstmt.setInt(10, intKeyword);
                 pstmt.setInt(11, intKeyword);
             } else {
-                // bind impossible value so numeric columns won't match
                 for (int i = 4; i <= 11; i++) {
                     pstmt.setInt(i, -1);
                 }
@@ -515,7 +567,6 @@ public class LocalDataBaseHelper {
 
         return tableModel;
     }
-
 
 
 

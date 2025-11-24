@@ -3,6 +3,8 @@ package DAO;
 
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LocalWorkoutDBHelper {
     private final String DB_URL = "jdbc:sqlite:FitrakAccount.db";
@@ -93,6 +95,110 @@ public class LocalWorkoutDBHelper {
         }
 
     }
+
+    public List<Object[]> getWorkoutData(String workoutType, int activityID) {
+        List<Object[]> workoutData = new ArrayList<>();
+        String sql = "";
+
+        // Choose SQL based on workoutType
+        switch (workoutType) {
+            case "Walking" -> sql = """
+            SELECT steps, distanceKM, intensity, calPerStep, logDT
+            FROM workouts WHERE activityID = ?
+        """;
+
+            case "Running" -> sql = """
+            SELECT speedKPH, distanceKM, intensity, terrain, logDT
+            FROM workouts WHERE activityID = ?
+        """;
+
+            case "Cycling" -> sql = """
+            SELECT speedKPH, distanceKM, intensity, '' AS terrain, logDT
+            FROM workouts WHERE activityID = ?
+        """;
+
+            case "Cardio:Burpees", "Cardio:JumpingJacks", "Cardio:JumpRope" -> sql = """
+            SELECT sets, reps, intensity, currentHeartRate, logDT
+            FROM workouts WHERE activityID = ?
+        """;
+
+            case "Strength:Leg", "Strength:Pull", "Strength:Push" -> sql = """
+            SELECT sets, reps, intensity, weightLifted, logDT
+            FROM workouts WHERE activityID = ?
+        """;
+
+            default -> {
+                System.err.println("Unsupported workout type: " + workoutType);
+                return workoutData;
+            }
+        }
+
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, activityID);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Object[] row;
+
+                    switch (workoutType) {
+                        case "Walking" -> row = new Object[]{
+                                rs.getInt("steps"),
+                                rs.getDouble("distanceKM"),
+                                rs.getString("intensity"),
+                                rs.getDouble("calPerStep"),
+                                rs.getString("logDT")
+                        };
+
+                        case "Running" -> row = new Object[]{
+                                rs.getDouble("speedKPH"),
+                                rs.getDouble("distanceKM"),
+                                rs.getString("intensity"),
+                                rs.getString("terrain"),
+                                rs.getString("logDT")
+                        };
+
+                        case "Cycling" -> row = new Object[]{
+                                rs.getDouble("speedKPH"),
+                                rs.getDouble("distanceKM"),
+                                rs.getString("intensity"),
+                                "", // terrain placeholder
+                                rs.getString("logDT")
+                        };
+
+                        case "Cardio:Burpees", "Cardio:JumpingJacks", "Cardio:JumpRope" -> row = new Object[]{
+                                rs.getInt("sets"),
+                                rs.getInt("reps"),
+                                rs.getString("intensity"),
+                                rs.getDouble("currentHeartRate"),
+                                rs.getString("logDT")
+                        };
+
+                        case "Strength:Leg", "Strength:Pull", "Strength:Push" -> row = new Object[]{
+                                rs.getInt("sets"),
+                                rs.getInt("reps"),
+                                rs.getString("intensity"),
+                                rs.getDouble("weightLifted"),
+                                rs.getString("logDT")
+                        };
+
+                        default -> row = new Object[]{};
+                    }
+
+                    workoutData.add(row);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Query error (getWorkoutData): " + e.getMessage());
+        }
+
+        return workoutData;
+    }
+
+
+
 
 
 

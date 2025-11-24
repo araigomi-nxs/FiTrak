@@ -22,7 +22,6 @@ public class RunningWorkout extends BasicWorkout {
         this.caloriesBurned = calculateCaloriesBurned();
 
 
-
     }
     private static double calculateMet(String intensity, String terrain, double speed) {
         double met = speed * 1.5 ; // base MET for running

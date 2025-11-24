@@ -32,7 +32,8 @@ public class WalkingWorkout extends BasicWorkout {
     private static double calculateDistance(int steps, String gender,double height) {
         double heightMeters = height / 100.0;
         double strideLength = gender.equalsIgnoreCase("male") ? (heightMeters * MALE_STEP_LENGTH) : (heightMeters * FEMALE_STEP_LENGTH);
-        return (steps * strideLength) / 1000.0; // km
+
+        return Math.round(( (steps * strideLength) / 1000.0) * 100.0) / 100.0;
     }
 
 
@@ -57,5 +58,8 @@ public class WalkingWorkout extends BasicWorkout {
     public int getSteps() { return steps; }
     public String getIntensity() { return intensity; }
     public String getGender() { return sex; }
-    public double getCalPerStep() { return calPerStep/ steps; }
+    public double getCalPerStep() {
+
+        return Math.round((caloriesBurned/ steps) * 100.0) / 100.0;
+    }
 }

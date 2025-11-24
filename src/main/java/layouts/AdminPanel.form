@@ -263,7 +263,7 @@
                             </properties>
                             <border type="none"/>
                             <children>
-                              <grid id="8efcb" binding="calLossStat" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                              <grid id="8efcb" binding="calLossStat" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                                 <margin top="0" left="0" bottom="10" right="0"/>
                                 <constraints>
                                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -272,7 +272,30 @@
                                   <background color="-986896"/>
                                 </properties>
                                 <border type="none"/>
-                                <children/>
+                                <children>
+                                  <component id="3a791" class="javax.swing.JLabel">
+                                    <constraints>
+                                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <background color="-5327306"/>
+                                      <font name="Poppins" size="12" style="0"/>
+                                      <foreground color="-16700098"/>
+                                      <text value="Average User Age:"/>
+                                    </properties>
+                                  </component>
+                                  <component id="5d3e9" class="javax.swing.JLabel">
+                                    <constraints>
+                                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <background color="-5327306"/>
+                                      <font name="Poppins" size="12" style="0"/>
+                                      <foreground color="-16700098"/>
+                                      <text value="Average User Age:"/>
+                                    </properties>
+                                  </component>
+                                </children>
                               </grid>
                               <grid id="99379" binding="weightLossStat" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                                 <margin top="0" left="0" bottom="10" right="0"/>
@@ -283,7 +306,19 @@
                                   <background color="-855310"/>
                                 </properties>
                                 <border type="none"/>
-                                <children/>
+                                <children>
+                                  <component id="202bd" class="javax.swing.JLabel">
+                                    <constraints>
+                                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <background color="-5327306"/>
+                                      <font name="Poppins" size="12" style="0"/>
+                                      <foreground color="-16700098"/>
+                                      <text value="Male to Female Ratio:"/>
+                                    </properties>
+                                  </component>
+                                </children>
                               </grid>
                               <grid id="15631" binding="emptyStat" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                                 <margin top="20" left="0" bottom="10" right="30"/>
@@ -298,16 +333,50 @@
                               </grid>
                             </children>
                           </grid>
-                          <grid id="98edc" binding="activityStat" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                          <grid id="98edc" binding="activityStat" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                             <margin top="20" left="0" bottom="10" right="0"/>
                             <constraints>
                               <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                             </constraints>
                             <properties>
-                              <background color="-2695627"/>
+                              <background color="-15647677"/>
                             </properties>
                             <border type="none"/>
-                            <children/>
+                            <children>
+                              <component id="98fe8" class="javax.swing.JLabel" binding="limboCount">
+                                <constraints>
+                                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <background color="-5327306"/>
+                                  <font name="Poppins" size="12" style="0"/>
+                                  <foreground color="-8151367"/>
+                                  <text value="Accounts in Limbo :"/>
+                                </properties>
+                              </component>
+                              <component id="732d1" class="javax.swing.JLabel">
+                                <constraints>
+                                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <background color="-5327306"/>
+                                  <font name="Poppins" size="12" style="0"/>
+                                  <foreground color="-8151367"/>
+                                  <text value="Outdated Local"/>
+                                </properties>
+                              </component>
+                              <component id="ba35d" class="javax.swing.JLabel">
+                                <constraints>
+                                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <background color="-5327306"/>
+                                  <font name="Poppins" size="12" style="0"/>
+                                  <foreground color="-8151367"/>
+                                  <text value="Outdate Foreign"/>
+                                </properties>
+                              </component>
+                            </children>
                           </grid>
                           <grid id="6ab36" binding="accountStat" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                             <margin top="20" left="10" bottom="10" right="0"/>
@@ -380,6 +449,7 @@
                                   <background color="-5327306"/>
                                   <font name="Poppins" size="12" style="0"/>
                                   <foreground color="-16700098"/>
+                                  <icon value="images/adminLogo.png"/>
                                   <text value="Admin accounts:"/>
                                 </properties>
                               </component>
@@ -390,6 +460,7 @@
                                 <properties>
                                   <font name="Poppins" size="12" style="0"/>
                                   <foreground color="-16700098"/>
+                                  <icon value="images/userLogo.png"/>
                                   <text value="User accounts:"/>
                                 </properties>
                               </component>
@@ -400,6 +471,7 @@
                                 <properties>
                                   <font name="Poppins" size="12" style="0"/>
                                   <foreground color="-16700098"/>
+                                  <icon value="images/localLogo.png"/>
                                   <text value="Local:"/>
                                 </properties>
                               </component>
@@ -410,6 +482,7 @@
                                 <properties>
                                   <font name="Poppins" size="12" style="0"/>
                                   <foreground color="-16700098"/>
+                                  <icon value="images/foregin.png"/>
                                   <text value="Foreign:"/>
                                 </properties>
                               </component>
@@ -830,7 +903,7 @@
                               </hspacer>
                             </children>
                           </grid>
-                          <grid id="d22f8" binding="localDBPanel" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                          <grid id="d22f8" binding="localDBPanel" layout-manager="GridLayoutManager" row-count="4" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                             <margin top="10" left="20" bottom="10" right="10"/>
                             <constraints>
                               <grid row="0" column="0" row-span="8" col-span="19" vsize-policy="2" hsize-policy="2" anchor="0" fill="3" indent="0" use-parent-layout="false">
@@ -844,7 +917,7 @@
                             <children>
                               <scrollpane id="aa2ab" binding="scrollPane">
                                 <constraints>
-                                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="1" use-parent-layout="false"/>
+                                  <grid row="3" column="0" row-span="1" col-span="5" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                                 </constraints>
                                 <properties>
                                   <background color="-1"/>
@@ -868,7 +941,7 @@
                                   </component>
                                 </children>
                               </scrollpane>
-                              <grid id="eda50" layout-manager="GridLayoutManager" row-count="1" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                              <grid id="eda50" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                                 <margin top="0" left="0" bottom="0" right="0"/>
                                 <constraints>
                                   <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -899,6 +972,7 @@
                                       <margin top="2" left="9" bottom="2" right="6"/>
                                       <selectedTextColor color="-8743006"/>
                                       <selectionColor color="-2300873"/>
+                                      <text value=""/>
                                     </properties>
                                   </component>
                                   <component id="c0c73" class="javax.swing.JLabel" binding="searchButton">
@@ -907,28 +981,6 @@
                                     </constraints>
                                     <properties>
                                       <icon value="images/searchButton.png"/>
-                                      <text value=""/>
-                                    </properties>
-                                  </component>
-                                  <component id="2c39c" class="javax.swing.JLabel" binding="matches">
-                                    <constraints>
-                                      <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                                    </constraints>
-                                    <properties>
-                                      <text value=""/>
-                                    </properties>
-                                  </component>
-                                  <hspacer id="cd7ec">
-                                    <constraints>
-                                      <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                                    </constraints>
-                                  </hspacer>
-                                  <component id="cb804" class="javax.swing.JLabel" binding="refreshTable">
-                                    <constraints>
-                                      <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
-                                    </constraints>
-                                    <properties>
-                                      <icon value="images/refreshButton.png"/>
                                       <text value=""/>
                                     </properties>
                                   </component>
@@ -944,6 +996,39 @@
                                   <text value="Local Database"/>
                                   <verticalAlignment value="3"/>
                                   <verticalTextPosition value="3"/>
+                                </properties>
+                              </component>
+                              <component id="cb804" class="javax.swing.JLabel" binding="refreshTable">
+                                <constraints>
+                                  <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <icon value="images/refreshButton.png"/>
+                                  <text value=""/>
+                                </properties>
+                              </component>
+                              <component id="2c39c" class="javax.swing.JLabel" binding="matches">
+                                <constraints>
+                                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <text value=""/>
+                                </properties>
+                              </component>
+                              <component id="e853a" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
+                                <constraints>
+                                  <grid row="1" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <model>
+                                    <item value="None"/>
+                                    <item value="Latest"/>
+                                    <item value="Oldest"/>
+                                    <item value="Male"/>
+                                    <item value="Female"/>
+                                    <item value="Admin"/>
+                                    <item value="User"/>
+                                  </model>
                                 </properties>
                               </component>
                             </children>
