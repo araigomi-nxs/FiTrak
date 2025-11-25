@@ -141,7 +141,7 @@ public class WalkingWorkoutCalculator{
                 String sex = account.getSex();
 
                 LocalDateTime dateTime = LocalDateTime.now();
-
+        //TO:DO  fix time logging
                 walk = new WalkingWorkout(duration, weight, dateTime,dateTime, steps, intensity, sex, height);
 
                 StringBuilder output = new StringBuilder();

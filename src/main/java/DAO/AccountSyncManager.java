@@ -6,13 +6,13 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class SyncManager extends OnlineDataBaseHelper implements Runnable {
+public class AccountSyncManager extends OnlineDataBaseHelper implements Runnable {
     private final String DB_URL = "jdbc:sqlite:FitrakAccount.db";
     private final String SERVER_ORIGIN = "Client-JAM-PC-001";
 
     private LocalDataBaseHelper localDataBaseHelper;
 
-    public SyncManager() {
+    public AccountSyncManager() {
         this.localDataBaseHelper = new LocalDataBaseHelper();
     }
 
@@ -61,7 +61,7 @@ public class SyncManager extends OnlineDataBaseHelper implements Runnable {
             if (!rs.next()) {
                 // No Supabase record → insert new
                 insertAccountToSupabase(sqliteAccount);
-                logSyncEvent((Long) sqliteAccount.get("user_id"), "INSERTED", "Upload","ACCOUNT");
+                logSyncEvent((Long) sqliteAccount.get("user_id"), 0,0,"INSERTED", "Upload","ACCOUNT");
             } else {
                 String supabaseUpdatedStr = rs.getString("last_updated_dt");
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -88,12 +88,12 @@ public class SyncManager extends OnlineDataBaseHelper implements Runnable {
                             rs.getString("creation_dt"),
                             rs.getString("last_updated_dt")
                     );
-                    logSyncEvent((Long) sqliteAccount.get("user_id"), "UPDATED", "PULL" ,"ACCOUNT");
+                    logSyncEvent((Long) sqliteAccount.get("user_id"), 0,0, "UPDATED", "PULL" ,"ACCOUNT");
 
                 } else if (sqliteUpdated.isAfter(supabaseUpdated)) {
                     // SQLite newer → update Supabase
                     updateSupabaseAccount(sqliteAccount);;
-                    logSyncEvent((Long) sqliteAccount.get("user_id"), "UPDATED", "PUSH" ,"ACCOUNT");
+                    logSyncEvent((Long) sqliteAccount.get("user_id"), 0,0,"UPDATED", "PUSH" ,"ACCOUNT");
 
                 } else {
                     System.out.println("Account already in sync for user_id: " + sqliteAccount.get("user_id"));
@@ -225,7 +225,7 @@ public class SyncManager extends OnlineDataBaseHelper implements Runnable {
                         if (rowsDeleted > 0) {
                             System.out.println("Deleted local account for user_id " + userID +
                                     " because Supabase privilege = -1");
-                            logSyncEvent(userID, "DELETED", "PULL","ACCOUNT");
+                            logSyncEvent(userID,0,0, "DELETED", "PULL","ACCOUNT");
                         } else {
                             System.out.println("No local account found for user_id " + userID +
                                     " to delete.");
@@ -281,29 +281,37 @@ public class SyncManager extends OnlineDataBaseHelper implements Runnable {
                                 rs.getString("creation_dt"),
                                 rs.getString("last_updated_dt")
                         );
-                        logSyncEvent(userId, "INSERTED", "PULL", "ACCOUNT");
+                        logSyncEvent(userId, 0,0,"INSERTED", "PULL", "ACCOUNT");
 
                     }
                 }
             }
         }
     }
-    protected void logSyncEvent(long userId, String entry, String direction, String tableRef) {
-        String sql = "INSERT INTO syncLogs (user_id, entry, direction, server_origin, table_ref) " +
-                "VALUES (?, ?::sync_entry, ?::sync_direction, ? ,?::table_ref)";
+
+
+
+    protected void logSyncEvent(long userId, int actID, int workID ,String entry, String direction, String tableRef) {
+        String sql = "INSERT INTO syncLogs (user_id,activity_id, workout_id, entry, direction, server_origin, table_ref) " +
+                "VALUES (?,?,?, ?::sync_entry, ?::sync_direction, ? ,?::table_ref)";
 
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setLong(1, userId);
-            stmt.setString(2, entry);
-            stmt.setString(3, direction);
-            stmt.setString(4, SERVER_ORIGIN);
-            stmt.setString(5, tableRef);
+            stmt.setInt(2, actID);
+            stmt.setInt(3, workID);
+            stmt.setString(4, entry);
+            stmt.setString(5, direction);
+            stmt.setString(6, SERVER_ORIGIN);
+            stmt.setString(7, tableRef);
 
             stmt.executeUpdate();
+
+
             System.out.println("LOG sync event: " + entry + " / " + direction +
-                    " for user_id " + userId + " from" + SERVER_ORIGIN +":" + tableRef);
+                         ((userId != 0) ? "USR:" + userId : ((actID!=0)? "ACT:" + actID: "WORK:" + workID)  ) + " from" + SERVER_ORIGIN +":" + tableRef);
+
 
         } catch (SQLException e) {
             System.err.println("LOG FAILED sync event: " + e.getMessage());

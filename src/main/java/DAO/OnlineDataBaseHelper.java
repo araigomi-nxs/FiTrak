@@ -84,5 +84,50 @@ public class OnlineDataBaseHelper {
 
         return model;
     }
+
+
+    public DefaultTableModel getActivitiesTableModelOnline() {
+        // Match Supabase schema column names for activities
+        String[] columnNames = {
+                "ActivityID", "UserID", "DurationMinutes", "CaloriesBurned",
+                "StartDT", "EndDT", "MetValue", "WorkoutType",
+                "ServerOrigin", "InitialWeight"
+        };
+
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+
+        String sql = "SELECT activity_id, user_id, duration_minutes, calories_burned, " +
+                "start_dt, end_dt, met_value, workout_type, server_origin, initial_weight " +
+                "FROM activities";
+
+        try (Connection conn = getConnection();   // Supabase connection
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                Object[] row = {
+                        rs.getInt("activity_id"),
+                        rs.getLong("user_id"),
+                        rs.getDouble("duration_minutes"),
+                        rs.getDouble("calories_burned"),
+                        rs.getString("start_dt"),
+                        rs.getString("end_dt"),
+                        rs.getDouble("met_value"),
+                        rs.getString("workout_type"),
+                        rs.getString("server_origin"),
+                        rs.getDouble("initial_weight")
+                };
+                model.addRow(row);
+            }
+            System.out.println("Supabase activities table successfully loaded");
+
+        } catch (SQLException e) {
+            System.err.println("Supabase activities fetch failed: " + e.getMessage());
+        }
+
+        return model;
+    }
+
+
 }
 

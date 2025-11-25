@@ -3,7 +3,7 @@ package layouts;
 
 import DAO.LocalDataBaseHelper;
 import DAO.OnlineDataBaseHelper;
-import DAO.SyncManager;
+import DAO.AccountSyncManager;
 import layouts.admin.Activities;
 import layouts.admin.AdminDashboard;
 import layouts.admin.Calculations;
@@ -279,13 +279,13 @@ public class AdminPanel extends JFrame {
         syncButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SyncManager  syncManager = new SyncManager();
+                AccountSyncManager accountSyncManager = new AccountSyncManager();
                 try {
-                    syncManager.compareAccountsODB();
+                    accountSyncManager.compareAccountsODB();
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
-                syncManager.getSyncLogs(syncLogs);
+                accountSyncManager.getSyncLogs(syncLogs);
             }
 
         });
@@ -487,8 +487,8 @@ public class AdminPanel extends JFrame {
        OnlineDataBaseHelper onlineDBHelper = new OnlineDataBaseHelper();
 
        onlineAccountsTable.setModel( onlineDBHelper.getAccountsTableModelOnline() );
-       SyncManager syncManager = new SyncManager();
-       syncManager.getSyncLogs(syncLogs);
+       AccountSyncManager accountSyncManager = new AccountSyncManager();
+       accountSyncManager.getSyncLogs(syncLogs);
 
 
     }
