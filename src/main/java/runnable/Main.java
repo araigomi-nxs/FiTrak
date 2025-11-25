@@ -1,7 +1,7 @@
 package runnable;
 
-import DAO.OnlineDataBaseHelper;
-import DAO.SyncManager;
+import DAO.AccountSyncManager;
+import DAO.ActivitySyncManager;
 import com.formdev.flatlaf.FlatLightLaf;
 import layouts.LoginForm;
 
@@ -53,9 +53,11 @@ public class Main {
         UIManager.put("Table.font", poppinsSmall );
 
 
-        SyncManager syncManager = new SyncManager();
-        syncManager.startSyncThread();
+        AccountSyncManager accountSyncManager = new AccountSyncManager();
+        accountSyncManager.startSyncThread();
 
+        ActivitySyncManager activitySyncManager = new ActivitySyncManager();
+        activitySyncManager.startActSyncThread();
 
         SwingUtilities.invokeLater(() -> {
             try {

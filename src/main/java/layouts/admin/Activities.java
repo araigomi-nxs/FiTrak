@@ -1,6 +1,7 @@
 package layouts.admin;
 
 import DAO.LocalActDBHelper;
+import DAO.OnlineDataBaseHelper;
 import com.formdev.flatlaf.FlatClientProperties;
 import tracker.GlobalStats;
 
@@ -31,7 +32,7 @@ public class Activities {
     private JButton removeButton;
     private JTextField searchField;
     private JLabel searchButton;
-    private JLabel refreshTable;
+    private JLabel refreshOnlineTbale;
     private JPanel act2statsPanel;
     private JPanel activityStat;
     private JPanel calLossStat;
@@ -60,6 +61,8 @@ public class Activities {
     private JLabel basicCounter;
     private JLabel cardioCounter;
     private JLabel strengthCounter;
+    private JTable onlineActivitiesTable;
+    private JButton syncButton;
     private LocalActDBHelper localActDBHelper;
     protected static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
@@ -141,6 +144,17 @@ public class Activities {
              }
          });
 
+         refreshOnlineTbale.addMouseListener(new MouseAdapter() {
+
+
+         });
+         syncButton.addMouseListener(new MouseAdapter() {
+             @Override
+             public void mouseClicked(MouseEvent e) {
+
+             }
+         });
+
     }
 
     private void setStats() {
@@ -214,6 +228,9 @@ public class Activities {
     public void createTable() {
         LocalActDBHelper localActDBHelper = new LocalActDBHelper();
         activitiesTable.setModel(localActDBHelper.getActivitiesTable());
+
+        OnlineDataBaseHelper onlineDataBaseHelper = new OnlineDataBaseHelper();
+        onlineActivitiesTable.setModel(onlineDataBaseHelper.getActivitiesTableModelOnline());
 
 
     }
