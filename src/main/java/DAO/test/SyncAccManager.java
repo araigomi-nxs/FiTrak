@@ -130,8 +130,10 @@ public class SyncAccManager implements Runnable {
         Map<String, Object> supabaseAccount = fetchSupabaseAccount(http, (Long) sqliteAccount.get("user_id"));
 
         if (supabaseAccount == null) {
+            // No record in Supabase → insert full row
             insertAccountToSupabaseHttp(http, sqliteAccount);
-            logSyncEvent((Long) sqliteAccount.get("user_id"), 0, 0, SyncEntry.INSERTED, SyncDirection.PUSH, TableRef.ACCOUNT);
+            logSyncEvent((Long) sqliteAccount.get("user_id"), 0, 0,
+                    SyncEntry.INSERTED, SyncDirection.PUSH, TableRef.ACCOUNT);
             return;
         }
 
@@ -139,13 +141,11 @@ public class SyncAccManager implements Runnable {
         String supabaseDateStr = (String) supabaseAccount.get("last_updated_dt");
         String sqliteDateStr   = (String) sqliteAccount.get("last_updated_dt");
 
-        // Convert string → LocalDateTime using space separator
-
         LocalDateTime supabaseUpdated = LocalDateTime.parse(supabaseDateStr, formatter);
         LocalDateTime sqliteUpdated   = LocalDateTime.parse(sqliteDateStr, formatter);
 
         if (supabaseUpdated.isAfter(sqliteUpdated)) {
-            // Supabase newer → update local
+            // Supabase newer → overwrite local row with full Supabase data
             localDataBaseHelper.updateAll(
                     (Long) supabaseAccount.get("user_id"),
                     (String) supabaseAccount.get("email"),
@@ -160,17 +160,16 @@ public class SyncAccManager implements Runnable {
                     (String) supabaseAccount.get("server_origin"),
                     ((Number) supabaseAccount.get("preference")).intValue(),
                     (String) supabaseAccount.get("creation_dt"),
-                    supabaseDateStr // keep original string
+                    (String) supabaseAccount.get("last_updated_dt")
             );
-            logSyncEvent((Long) sqliteAccount.get("user_id"), 0, 0, SyncEntry.UPDATED, SyncDirection.PUSH, TableRef.ACCOUNT);
+            logSyncEvent((Long) sqliteAccount.get("user_id"), 0, 0,
+                    SyncEntry.UPDATED, SyncDirection.PULL, TableRef.ACCOUNT);
 
         } else if (sqliteUpdated.isAfter(supabaseUpdated)) {
-            // SQLite newer → update Supabase
-            String nowStr = LocalDateTime.now().format(formatter);
-            sqliteAccount.put("last_updated_dt", nowStr);
-
+            // SQLite newer → overwrite Supabase row with full SQLite data
             updateSupabaseAccountHttp(sqliteAccount);
-            logSyncEvent((Long) sqliteAccount.get("user_id"), 0, 0, SyncEntry.UPDATED, SyncDirection.PUSH, TableRef.ACCOUNT);
+            logSyncEvent((Long) sqliteAccount.get("user_id"), 0, 0,
+                    SyncEntry.UPDATED, SyncDirection.PUSH, TableRef.ACCOUNT);
 
         } else {
             System.out.println("Account already in sync for user_id: " + sqliteAccount.get("user_id"));
