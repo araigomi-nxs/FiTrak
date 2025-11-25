@@ -1,12 +1,8 @@
 package layouts.calculator;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 public class Stopwatch {
     private JPanel panel1;
@@ -14,74 +10,75 @@ public class Stopwatch {
     private JLabel timeLabel;
     private JLabel stopButton;
 
-
     private Timer timer;
-    private long startTime;
-    private long elapsedTime;
+    private long startTime = 0;       // actual time-run starting point
+    private long elapsedTime = 0;     // accumulated time
     private boolean running = false;
     private boolean runOnce = false;
     private LocalDateTime startDT;
     private LocalDateTime endDT;
-    private String durationMinutes;
+    private String durationMinutes = "0";
 
+    public Stopwatch() {
 
-   public Stopwatch(){
-       //setContentPane(panel1);
-       //setSize(300, 150);
-       //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        stopButton.setVisible(false);
 
-       stopButton.setVisible(false);
+        timer = new Timer(100, e -> {
+            long now = System.currentTimeMillis();
+            elapsedTime = now - startTime;
+            updateDisplay();
+        });
 
-       timer = new Timer(100, new ActionListener() {
-           @Override
-           public void actionPerformed(ActionEvent e) {
-               long now = System.currentTimeMillis();
-               elapsedTime = now - startTime;
-               updateDisplay();
-           }
-       });
-       startPauseButton.addMouseListener(new MouseAdapter() {
-           @Override
-           public void mouseClicked(MouseEvent e) {
-               if(!runOnce){
-                   runOnce = true;
-                   startDT =LocalDateTime.now();
-                   //System.out.println(startDT.toString());
-               }
-               if (!running) {
-                   startTime = System.currentTimeMillis() - elapsedTime;
-                   timer.start();
+        // START / PAUSE button
+        startPauseButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
 
-                   running = true;
-                   startPauseButton.setIcon(new javax.swing.ImageIcon("src/main/resources/images/pauseButton.png"));
-                   stopButton.setVisible(false);
-               } else {
-                   // Stop
-                   timer.stop();
-                   running = false;
-                   startPauseButton.setIcon(new javax.swing.ImageIcon("src/main/resources/images/playButton.png"));
-                   stopButton.setVisible(true);
+                // First-ever start
+                if (!runOnce) {
+                    runOnce = true;
+                    startDT = LocalDateTime.now();
+                }
 
+                if (!running) {
+                    // Resume or First Start
+                    startTime = System.currentTimeMillis() - elapsedTime;
+                    timer.start();
+                    running = true;
 
-               }
-           }
-       });
-       stopButton.addMouseListener(new MouseAdapter() {
-           @Override
-           public void mouseClicked(MouseEvent e) {
-               timer.stop();
-               endDT =  LocalDateTime.now();
-               stopButton.setVisible(false);
-               durationMinutes =String.format("%.2f", (elapsedTime / 60000.0));
+                    startPauseButton.setIcon(new ImageIcon("src/main/resources/images/pauseButton.png"));
+                    stopButton.setVisible(false);
 
-               //System.out.println(endDT.toString());
-               elapsedTime = 0;
-               updateDisplay();
-           }
-       });
+                } else {
+                    // Pause
+                    timer.stop();
+                    running = false;
 
+                    startPauseButton.setIcon(new ImageIcon("src/main/resources/images/playButton.png"));
+                    stopButton.setVisible(true);
+                }
+            }
+        });
 
+        // STOP BUTTON
+        stopButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
 
+                timer.stop();
+                running = false;
+
+                endDT = LocalDateTime.now();
+
+                durationMinutes = String.format("%.2f", elapsedTime / 60000.0);
+
+                stopButton.setVisible(false);
+
+                // Fully reset displayed time
+                elapsedTime = 0;
+                updateDisplay();
+            }
+        });
     }
 
     private void updateDisplay() {
@@ -93,48 +90,33 @@ public class Stopwatch {
         timeLabel.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
     }
 
-    public double getDuration(){
+    public double getDuration() {
         return elapsedTime / 60000.0;
     }
 
-    public JPanel getPanel(){
-       return panel1;
+    public JPanel getPanel() {
+        return panel1;
     }
+
+    // Required by your calculators
+    public JLabel getStopButton() { return stopButton; }
+    public boolean isRunning() { return running; }
+    public LocalDateTime getStartDT() { return startDT; }
+    public LocalDateTime getEndDT() { return endDT; }
+    public String getDurationMinutes() { return durationMinutes; }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
+            JFrame f = new JFrame("Stopwatch Test");
             Stopwatch sw = new Stopwatch();
-           // sw.setVisible(true);
+            f.setContentPane(sw.getPanel());
+            f.setSize(300,150);
+            f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            f.setVisible(true);
         });
     }
 
-   public JLabel getStartStopButton(){
-            return stopButton;
-   }
-
-   public boolean isRunning(){
-       return running;
-   }
-
-   public LocalDateTime getStartDT(){
-       return startDT;
-   }
-   public LocalDateTime getEndDT(){
-       return endDT;
-   }
-   public String getDurationMinutes(){
-       return durationMinutes;
-   }
-
-
     private void createUIComponents() {
-        // TODO: place custom component creation code here
+        // IntelliJ GUI Designer placeholder
     }
-
-
-
 }
-
-
-
-

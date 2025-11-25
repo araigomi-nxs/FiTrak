@@ -2,6 +2,8 @@ package layouts.calculator.cardio;
 
 import calculationModels.cardio.JumpingJacks;
 import objects.Account;
+import tracker.WorkoutTracker;
+
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDateTime;
@@ -31,14 +33,18 @@ public class JumpingJacksCalculator extends JFrame {
     private JLabel UseRepsLabel;
     private JButton saveButton;
 
+    private LocalDateTime externalStartDT;
+    private LocalDateTime externalEndDT;
+    private double externalDurationMinutes;
+
     private boolean hasCalculated = false;
 
     public JumpingJacksCalculator(Account account) {
         setContentPane(MainPanel);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        pack();
-        setSize(300, 400);
-        setLocationRelativeTo(null);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        pack();
+//        setSize(300, 400);
+//        setLocationRelativeTo(null);
 
         RepsField.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
             private void updateCheckbox() {
@@ -92,7 +98,6 @@ public class JumpingJacksCalculator extends JFrame {
             }
 
             try {
-                double duration = Double.parseDouble(DurationDisplay.getText());
 //                double weight = Double.parseDouble(WeightField.getText());
                 double weight = account.getWeight();
                 int sets = Integer.parseInt(SetsField.getText());
@@ -110,17 +115,25 @@ public class JumpingJacksCalculator extends JFrame {
                     reps = Integer.parseInt(RepsField.getText());
                 }
 
-                LocalDateTime dateTime = LocalDateTime.now();
+                double duration = externalDurationMinutes;
+                if (duration <= 0) {
+                    duration = Double.parseDouble(DurationDisplay.getText());
+                }
+                duration = Math.round(duration * 10) / 10.0;
+
+                LocalDateTime startDT = (externalStartDT != null) ? externalStartDT : LocalDateTime.now();
+                LocalDateTime endDT = (externalEndDT != null) ? externalEndDT : LocalDateTime.now();
 
                 JumpingJacks jj = new JumpingJacks(
-                        duration, weight, dateTime,dateTime, intensity,
+                        duration, weight, startDT, endDT, intensity,
                         sets, reps, restTime, useReps, age, heartRate
                 );
 
                 StringBuilder output = new StringBuilder();
                 output.append("Workout: Jumping Jacks\n");
-                output.append("Date: ").append(dateTime.toLocalDate()).append("\n");
-                output.append("Time: ").append(dateTime.toLocalTime().withSecond(0).withNano(0)).append("\n");
+                output.append("Date: ").append(startDT.toLocalDate()).append("\n");
+                output.append("Start Time: ").append(startDT.toLocalTime().withSecond(0).withNano(0)).append("\n");
+                output.append("End Time: ").append(endDT.toLocalTime().withSecond(0).withNano(0)).append("\n");
                 output.append("Calories burned: ").append(String.format("%.2f", jj.calculateCaloriesBurned())).append("\n");
                 output.append("Sets: ").append(jj.getSets()).append("\n");
                 output.append("Reps per set: ").append(jj.getReps()).append("\n");
@@ -142,7 +155,23 @@ public class JumpingJacksCalculator extends JFrame {
                         "Input Error", JOptionPane.ERROR_MESSAGE);
             }
         });
+
+//        saveButton.addActionListener(e -> {
+//            if (walk != null) {
+//                WorkoutTracker.logWorkout(account.getId(), walk);
+//            }
+//        });
     }
+
+    public void setExternalWorkoutData(LocalDateTime start, LocalDateTime end, double durationMinutes) {
+        double rounded = Math.round(durationMinutes * 10.0) / 10.0;
+        DurationDisplay.setText(String.format("%.1f", rounded));
+
+        this.externalStartDT = start;
+        this.externalEndDT = end;
+        this.externalDurationMinutes = durationMinutes;
+    }
+
 
     public void clearFields() {
         DurationDisplay.setText("");

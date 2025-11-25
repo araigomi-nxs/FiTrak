@@ -2,6 +2,7 @@ package layouts.calculator.basic;
 
 import calculationModels.basic.WalkingWorkout;
 import com.formdev.flatlaf.FlatClientProperties;
+import layouts.calculator.Stopwatch;
 import objects.Account;
 import tracker.WorkoutTracker;
 
@@ -9,7 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDateTime;
 
-public class WalkingWorkoutCalculator extends JFrame {
+public class WalkingWorkoutCalculator extends JFrame  {
 
     private JPanel MainPanel;
     private JPanel JPanel2;
@@ -27,6 +28,8 @@ public class WalkingWorkoutCalculator extends JFrame {
     private LocalDateTime externalStartDT;
     private LocalDateTime externalEndDT;
     private double externalDurationMinutes;
+
+    private JLabel stopWatchButton;
 
     private WalkingWorkout walk;
 
@@ -90,13 +93,14 @@ public class WalkingWorkoutCalculator extends JFrame {
     }
 
     public void setExternalWorkoutData(LocalDateTime start, LocalDateTime end, double durationMinutes) {
+        double rounded = Math.round(durationMinutes * 10.0) / 10.0;
+        DurationDisplay.setText(String.format("%.1f", rounded));
+
         this.externalStartDT = start;
         this.externalEndDT = end;
         this.externalDurationMinutes = durationMinutes;
-
-        double rounded = Math.round(durationMinutes * 10.0) / 10.0;
-        DurationDisplay.setText(String.format("%.1f", rounded));
     }
+
 
     private void clearFields() {
         DurationDisplay.setText("");

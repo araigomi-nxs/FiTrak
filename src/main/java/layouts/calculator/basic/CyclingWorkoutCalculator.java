@@ -52,12 +52,13 @@ public class CyclingWorkoutCalculator {
 
                 LocalDateTime dateTime = LocalDateTime.now();
 
-                cycl = new CyclingWorkout(duration, weight, dateTime, dateTime, distance, intensity);
+                cycl = new CyclingWorkout(duration, weight, startDT, endDT, distance, intensity);
 
                 StringBuilder output = new StringBuilder();
                 output.append("Workout: Cycling\n");
-                output.append("Date: ").append(dateTime.toLocalDate()).append("\n");
-                output.append("Time: ").append(dateTime.toLocalTime().withSecond(0).withNano(0)).append("\n");
+                output.append("Date: ").append(startDT.toLocalDate()).append("\n");
+                output.append("Start Time: ").append(startDT.toLocalTime().withSecond(0).withNano(0)).append("\n");
+                output.append("End Time: ").append(endDT.toLocalTime().withSecond(0).withNano(0)).append("\n");
                 output.append("Calories burned: ").append(String.format("%.2f", cycl.calculateCaloriesBurned())).append("\n");
                 output.append("Distance: ").append(String.format("%.2f", cycl.getDistanceKM())).append(" km\n");
                 output.append("Average speed: ").append(String.format("%.2f", cycl.getSpeedKPH())).append(" km/h\n");
@@ -88,13 +89,14 @@ public class CyclingWorkoutCalculator {
     }
 
     public void setExternalWorkoutData(LocalDateTime start, LocalDateTime end, double durationMinutes) {
+        double rounded = Math.round(durationMinutes * 10.0) / 10.0;
+        DurationDisplay.setText(String.format("%.1f", rounded));
+
         this.externalStartDT = start;
         this.externalEndDT = end;
         this.externalDurationMinutes = durationMinutes;
-
-        double rounded = Math.round(durationMinutes * 10.0) / 10.0;
-        DurationDisplay.setText(String.format("%.1f", rounded));
     }
+
 
     public void clearFields() {
         DurationDisplay.setText("");

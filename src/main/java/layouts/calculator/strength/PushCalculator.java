@@ -5,6 +5,7 @@ import calculationModels.strength.PushWorkout;
 import javax.swing.*;
 import java.time.LocalDateTime;
 import objects.Account;
+import tracker.WorkoutTracker;
 
 public class PushCalculator extends JFrame {
 
@@ -30,6 +31,10 @@ public class PushCalculator extends JFrame {
     private JTextArea OutputTextArea;
     private JLabel UseEquipmentLabel;
     private JButton saveButton;
+
+    private LocalDateTime externalStartDT;
+    private LocalDateTime externalEndDT;
+    private double externalDurationMinutes;
 
     private boolean hasCalculated = false;
 
@@ -68,7 +73,7 @@ public class PushCalculator extends JFrame {
             }
 
             try {
-                double duration = Double.parseDouble(DurationDisplay.getText());
+                //double duration = Double.parseDouble(DurationDisplay.getText());
 //                double bodyWeight = Double.parseDouble(WeightField.getText());
                 double weight = account.getWeight();
                 int sets = Integer.parseInt(SetsField.getText());
@@ -78,15 +83,23 @@ public class PushCalculator extends JFrame {
                 String intensity = (String) IntensityComboB.getSelectedItem();
                 boolean useEquipment = yesCheckBox.isSelected();
 
-                LocalDateTime dateTime = LocalDateTime.now();
+                double duration = externalDurationMinutes;
+                if (duration <= 0) {
+                    duration = Double.parseDouble(DurationDisplay.getText());
+                }
+                duration = Math.round(duration * 10) / 10.0;
 
-                PushWorkout push = new PushWorkout(duration, weight, dateTime,dateTime,
+                LocalDateTime startDT = (externalStartDT != null) ? externalStartDT : LocalDateTime.now();
+                LocalDateTime endDT = (externalEndDT != null) ? externalEndDT : LocalDateTime.now();
+
+                PushWorkout push = new PushWorkout(duration, weight, startDT,endDT,
                         sets, reps, weightLifted, intensity, restTime, useEquipment);
 
                 StringBuilder output = new StringBuilder();
                 output.append("Workout: Push\n");
-                output.append("Date: ").append(dateTime.toLocalDate()).append("\n");
-                output.append("Time: ").append(dateTime.toLocalTime().withSecond(0).withNano(0)).append("\n");
+                output.append("Date: ").append(startDT.toLocalDate()).append("\n");
+                output.append("Start Time: ").append(startDT.toLocalTime().withSecond(0).withNano(0)).append("\n");
+                output.append("End Time: ").append(endDT.toLocalTime().withSecond(0).withNano(0)).append("\n");
                 output.append("Calories burned: ").append(String.format("%.2f", push.calculateCaloriesBurned())).append("\n");
                 output.append("Sets: ").append(push.getSets()).append("\n");
                 output.append("Reps per set: ").append(push.getReps()).append("\n");
@@ -107,7 +120,23 @@ public class PushCalculator extends JFrame {
                         "Input Error", JOptionPane.ERROR_MESSAGE);
             }
         });
-}
+
+//        saveButton.addActionListener(e -> {
+//            if (walk != null) {
+//                WorkoutTracker.logWorkout(account.getId(), walk);
+//            }
+//        });
+    }
+
+    public void setExternalWorkoutData(LocalDateTime start, LocalDateTime end, double durationMinutes) {
+        double rounded = Math.round(durationMinutes * 10.0) / 10.0;
+        DurationDisplay.setText(String.format("%.1f", rounded));
+
+        this.externalStartDT = start;
+        this.externalEndDT = end;
+        this.externalDurationMinutes = durationMinutes;
+    }
+
         public void clearFields () {
             DurationDisplay.setText("");
             SetsField.setText("");

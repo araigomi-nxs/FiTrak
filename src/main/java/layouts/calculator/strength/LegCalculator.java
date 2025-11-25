@@ -5,6 +5,7 @@ import calculationModels.strength.LegWorkout;
 import javax.swing.*;
 import java.time.LocalDateTime;
 import objects.Account;
+import tracker.WorkoutTracker;
 
 public class LegCalculator extends JFrame {
 
@@ -31,14 +32,17 @@ public class LegCalculator extends JFrame {
     private JLabel WeightLiftedLabel;
     private JButton saveButton;
 
+    private LocalDateTime externalStartDT;
+    private LocalDateTime externalEndDT;
+    private double externalDurationMinutes;
 
     private boolean hasCalculated = false;
 
     public LegCalculator(Account account) {
         setContentPane(MainPanel);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(300, 400);
-        setLocationRelativeTo(null);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setSize(300, 400);
+//        setLocationRelativeTo(null);
 
         WeightLiftedField.setEnabled(false);
         noCheckBox.setSelected(true);
@@ -69,7 +73,7 @@ public class LegCalculator extends JFrame {
             }
 
             try {
-                double duration = Double.parseDouble(DurationDisplay.getText());
+//                double duration = Double.parseDouble(DurationDisplay.getText());
 //                double bodyWeight = Double.parseDouble(WeightField.getText());
                 double weight = account.getWeight();
                 int sets = Integer.parseInt(SetsField.getText());
@@ -79,15 +83,24 @@ public class LegCalculator extends JFrame {
                 String intensity = (String) IntensityComboB.getSelectedItem();
                 boolean useEquipment = yesCheckBox.isSelected();
 
-                LocalDateTime dateTime = LocalDateTime.now();
+                double duration = externalDurationMinutes;
+                if (duration <= 0) {
+                    duration = Double.parseDouble(DurationDisplay.getText());
+                }
+                duration = Math.round(duration * 10) / 10.0;
 
-                LegWorkout leg = new LegWorkout(duration, weight, dateTime,dateTime,
+                LocalDateTime startDT = (externalStartDT != null) ? externalStartDT : LocalDateTime.now();
+                LocalDateTime endDT = (externalEndDT != null) ? externalEndDT : LocalDateTime.now();
+
+
+                LegWorkout leg = new LegWorkout(duration, weight, startDT,endDT,
                         sets, reps, weightLifted, intensity, restTime, useEquipment);
 
                 StringBuilder output = new StringBuilder();
                 output.append("Workout: Legs\n");
-                output.append("Date: ").append(dateTime.toLocalDate()).append("\n");
-                output.append("Time: ").append(dateTime.toLocalTime().withSecond(0).withNano(0)).append("\n");
+                output.append("Date: ").append(startDT.toLocalDate()).append("\n");
+                output.append("Start Time: ").append(startDT.toLocalTime().withSecond(0).withNano(0)).append("\n");
+                output.append("End Time: ").append(endDT.toLocalTime().withSecond(0).withNano(0)).append("\n");
                 output.append("Calories burned: ").append(String.format("%.2f", leg.calculateCaloriesBurned())).append("\n");
                 output.append("Sets: ").append(leg.getSets()).append("\n");
                 output.append("Reps per set: ").append(leg.getReps()).append("\n");
@@ -108,7 +121,22 @@ public class LegCalculator extends JFrame {
                         "Input Error", JOptionPane.ERROR_MESSAGE);
             }
         });
+//        saveButton.addActionListener(e -> {
+//            if (walk != null) {
+//                WorkoutTracker.logWorkout(account.getId(), walk);
+//            }
+//        });
     }
+
+    public void setExternalWorkoutData(LocalDateTime start, LocalDateTime end, double durationMinutes) {
+        double rounded = Math.round(durationMinutes * 10.0) / 10.0;
+        DurationDisplay.setText(String.format("%.1f", rounded));
+
+        this.externalStartDT = start;
+        this.externalEndDT = end;
+        this.externalDurationMinutes = durationMinutes;
+    }
+
         public void clearField() {
             DurationDisplay.setText("");
             SetsField.setText("");
