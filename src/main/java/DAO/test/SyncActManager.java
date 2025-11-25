@@ -8,12 +8,11 @@ import java.sql.*;
 import java.util.List;
 import java.util.Map;
 
-public class SyncActManager extends SyncAccManager implements Runnable {
+public class SyncActManager implements Runnable {
     private final LocalDataBaseHelper localHelper;
     private final SupabaseHttpClient http;
 
     private final String DB_URL = Config.get("SQLITE_DBURL");
-
 
     public SyncActManager() {
         this.localHelper = new LocalDataBaseHelper();
@@ -59,7 +58,8 @@ public class SyncActManager extends SyncAccManager implements Runnable {
                                 throw new RuntimeException("Failed to push activity " + activityID + ": " + err);
                             }
                             System.out.println("Pushed local activity ID=" + activityID);
-                            logSyncEvent(0, activityID, 0, SyncEntry.INSERTED, SyncDirection.PUSH, TableRef.ACTIVITY);
+                            SyncAccManager syncAccManager = new SyncAccManager();
+                           syncAccManager.logSyncEvent(0, activityID, 0, SyncAccManager.SyncEntry.INSERTED, SyncAccManager.SyncDirection.PUSH, SyncAccManager.TableRef.ACTIVITY);
                         }
                     }
                 }
@@ -107,7 +107,8 @@ public class SyncActManager extends SyncAccManager implements Runnable {
                         insert.executeUpdate();
 
                         System.out.println("Pulled online activity ID=" + activityID);
-                        logSyncEvent(0, activityID, 0, SyncEntry.INSERTED, SyncDirection.PULL, TableRef.ACTIVITY);
+                        SyncAccManager syncAccManager = new SyncAccManager();
+                        syncAccManager.logSyncEvent(0, activityID, 0, SyncAccManager.SyncEntry.INSERTED, SyncAccManager.SyncDirection.PULL, SyncAccManager.TableRef.ACTIVITY);
 
                     }
                 }
@@ -130,7 +131,8 @@ public class SyncActManager extends SyncAccManager implements Runnable {
 
                     if (affected > 0) {
                         System.out.println("Deleted local activity ID=" + activityID + " (marked DELETED online)");
-                        logSyncEvent(0, activityID, 0, SyncEntry.DELETED, SyncDirection.PULL, TableRef.ACTIVITY);
+                        SyncAccManager syncAccManager = new SyncAccManager();
+                        syncAccManager.logSyncEvent(0, activityID, 0, SyncAccManager.SyncEntry.DELETED, SyncAccManager.SyncDirection.PULL, SyncAccManager.TableRef.ACTIVITY);
                     }
                 }
             }
