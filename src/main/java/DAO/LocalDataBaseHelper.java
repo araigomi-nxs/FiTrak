@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class LocalDataBaseHelper {
 
     private final String DB_URL = "jdbc:sqlite:FitrakAccount.db";
-    private final String SERVER_ORIGIN = "Client-JAM-PC-001";
+    private final String SERVER_ORIGIN = "Client-ARN-PC-002";
     LocalDateTime localDateTime = LocalDateTime.now();
 
 
@@ -424,7 +424,7 @@ public class LocalDataBaseHelper {
                 sql = "SELECT COUNT(*) FROM  accounts WHERE privilege = 0";
                 break;
             case 3:
-                sql = "SELECT COUNT(*) FROM  accounts WHERE serverOrigin = 'Client-JAM-PC-001'";
+                sql = "SELECT COUNT(*) FROM  accounts WHERE serverOrigin = 'Client-ARN-PC-002'";
                 break;
             case 4:
                 sql = "SELECT COUNT(*) FROM  accounts WHERE privilege = -1";

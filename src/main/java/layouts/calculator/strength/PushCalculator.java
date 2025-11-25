@@ -3,7 +3,6 @@ package layouts.calculator.strength;
 import calculationModels.strength.PushWorkout;
 
 import javax.swing.*;
-import java.awt.*;
 import java.time.LocalDateTime;
 import objects.Account;
 
@@ -30,6 +29,7 @@ public class PushCalculator extends JFrame {
     private JButton calculateButton;
     private JTextArea OutputTextArea;
     private JLabel UseEquipmentLabel;
+    private JButton saveButton;
 
     private boolean hasCalculated = false;
 

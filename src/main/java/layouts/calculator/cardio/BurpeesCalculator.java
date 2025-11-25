@@ -27,6 +27,7 @@ public class BurpeesCalculator extends JFrame {
     private JLabel RestTimeLabel;
     private JLabel HeartRateLabel;
     private JLabel IntensityLabel;
+    private JButton saveButton;
 
     private boolean hasCalculated = false;
 

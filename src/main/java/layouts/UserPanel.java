@@ -47,7 +47,7 @@ public class UserPanel extends JFrame {
     Point initialClick;
 
 
-    UserPanel(long UserSession) {
+    public UserPanel (long UserSession) {
 
         ImageIcon icon = new ImageIcon("src/main/resources/images/logo.png");
         setIconImage(icon.getImage());

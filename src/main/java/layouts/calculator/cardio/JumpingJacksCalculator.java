@@ -29,6 +29,7 @@ public class JumpingJacksCalculator extends JFrame {
     private JLabel TitleLabel;
     private JLabel HeartRateLabel;
     private JLabel UseRepsLabel;
+    private JButton saveButton;
 
     private boolean hasCalculated = false;
 

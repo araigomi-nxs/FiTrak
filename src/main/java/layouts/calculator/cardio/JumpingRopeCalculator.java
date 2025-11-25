@@ -30,6 +30,7 @@ public class JumpingRopeCalculator extends JFrame {
     private JLabel RestTimeLabel;
     private JLabel HeartRateLabel;
     private JLabel UseRepsLabel;
+    private JButton saveButton;
 
     private boolean hasCalculated = false;
 

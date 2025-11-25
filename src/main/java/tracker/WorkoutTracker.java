@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 public class WorkoutTracker {
 
 
-    private final static String SERVER_ORIGIN = "Client-JAM-PC-001";
+    private final static String SERVER_ORIGIN = "Client-ARN-PC-002";
     protected static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 

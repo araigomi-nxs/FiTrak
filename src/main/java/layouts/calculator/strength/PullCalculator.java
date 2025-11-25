@@ -30,6 +30,7 @@ public class PullCalculator extends JFrame {
     private JTextField WeightLiftedField;
     private JTextField RestTimeField;
     private JLabel WeightLiftedLabel;
+    private JButton saveButton;
 
     private boolean hasCalculated = false;
 

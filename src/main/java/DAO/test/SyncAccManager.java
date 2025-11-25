@@ -73,10 +73,6 @@ public class SyncAccManager implements Runnable {
         SupabaseHttpClient http = new SupabaseHttpClient();
         long userId = (Long) account.get("user_id");
 
-        // bump last_updated_dt to now
-        String now = java.time.LocalDateTime.now().toString();
-        account.put("last_updated_dt", now);
-
         String payload = Json.toJson(account); // use Jackson/Gson
         try (Response resp = http.patch("/rest/v1/accounts?user_id=eq." + userId, payload)) {
             if (!resp.isSuccessful()) throw new RuntimeException("Update failed: " + resp.code());

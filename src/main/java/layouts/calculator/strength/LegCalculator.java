@@ -29,6 +29,7 @@ public class LegCalculator extends JFrame {
     private JComboBox IntensityComboB;
     private JTextField RestTimeField;
     private JLabel WeightLiftedLabel;
+    private JButton saveButton;
 
 
     private boolean hasCalculated = false;
