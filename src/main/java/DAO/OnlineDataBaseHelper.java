@@ -1,43 +1,61 @@
 package DAO;
 
+import DAO.test.Json;
+import DAO.test.SupabaseHttpClient;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import okhttp3.Response;
 
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
+import java.util.List;
+import java.util.Map;
 
 public class OnlineDataBaseHelper {
-
-
-    private static final String SDB_URL = "jdbc:postgresql://aws-1-ap-southeast-2.pooler.supabase.com:5432/postgres?sslmode=require";
-
-    protected static final String SUPABASE_USER = "postgres.ulasdclgwpkahcyifjqr"; // from Supabase dashboard
-    protected static final String SUPABASE_PASSWORD = Config.get("SUPABASE_PASSWORD"); // your actual password
     private static HikariDataSource dataSource;
+    private final String DB_URL = Config.get("SQLITE_DBURL");
+    private final SupabaseHttpClient http;
 
+    public OnlineDataBaseHelper()  {
+        try {
+            this.http = new SupabaseHttpClient();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     protected Connection getConnection() throws SQLException {
        // return DriverManager.getConnection(SDB_URL, SUPABASE_USER, SUPABASE_PASSWORD);
+        //String url = "jdbc:postgresql://ulasdclgwpkahcyifjqr.session-pooler.supabase.com:5432/postgres?sslmode=require";
+       // String user = "my_other_user.ulasdclgwpkahcyifjqr";
+        //String password = "StrongPasswordHere";
         return dataSource.getConnection();
+        //return DriverManager.getConnection(url, user, password);
+
     }
 
     static {
-        HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:postgresql://aws-1-ap-southeast-2.pooler.supabase.com:5432/postgres?sslmode=require");
-        config.setUsername("postgres.ulasdclgwpkahcyifjqr"); // your Supabase user
-        config.setPassword(Config.get("SUPABASE_PASSWORD")); // your password
+        HikariConfig config1 = new HikariConfig();
+        config1.setJdbcUrl("jdbc:postgresql://aws-1-ap-southeast-2.pooler.supabase.com:5432/postgres?sslmode=require");
+        config1.setUsername("postgres.ulasdclgwpkahcyifjqr");
+        config1.setPassword("FiTrakApp123");
+
+
+        HikariConfig config2 = new HikariConfig();
+        //config2.setJdbcUrl("jdbc:postgresql://db.ulasdclgwpkahcyifjqr.supabase.co:5432/postgres");
+        config2.setJdbcUrl("jdbc:postgresql://aws-1-ap-southeast-2.pooler.supabase.com:5432/postgres?sslmode=require");
+        config2.setUsername("my_other_user");
+        config2.setPassword("StrongPasswordHere");
 
         // Pool tuning
-        config.setMaximumPoolSize(10);       // number of concurrent connections
-        config.setMinimumIdle(2);            // keep a couple idle
-        config.setIdleTimeout(30000);        // 30s before releasing idle
-        config.setConnectionTimeout(10000);  // 10s wait for a connection
-        config.setLeakDetectionThreshold(2000); // helps debug leaks
+        config1.setMaximumPoolSize(10);       // number of concurrent connections
+        config1.setMinimumIdle(2);            // keep a couple idle
+        config1.setIdleTimeout(30000);        // 30s before releasing idle
+        config1.setConnectionTimeout(10000);  // 10s wait for a connection
+        config1.setLeakDetectionThreshold(2000); // helps debug leaks
 
-        dataSource = new HikariDataSource(config);
+        dataSource = new HikariDataSource(config1);
     }
-
-
 
 
 
@@ -51,34 +69,37 @@ public class OnlineDataBaseHelper {
 
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 
-        String sql = "SELECT user_id, email, password, privilege, username, sex, age, weight, height, bmi, server_origin, preference, creation_dt, last_updated_dt FROM accounts";
+        try (Response resp = http.get("/rest/v1/accounts?select=*")) {
+            if (!resp.isSuccessful()) {
+                String err = resp.body() != null ? resp.body().string() : "";
+                throw new RuntimeException("Supabase data fetch failed: " + resp.code() + " " + err);
+            }
 
-        try (Connection conn = getConnection();   // Supabase connection
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+            String body = resp.body().string();
+            List<Map<String,Object>> accounts = Json.fromJsonList(body);
 
-            while (rs.next()) {
+            for (Map<String,Object> acc : accounts) {
                 Object[] row = {
-                        rs.getLong("user_id"),
-                        rs.getString("email"),
-                        rs.getString("password"),
-                        rs.getInt("privilege"),
-                        rs.getString("username"),
-                        rs.getString("sex"),
-                        rs.getInt("age"),
-                        rs.getDouble("weight"),
-                        rs.getDouble("height"),
-                        rs.getDouble("bmi"),
-                        rs.getString("server_origin"),
-                        rs.getInt("preference"),
-                        rs.getString("creation_dt"),
-                        rs.getString("last_updated_dt")
+                        acc.get("user_id"),
+                        acc.get("email"),
+                        acc.get("password"),
+                        acc.get("privilege"),
+                        acc.get("username"),
+                        acc.get("sex"),
+                        acc.get("age"),
+                        acc.get("weight"),
+                        acc.get("height"),
+                        acc.get("bmi"),
+                        acc.get("server_origin"),
+                        acc.get("preference"),
+                        acc.get("creation_dt"),
+                        acc.get("last_updated_dt")
                 };
                 model.addRow(row);
             }
-            System.out.println("Supa base table successfully loaded");
 
-        } catch (SQLException e) {
+            System.out.println("Supabase accounts table successfully loaded via HTTP");
+        } catch (Exception e) {
             System.err.println("Supabase data fetch failed: " + e.getMessage());
         }
 
@@ -87,47 +108,48 @@ public class OnlineDataBaseHelper {
 
 
     public DefaultTableModel getActivitiesTableModelOnline() {
-        // Match Supabase schema column names for activities
+        // Match Supabase schema column names
         String[] columnNames = {
                 "ActivityID", "UserID", "DurationMinutes", "CaloriesBurned",
-                "StartDT", "EndDT", "MetValue", "WorkoutType",
-                "ServerOrigin", "InitialWeight"
+                "StartDT", "EndDT", "MetValue", "InitialWeight",
+                "WorkoutType", "ServerOrigin"
         };
 
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 
-        String sql = "SELECT activity_id, user_id, duration_minutes, calories_burned, " +
-                "start_dt, end_dt, met_value, workout_type, server_origin, initial_weight " +
-                "FROM activities";
+        try (Response resp = http.get("/rest/v1/activities?select=*")) {
+            if (!resp.isSuccessful()) {
+                String err = resp.body() != null ? resp.body().string() : "";
+                throw new RuntimeException("Supabase data fetch failed: " + resp.code() + " " + err);
+            }
 
-        try (Connection conn = getConnection();   // Supabase connection
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+            String body = resp.body().string();
+            List<Map<String,Object>> activities = Json.fromJsonList(body);
 
-            while (rs.next()) {
+            for (Map<String,Object> act : activities) {
                 Object[] row = {
-                        rs.getInt("activity_id"),
-                        rs.getLong("user_id"),
-                        rs.getDouble("duration_minutes"),
-                        rs.getDouble("calories_burned"),
-                        rs.getString("start_dt"),
-                        rs.getString("end_dt"),
-                        rs.getDouble("met_value"),
-                        rs.getString("workout_type"),
-                        rs.getString("server_origin"),
-                        rs.getDouble("initial_weight")
+                        act.get("activity_id"),
+                        act.get("user_id"),
+                        act.get("duration_minutes"),
+                        act.get("calories_burned"),
+                        act.get("start_dt"),
+                        act.get("end_dt"),
+                        act.get("met_value"),
+                        act.get("initial_weight"),
+                        act.get("workout_type"),
+                        act.get("server_origin")
                 };
                 model.addRow(row);
             }
-            System.out.println("Supabase activities table successfully loaded");
 
-        } catch (SQLException e) {
+            System.out.println("Supabase activities table successfully loaded via HTTP");
+        } catch (Exception e) {
             System.err.println("Supabase activities fetch failed: " + e.getMessage());
         }
 
         return model;
     }
-
-
 }
+
+
 

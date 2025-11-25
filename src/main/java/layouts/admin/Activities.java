@@ -2,12 +2,15 @@ package layouts.admin;
 
 import DAO.LocalActDBHelper;
 import DAO.OnlineDataBaseHelper;
+import DAO.test.SyncAccManager;
+import DAO.test.SyncActManager;
 import com.formdev.flatlaf.FlatClientProperties;
 import tracker.GlobalStats;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -146,12 +149,18 @@ public class Activities {
 
          refreshOnlineTbale.addMouseListener(new MouseAdapter() {
 
+             @Override
+             public void mouseClicked(MouseEvent e) {
 
+                 createTable();
+             }
          });
          syncButton.addMouseListener(new MouseAdapter() {
              @Override
              public void mouseClicked(MouseEvent e) {
-
+                SyncActManager syncActManager = new SyncActManager();
+                syncActManager.startActSyncThread();
+                createTable();
              }
          });
 
@@ -225,7 +234,7 @@ public class Activities {
         weightLossStat.putClientProperty(FlatClientProperties.STYLE,"arc:20");
     }
     //activities table setup
-    public void createTable() {
+    public void createTable(){
         LocalActDBHelper localActDBHelper = new LocalActDBHelper();
         activitiesTable.setModel(localActDBHelper.getActivitiesTable());
 

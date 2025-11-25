@@ -66,11 +66,6 @@ public class Account {
         this.preference = preference;
     }
 
-    public void setServerOrigin() {
-        this.serverOrigin = "Client-JAM-PC-001";
-    }
-
-
     public int getPrivilege()
     {
              return privilege;

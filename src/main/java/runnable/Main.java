@@ -1,7 +1,7 @@
 package runnable;
 
-import DAO.AccountSyncManager;
-import DAO.ActivitySyncManager;
+import DAO.test.SyncAccManager;
+import DAO.test.SyncActManager;
 import com.formdev.flatlaf.FlatLightLaf;
 import layouts.LoginForm;
 
@@ -17,7 +17,9 @@ public class Main {
         Font poppins = new Font("Poppins", Font.PLAIN, 12);
         Font poppinsSmall = new Font("Poppins", Font.PLAIN, 10);
 
-        UIManager.put("Component.focusedBorderColor", new Color(220, 228, 55));
+        UIManager.put("Component.focusedBorderColor", new Color(220, 228, 55, 255));
+
+
         UIManager.put("RadioButton.icon.focusedBorderColor", new Color(220, 228, 55));
         UIManager.put("RadioButton.icon.focusedBorderColor", new Color(220, 228, 55));
         UIManager.put("Button.borderColor", new Color(220, 228, 55));
@@ -48,16 +50,25 @@ public class Main {
         UIManager.put("ScrollBar.hoverThumbColor", new Color(255, 255, 255, 223));
         UIManager.put("ScrollBar.pressedThumbColor", new Color(222, 228, 109, 255));
 
+        UIManager.put("Component.borderColor",  new Color(202, 208, 216));
+        UIManager.put("PasswordField.showRevealButton",  true);
+        Icon eyeIcon = new ImageIcon("src/main/resources/images/Eye.png");
+        UIManager.put("PasswordField.revealIcon",   eyeIcon);
 
         UIManager.put("TableHeader.font", poppins );
         UIManager.put("Table.font", poppinsSmall );
 
+        SyncAccManager syncAccManager = new SyncAccManager();
+        syncAccManager.startSyncThread();
 
-        AccountSyncManager accountSyncManager = new AccountSyncManager();
-        accountSyncManager.startSyncThread();
+        SyncActManager syncActManager = new SyncActManager();
+        syncActManager.syncAllActivities();
 
-        ActivitySyncManager activitySyncManager = new ActivitySyncManager();
-        activitySyncManager.startActSyncThread();
+        //AccountSyncManager accountSyncManager = new AccountSyncManager();
+        //accountSyncManager.startSyncThread();
+
+        //ActivitySyncManager activitySyncManager = new ActivitySyncManager();
+        //activitySyncManager.startActSyncThread();
 
         SwingUtilities.invokeLater(() -> {
             try {

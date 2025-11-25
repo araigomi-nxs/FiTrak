@@ -3,7 +3,7 @@ package layouts;
 
 import DAO.LocalDataBaseHelper;
 import DAO.OnlineDataBaseHelper;
-import DAO.AccountSyncManager;
+import DAO.test.SyncAccManager;
 import layouts.admin.Activities;
 import layouts.admin.AdminDashboard;
 import layouts.admin.Calculations;
@@ -279,13 +279,10 @@ public class AdminPanel extends JFrame {
         syncButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AccountSyncManager accountSyncManager = new AccountSyncManager();
-                try {
-                    accountSyncManager.compareAccountsODB();
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-                accountSyncManager.getSyncLogs(syncLogs);
+
+                SyncAccManager  syncAccManager = new SyncAccManager();
+                syncAccManager.startSyncThread();
+                syncAccManager.getSyncLogsHttp(syncLogs);
             }
 
         });
@@ -392,8 +389,11 @@ public class AdminPanel extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
 
-                OnlineDataBaseHelper onlineDBHelper = new OnlineDataBaseHelper();
+                OnlineDataBaseHelper onlineDBHelper = null;
+                onlineDBHelper = new OnlineDataBaseHelper();
                 onlineAccountsTable.setModel(onlineDBHelper.getAccountsTableModelOnline());
+                SyncAccManager syncAccManager = new SyncAccManager();
+                syncAccManager.getSyncLogsHttp(syncLogs);
             }
         });
 
@@ -485,10 +485,10 @@ public class AdminPanel extends JFrame {
        accountsTable.setModel(new LocalDataBaseHelper().getAccountsTableModel());
 
        OnlineDataBaseHelper onlineDBHelper = new OnlineDataBaseHelper();
-
        onlineAccountsTable.setModel( onlineDBHelper.getAccountsTableModelOnline() );
-       AccountSyncManager accountSyncManager = new AccountSyncManager();
-       accountSyncManager.getSyncLogs(syncLogs);
+
+        SyncAccManager syncAccManager = new SyncAccManager();
+        syncAccManager.getSyncLogsHttp(syncLogs);
 
 
     }
