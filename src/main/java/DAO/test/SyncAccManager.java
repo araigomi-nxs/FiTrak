@@ -16,11 +16,12 @@ import java.util.Map;
 public class SyncAccManager implements Runnable {
     private final LocalDataBaseHelper localDataBaseHelper;
     private final SupabaseHttpClient http;
+    protected static final DateTimeFormatter formatter =         DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 
     // Load values from config.properties
     private final String DB_URL = Config.get("SQLITE_DBURL");
-    private final String SERVER_ORIGIN = Config.get("SERVER_ORIGIN");
+    private static final String SERVER_ORIGIN = Config.get("SERVER_ORIGIN");
     private final String DATE_FORMAT = Config.get("DATE_FORMAT");
 
     public enum SyncEntry {
@@ -138,10 +139,10 @@ public class SyncAccManager implements Runnable {
         String supabaseDateStr = (String) supabaseAccount.get("last_updated_dt");
         String sqliteDateStr   = (String) sqliteAccount.get("last_updated_dt");
 
-        // Convert string → LocalDateTime
-        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        LocalDateTime supabaseUpdated = LocalDateTime.parse(supabaseDateStr, fmt);
-        LocalDateTime sqliteUpdated   = LocalDateTime.parse(sqliteDateStr, fmt);
+        // Convert string → LocalDateTime using space separator
+
+        LocalDateTime supabaseUpdated = LocalDateTime.parse(supabaseDateStr, formatter);
+        LocalDateTime sqliteUpdated   = LocalDateTime.parse(sqliteDateStr, formatter);
 
         if (supabaseUpdated.isAfter(sqliteUpdated)) {
             // Supabase newer → update local
@@ -165,7 +166,7 @@ public class SyncAccManager implements Runnable {
 
         } else if (sqliteUpdated.isAfter(supabaseUpdated)) {
             // SQLite newer → update Supabase
-            String nowStr = LocalDateTime.now().format(fmt);
+            String nowStr = LocalDateTime.now().format(formatter);
             sqliteAccount.put("last_updated_dt", nowStr);
 
             updateSupabaseAccountHttp(sqliteAccount);
@@ -207,13 +208,17 @@ public class SyncAccManager implements Runnable {
     public void logSyncEvent(long userId, int actID, int workID,
                              SyncEntry entry, SyncDirection direction, TableRef tableRef) {
         try {
+            // Format current time as a string (safe for Supabase)
+            String now = java.time.LocalDateTime.now()
+                    .format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
             Map<String,Object> logRow = Map.of(
                     "user_id", userId,
                     "activity_id", actID,
                     "workout_id", workID,
                     "sync_entry", entry.name(),
                     "sync_direction", direction.name(),
-                    "log_date", java.time.Instant.now().toString(),
+                    "log_date", now,   // plain string
                     "server_origin", SERVER_ORIGIN,
                     "table_ref", tableRef.name()
             );
@@ -232,6 +237,7 @@ public class SyncAccManager implements Runnable {
             e.printStackTrace();
         }
     }
+
     public void getSyncLogsHttp(JTextArea textArea) {
         SupabaseHttpClient http = new SupabaseHttpClient();
         try (Response resp = http.get(
