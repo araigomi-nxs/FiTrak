@@ -92,6 +92,39 @@ public class LocalDataBaseHelper {
         }
     }
 
+    public void insertUser(long userID,String email,String password,int privilege, String username, String sex,int age, double weight,double height, double bmi, String serverOrigin,int preference, String creationDT,String lastUpdatedDT) {
+        String sql = "INSERT INTO accounts (userID, email, password, privilege, username, sex, age, weight, height, BMI, serverOrigin, preference, creationDT, lastUpdatedDT) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setLong(1, userID);
+            pstmt.setString(2, email);
+            pstmt.setString(3, password);
+            pstmt.setInt(4, privilege);
+            pstmt.setString(5, username);
+            pstmt.setString(6, sex);
+            pstmt.setInt(7, age);
+            pstmt.setDouble(8, weight);
+            pstmt.setDouble(9, height);
+            pstmt.setDouble(10, bmi);
+            pstmt.setString(11, serverOrigin);
+            pstmt.setInt(12, preference);
+            pstmt.setString(13, creationDT);
+            pstmt.setString(14, lastUpdatedDT);
+
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("User inserted successfully (full data).");
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Insert failed: " + e.getMessage());
+        }
+    }
+
+
     public void updateWH(long userID, String username, double weight, double height, String sex, int age) {
         String sql = "UPDATE accounts SET username = ?, sex =? ,age=?,  weight = ?, height = ?, BMI = ? WHERE userID = ?";
 
