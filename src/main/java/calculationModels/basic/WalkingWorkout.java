@@ -22,10 +22,10 @@ public class WalkingWorkout extends BasicWorkout {
         this.height = (height*100);
         this.intensity = intensity;
         this.sex = sex;
-        this.distanceKM = calculateDistance(steps, sex, this.height);
+        this.distanceKM = Math.round(calculateDistance(steps, sex, this.height) * 100.0) / 100.0;
         this.workoutType = "Walking";
         this.caloriesBurned = calculateCaloriesBurned();
-        this.calPerStep = caloriesBurned / steps;
+        this.calPerStep = MetricsCalculator.calculateCalPerStep(caloriesBurned, steps);
 
     }
 
@@ -57,5 +57,7 @@ public class WalkingWorkout extends BasicWorkout {
     public int getSteps() { return steps; }
     public String getIntensity() { return intensity; }
     public String getGender() { return sex; }
-    public double getCalPerStep() { return calPerStep/ steps; }
+    public double getCalPerStep() {
+        return calPerStep;
+    }
 }

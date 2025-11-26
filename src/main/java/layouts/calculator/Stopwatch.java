@@ -41,7 +41,11 @@ public class Stopwatch {
                 }
 
                 if (!running) {
-                    // Resume or First Start
+                    if (!runOnce || elapsedTime == 0) {
+                        elapsedTime = 0;
+                        startDT = LocalDateTime.now();
+                    }
+
                     startTime = System.currentTimeMillis() - elapsedTime;
                     timer.start();
                     running = true;
@@ -75,7 +79,7 @@ public class Stopwatch {
                 stopButton.setVisible(false);
 
                 // Fully reset displayed time
-                elapsedTime = 0;
+                //elapsedTime = 0;
                 updateDisplay();
             }
         });

@@ -15,7 +15,11 @@ public class MetricsCalculator {
     }
 
     public static double calculateBMI(double weightKg, double heightMeters) {
-                return   Math.round(( weightKg / (heightMeters * heightMeters)) * 100.0) / 100.0;
+                return Math.round(( weightKg / (heightMeters * heightMeters)) * 100.0) / 100.0;
+    }
+
+    public static double calculateCalPerStep(double caloriedBurned, int steps){
+        return Math.round((caloriedBurned / steps) * 1000.0)/ 1000.0;
     }
 
     public static double calculateMaxHeartRate(double age) {

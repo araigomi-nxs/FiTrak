@@ -211,7 +211,7 @@ public class UserWorkoutsForm extends JFrame {
                 LocalDateTime endDT = stopwatch.getEndDT();
                 double duration = stopwatch.getDuration();
 
-                // Sync pickers and fields
+                // Sync pickers
                 if (startDT != null) {
                     datePicker.setSelectedDate(startDT.toLocalDate());
                     timePicker.setSelectedTime(startDT.toLocalTime());
@@ -223,12 +223,12 @@ public class UserWorkoutsForm extends JFrame {
                     endTimeField.setValue(endDT.toLocalTime().format(formatter));
                 }
 
-                // Store for downstream use
+                // Store values
                 lastStartDT = startDT;
                 lastEndDT = endDT;
                 lastDurationMinutes = Math.round(duration * 10.0) / 10.0;
 
-                // Push into currently active calculator
+                // 🔥 Push stopwatch duration directly into the active calculator
                 pushDurationToActiveCalculator(lastStartDT, lastEndDT, lastDurationMinutes);
             }
         });
