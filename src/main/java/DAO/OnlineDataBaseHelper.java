@@ -149,6 +149,71 @@ public class OnlineDataBaseHelper {
 
         return model;
     }
+
+    public DefaultTableModel getWorkoutsTableModelOnline() {
+        // Match Supabase schema column names
+        String[] columnNames = {
+                "WorkID", "ActivityID", "Steps", "DistanceKM", "Intensity",
+                "CalPerStep", "SpeedKPH", "Sets", "Reps",
+                "CurrentHeartRate", "WeightLifted",
+                "ServerOrigin", "LogDT"
+        };
+
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+
+        try (Response resp = http.get("/rest/v1/workouts?select=*")) {
+            if (!resp.isSuccessful()) {
+                String err = resp.body() != null ? resp.body().string() : "";
+                throw new RuntimeException("Supabase workouts fetch failed: " + resp.code() + " " + err);
+            }
+
+            String body = resp.body().string();
+            List<Map<String,Object>> workouts = Json.fromJsonList(body);
+
+            for (Map<String,Object> w : workouts) {
+                Object[] row = {
+                        w.get("work_id"),
+                        w.get("activity_id"),
+                        w.get("steps"),
+                        w.get("distance_km"),
+                        w.get("intensity"),
+                        w.get("cal_per_step"),
+                        w.get("speed_kph"),
+                        w.get("sets"),
+                        w.get("reps"),
+                        w.get("current_heart_rate"),
+                        w.get("weight_lifted"),
+                        w.get("server_origin"),
+                        w.get("log_dt")
+                };
+                model.addRow(row);
+            }
+
+            System.out.println("Supabase workouts table successfully loaded via HTTP");
+        } catch (Exception e) {
+            System.err.println("Supabase workouts fetch failed: " + e.getMessage());
+        }
+
+        return model;
+    }
+
+    public int getWorkoutsRowCountOnline() {
+        DefaultTableModel model = getWorkoutsTableModelOnline();
+        return model.getRowCount();
+    }
+
+    public int getActivitiesRowCountOnline() {
+        DefaultTableModel model = getActivitiesTableModelOnline();
+        return model.getRowCount();
+    }
+
+    public int getAccountsRowCountOnline() {
+        DefaultTableModel model = getAccountsTableModelOnline();
+        return model.getRowCount();
+    }
+
+
+
 }
 
 
