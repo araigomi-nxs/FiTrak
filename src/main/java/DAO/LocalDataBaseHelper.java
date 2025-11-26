@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class LocalDataBaseHelper {
 
     private final String DB_URL = "jdbc:sqlite:FitrakAccount.db";
-    private final String SERVER_ORIGIN = "Client-ARN-PC-002";
+    private final String SERVER_ORIGIN = Config.get("SERVER_ORIGIN");
     LocalDateTime localDateTime = LocalDateTime.now();
 
 
