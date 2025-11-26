@@ -611,7 +611,7 @@ public class LocalDataBaseHelper {
         String sql = "SELECT AVG(BMI) AS avg_bmi, AVG(height) AS avg_height, AVG(weight) AS avg_weight FROM accounts";
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
-                Statement stmt = conn.createStatement();
+             Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
             if (rs.next()) {
@@ -629,11 +629,8 @@ public class LocalDataBaseHelper {
         } catch (SQLException e) {
             System.err.println("Error calculating averages: " + e.getMessage());
         }
-        return 0.0; // fallback if query fails
+        return 0.0;
     }
-
-
-
 
 
 

@@ -24,7 +24,6 @@ public class RunningWorkoutCalculator {
     private JLabel DurationLabel;
     private JButton CalculateButton;
     private JTextArea outputTextArea;
-    private JLabel TitleLabel;
     private JButton saveButton;
 
     private LocalDateTime externalStartDT;

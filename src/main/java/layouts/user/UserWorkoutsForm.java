@@ -16,6 +16,8 @@ import layouts.calculator.strength.PushCalculator;
 import layouts.calculator.strength.PullCalculator;
 import layouts.calculator.strength.LegCalculator;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.Duration;
@@ -69,6 +71,7 @@ public class UserWorkoutsForm extends JFrame {
     private JPanel Recorder;
     private JPanel DateTimeArea;
     private JLabel greetLabel;
+    private JPanel stopwatchPanel;
 
     // Pickers must be class fields so listeners can access them
     private DatePicker datePicker;
@@ -191,46 +194,59 @@ public class UserWorkoutsForm extends JFrame {
         calculatorArea.add(pullCalc.getPanel(), "PULL");
         calculatorArea.add(legsCalc.getPanel(), "LEGS");
 
+        showCalc("WALK");
         // Dropdown toggles
         exercisesButton1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+
                 if(BasicTB.isVisible()) {
-                    exercisesButton1.setIcon(new ImageIcon("src/main/resources/images/collapseButton.png"));
+                    exercisesButton1.setIcon(new ImageIcon("src/main/resources/images/dropdownArrow.png"));
+                    closeTB(0);
                  }
                 else
                 {
-                    exercisesButton1.setIcon(new ImageIcon("src/main/resources/images/dropdownArrow.png"));
+                    closeTB(3);
+                    toggleDropdown(BasicTB);
+                    exercisesButton1.setIcon(new ImageIcon("src/main/resources/images/collapseButton.png"));
                 }
-                toggleDropdown(BasicTB);
+
             }
         });
 
         exercisesButton2.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+
                 if(CardioTB.isVisible()) {
-                    exercisesButton2.setIcon(new ImageIcon("src/main/resources/images/collapseButton.png"));
+                    exercisesButton2.setIcon(new ImageIcon("src/main/resources/images/dropdownArrow.png"));
+                    closeTB(1);
                 }
                 else
                 {
-                    exercisesButton2.setIcon(new ImageIcon("src/main/resources/images/dropdownArrow.png"));
+                    closeTB(3);
+                    toggleDropdown(CardioTB);
+                    exercisesButton2.setIcon(new ImageIcon("src/main/resources/images/collapseButton.png"));
                 }
-                toggleDropdown(CardioTB);
+
             }
         });
 
         exercisesButton3.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+
                 if(StrengthTB.isVisible()) {
-                    exercisesButton3.setIcon(new ImageIcon("src/main/resources/images/collapseButton.png"));
+                    exercisesButton3.setIcon(new ImageIcon("src/main/resources/images/dropdownArrow.png"));
+                    closeTB(2);
                 }
                 else
                 {
-                    exercisesButton3.setIcon(new ImageIcon("src/main/resources/images/dropdownArrow.png"));
+                    closeTB(3);
+                    toggleDropdown(StrengthTB);
+                    exercisesButton3.setIcon(new ImageIcon("src/main/resources/images/collapseButton.png"));
                 }
-                toggleDropdown(StrengthTB);
+
             }
         });
 
@@ -246,7 +262,13 @@ public class UserWorkoutsForm extends JFrame {
 
         pushButton.addActionListener(e -> showCalc("PUSH"));
         pullButton.addActionListener(e -> showCalc("PULL"));
-        legsButton.addActionListener(e -> showCalc("LEGS"));
+
+        legsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showCalc("LEGS");
+            }
+        });
 
         // Wire stopwatch stop to update pickers and active calculator
         stopwatch.getStopButton().addMouseListener(new MouseAdapter() {
@@ -286,6 +308,8 @@ public class UserWorkoutsForm extends JFrame {
         Basic.putClientProperty(FlatClientProperties.STYLE, "arc:20");
         Strength.putClientProperty(FlatClientProperties.STYLE, "arc:20");
         Cardio.putClientProperty(FlatClientProperties.STYLE, "arc:20");
+        DateTimeArea.putClientProperty(FlatClientProperties.STYLE, "arc:20");
+        stopwatchPanel.putClientProperty(FlatClientProperties.STYLE, "arc:20");
     }
 
     private void updateDurationField(TimePicker startTP, TimePicker endTP,
@@ -313,6 +337,36 @@ public class UserWorkoutsForm extends JFrame {
         // Push into currently active calculator
         pushDurationToActiveCalculator(lastStartDT, lastEndDT, lastDurationMinutes);
     }
+
+    private void closeTB(int mode)
+    {
+
+
+        ImageIcon down = new ImageIcon("src/main/resources/images/dropdownArrow.png");
+        ImageIcon up =   new ImageIcon("src/main/resources/images/collapseButton.png");
+        switch (mode) {
+           case 0:
+               BasicTB.setVisible(false);
+               break;
+           case 1:
+               CardioTB.setVisible(false);
+               break;
+           case 2:
+               StrengthTB.setVisible(false);
+               break;
+           default:
+               CardioTB.setVisible(false);
+               BasicTB.setVisible(false);
+               StrengthTB.setVisible(false);
+               exercisesButton1.setIcon(down);
+               exercisesButton2.setIcon(down);
+               exercisesButton3.setIcon(down);
+               break;
+
+
+        }
+    }
+
 
     private void pushDurationToActiveCalculator(LocalDateTime start, LocalDateTime end, double durationMinutes) {
         if (currentCalc instanceof WalkingWorkoutCalculator) {

@@ -14,7 +14,6 @@ public class CyclingWorkoutCalculator {
 
     private JPanel MainPanel;
     private JPanel JPanel2;
-    private JLabel TitleLabel;
     private JLabel DurationLabel;
     private JLabel DurationDisplay;
     private JLabel DistanceLabel;

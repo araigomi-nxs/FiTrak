@@ -411,8 +411,45 @@ public class LocalActDBHelper {
             System.err.println("Query error (getLocalActivityCount): " + e.getMessage());
         }
         return 0;
+
+
+
+
     }
 
 
+
+    public DefaultTableModel getActivitiesTableModel(long userID) {
+        String sql = "SELECT startDT, workoutType, durationMinutes, caloriesBurned, metValue " +
+                "FROM activities WHERE userID = ? ORDER BY startDT ASC";
+
+        String[] columnNames = {
+                "Start Date", "Workout Type", "Duration (min)", "Calories Burned", "MET Value"
+        };
+
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+
+        try ( Connection conn = DriverManager.getConnection(DB_URL);
+              PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setLong(1, userID);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Object[] row = {
+                            rs.getString("startDT"),
+                            rs.getString("workoutType"),
+                            rs.getDouble("durationMinutes"),
+                            rs.getDouble("caloriesBurned"),
+                            rs.getDouble("metValue")
+                    };
+                    model.addRow(row);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching activities: " + e.getMessage());
+        }
+
+        return model;
+    }
 
 }

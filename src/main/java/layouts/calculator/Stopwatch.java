@@ -1,5 +1,7 @@
 package layouts.calculator;
 
+import com.formdev.flatlaf.FlatClientProperties;
+
 import javax.swing.*;
 import java.awt.event.*;
 import java.time.LocalDateTime;
@@ -22,6 +24,7 @@ public class Stopwatch {
     public Stopwatch() {
 
         stopButton.setVisible(false);
+        panel1.putClientProperty(FlatClientProperties.STYLE, "arc:20");
 
         timer = new Timer(100, e -> {
             long now = System.currentTimeMillis();

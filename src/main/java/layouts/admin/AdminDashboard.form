@@ -57,7 +57,7 @@
                           <horizontalAlignment value="2"/>
                           <horizontalTextPosition value="11"/>
                           <requestFocusEnabled value="false"/>
-                          <text value="Welcome Admin!"/>
+                          <text value="Welcome Admin ⠶"/>
                           <verticalAlignment value="3"/>
                           <verticalTextPosition value="3"/>
                         </properties>
@@ -630,7 +630,7 @@
                       <horizontalAlignment value="2"/>
                       <horizontalTextPosition value="11"/>
                       <requestFocusEnabled value="false"/>
-                      <text value="Latest Logs"/>
+                      <text value="Latest Logs ⠶"/>
                       <verticalAlignment value="3"/>
                       <verticalTextPosition value="3"/>
                     </properties>

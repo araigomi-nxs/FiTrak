@@ -2,34 +2,26 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="layouts.calculator.basic.WalkingWorkoutCalculator">
   <grid id="27dc6" binding="MainPanel" layout-manager="CardLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="20" y="20" width="1249" height="708"/>
+      <xy x="20" y="20" width="1588" height="708"/>
     </constraints>
     <properties>
       <background color="-1"/>
     </properties>
     <border type="none"/>
     <children>
-      <grid id="a1d17" binding="JPanel2" layout-manager="GridLayoutManager" row-count="7" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="a1d17" binding="JPanel2" layout-manager="GridLayoutManager" row-count="8" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="20" left="20" bottom="10" right="20"/>
         <constraints>
           <card name="Card1"/>
         </constraints>
         <properties>
-          <background color="-723724"/>
+          <background color="-1"/>
         </properties>
         <border type="none"/>
         <children>
-          <component id="90025" class="javax.swing.JLabel" binding="TitleLabel">
-            <constraints>
-              <grid row="0" column="0" row-span="1" col-span="5" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Walking Calory Counter"/>
-            </properties>
-          </component>
           <component id="8be5f" class="javax.swing.JTextField" binding="StepsField">
             <constraints>
-              <grid row="2" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+              <grid row="3" column="2" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
               </grid>
             </constraints>
@@ -37,7 +29,7 @@
           </component>
           <component id="94154" class="javax.swing.JLabel" binding="StepsLabel">
             <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Steps"/>
@@ -45,7 +37,7 @@
           </component>
           <component id="2c64f" class="javax.swing.JLabel" binding="IntensityLabel">
             <constraints>
-              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Intensity"/>
@@ -53,7 +45,7 @@
           </component>
           <component id="7f9ca" class="javax.swing.JComboBox" binding="IntensityComboB">
             <constraints>
-              <grid row="3" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="4" column="2" row-span="1" col-span="4" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <model>
@@ -62,9 +54,70 @@
               </model>
             </properties>
           </component>
+          <component id="1e4d3" class="javax.swing.JLabel" binding="DurationLabel">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <horizontalAlignment value="2"/>
+              <text value="Duration(m)"/>
+            </properties>
+          </component>
+          <component id="efe08" class="javax.swing.JButton" binding="saveButton">
+            <constraints>
+              <grid row="6" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-2300873"/>
+              <text value="Save"/>
+            </properties>
+          </component>
+          <component id="222e" class="javax.swing.JLabel" binding="DurationDisplay">
+            <constraints>
+              <grid row="2" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="9c532" class="javax.swing.JButton" binding="calculateButton" default-binding="true">
+            <constraints>
+              <grid row="5" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-2300873"/>
+              <text value="Calculate"/>
+            </properties>
+          </component>
+          <component id="c630a" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="6" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-5327306"/>
+              <font name="JetBrainsMono NFP Medium" size="10" style="0"/>
+              <foreground color="-16700098"/>
+              <text value="Running Workout"/>
+            </properties>
+          </component>
+          <component id="4d9b0" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="6" vsize-policy="0" hsize-policy="0" anchor="2" fill="1" indent="2" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font name="Segoe UI Semibold" size="22" style="0"/>
+              <foreground color="-16690575"/>
+              <horizontalAlignment value="2"/>
+              <horizontalTextPosition value="11"/>
+              <requestFocusEnabled value="false"/>
+              <text value="Walking  Workout ⠶"/>
+              <verticalAlignment value="3"/>
+              <verticalTextPosition value="3"/>
+            </properties>
+          </component>
           <component id="671b3" class="javax.swing.JTextArea" binding="outputTextArea">
             <constraints>
-              <grid row="6" column="4" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="1" use-parent-layout="false">
+              <grid row="7" column="4" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="1" use-parent-layout="false">
                 <preferred-size width="-1" height="20"/>
               </grid>
             </constraints>
@@ -75,41 +128,6 @@
               <lineWrap value="true"/>
               <margin top="0" left="0" bottom="0" right="0"/>
               <text value=""/>
-            </properties>
-          </component>
-          <component id="1e4d3" class="javax.swing.JLabel" binding="DurationLabel">
-            <constraints>
-              <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <horizontalAlignment value="2"/>
-              <text value="Duration(m)"/>
-            </properties>
-          </component>
-          <component id="efe08" class="javax.swing.JButton" binding="saveButton">
-            <constraints>
-              <grid row="5" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <background color="-2300873"/>
-              <text value="Save"/>
-            </properties>
-          </component>
-          <component id="222e" class="javax.swing.JLabel" binding="DurationDisplay">
-            <constraints>
-              <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value=""/>
-            </properties>
-          </component>
-          <component id="9c532" class="javax.swing.JButton" binding="calculateButton" default-binding="true">
-            <constraints>
-              <grid row="4" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <background color="-2300873"/>
-              <text value="Calculate"/>
             </properties>
           </component>
         </children>

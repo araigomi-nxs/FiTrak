@@ -78,11 +78,11 @@ public class AdminDashboard {
         int hour = now.getHour();
 
         if (hour >= 5 && hour < 12) {
-            greetLabel.setText("Good Morning " + accountInSession.getUsername()  + "!🌞");
+            greetLabel.setText("Good Morning  ⠶"  + accountInSession.getUsername()  + "!🌞");
         } else if (hour >= 12 && hour < 18) {
-            greetLabel.setText("Good Afternoon " + accountInSession.getUsername()  + "!🌅");
+            greetLabel.setText("Good Afternoon  ⠶" + accountInSession.getUsername()  + "!🌅");
         } else {
-            greetLabel.setText("Good Evening  " + accountInSession.getUsername()  + "!🌜");
+            greetLabel.setText("Good Evening   ⠶" + accountInSession.getUsername()  + "! 🌜");
         }
     }
 

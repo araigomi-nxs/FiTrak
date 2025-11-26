@@ -34,6 +34,7 @@ public class Main {
         UIManager.put("PasswordField.innerFocusWidth", 0);
         UIManager.put("Button.innerFocusWidth", 0);
         UIManager.put("Table.selectionBackground", new Color(220, 228, 55));
+
         UIManager.put("TabbedPane.underlineColor", new Color(220, 228, 55));
         UIManager.put("TabbedPane.cardTabarc ", 20);
         UIManager.put("TabbedPane.buttonArc ", 20);

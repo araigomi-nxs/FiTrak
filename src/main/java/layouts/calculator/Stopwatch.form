@@ -27,7 +27,7 @@
                   <card name="Card1"/>
                 </constraints>
                 <properties>
-                  <font name="Poppins" size="20" style="0"/>
+                  <font name="Poppins" size="26" style="0"/>
                   <horizontalAlignment value="0"/>
                   <horizontalTextPosition value="0"/>
                   <text value="00:00:00"/>

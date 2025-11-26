@@ -9,6 +9,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
 
 import layouts.loginFlow.SignUpForm;
+import layouts.user.UserPanel;
 
 
 public class LoginForm extends JFrame {

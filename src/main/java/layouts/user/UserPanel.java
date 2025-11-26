@@ -1,11 +1,8 @@
-package layouts;
+package layouts.user;
 
 import DAO.LocalDataBaseHelper;
 import com.formdev.flatlaf.FlatClientProperties;
-import layouts.user.UserAccountForm;
-import layouts.user.UserDashboardForm;
-import layouts.user.UserGoalsForm;
-import layouts.user.UserWorkoutsForm;
+import layouts.LoginForm;
 import objects.Account;
 
 import javax.swing.*;
@@ -62,10 +59,9 @@ public class UserPanel extends JFrame {
         cardLayout = (CardLayout) userPanelContainer.getLayout();
 
         UserAccountForm userAccountForm = new UserAccountForm();
-        UserDashboardForm userDashboardForm = new UserDashboardForm();
+        UserDashboardForm userDashboardForm = new UserDashboardForm(accountInSession);
         UserGoalsForm userGoalsForm = new UserGoalsForm();
-        UserWorkoutsForm userWorkoutsForm =
-                new UserWorkoutsForm(dataBaseHelper, accountInSession);
+        UserWorkoutsForm userWorkoutsForm = new UserWorkoutsForm(dataBaseHelper, accountInSession);
 
 
         userPanelContainer.add(userAccountForm.getUserAccountPanel(), "UserAccountPanel");
@@ -150,6 +146,7 @@ public class UserPanel extends JFrame {
             }
         });
     }
+    
 
 
     public void resetButton() {
