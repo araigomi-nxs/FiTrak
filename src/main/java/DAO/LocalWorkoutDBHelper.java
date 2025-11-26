@@ -235,6 +235,60 @@ public class LocalWorkoutDBHelper {
                 model.addRow(row);
             }
 
+            System.out.println("Local workouts table successfully loaded from SQLite.");
+        } catch (SQLException e) {
+            System.err.println("Local workouts fetch failed: " + e.getMessage());
+        }
+
+        return model;
+    }
+
+    public int getDeletedLinkedWorkoutCount() {
+        String sql = """
+        SELECT COUNT(*) AS cnt
+        FROM workouts w
+        JOIN activities a ON w.activityID = a.activityID
+        WHERE a.workoutType = 'DELETED'
+    """;
+
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            if (rs.next()) {
+                return rs.getInt("cnt");
+            }
+        } catch (SQLException e) {
+            System.err.println("Query error (getDeletedLinkedWorkoutCount): " + e.getMessage());
+        }
+
+        return 0;
+    }
+
+    public int getLocalCount() {
+        String sql = """
+        SELECT COUNT(*) AS cnt
+        FROM workouts
+        WHERE serverOrigin = ?
+    """;
+
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            // Bind your constant here
+            pstmt.setString(1, SERVER_ORIGIN);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("cnt");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Query error (getLocalCount): " + e.getMessage());
+        }
+
+        return 0;
+    }
 
 
 
