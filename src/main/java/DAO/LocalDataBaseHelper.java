@@ -435,14 +435,20 @@ public class LocalDataBaseHelper {
         }
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            if (rs.next()) {
-                count = rs.getInt(1);
+            // Only bind parameter for mode 3
+            if (mode == 3) {
+                pstmt.setString(1, SERVER_ORIGIN);  // use your Config constant
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    count = rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Query error (getRowCount): " + e.getMessage());
         }
 
         return count;

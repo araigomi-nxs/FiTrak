@@ -8,7 +8,7 @@ import java.util.List;
 
 public class LocalWorkoutDBHelper {
     private final String DB_URL = "jdbc:sqlite:FitrakAccount.db";
-
+    private final static String SERVER_ORIGIN = Config.get("SERVER_ORIGIN");
     public LocalWorkoutDBHelper() {
 
         initializeDatabase();
