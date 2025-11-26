@@ -372,5 +372,46 @@ public class LocalActDBHelper {
 
         return result;
     }
+    public int getDeletedActivitiesCount() {
+        String sql = "SELECT COUNT(*) AS cnt FROM activities WHERE workoutType = 'DELETED'";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            if (rs.next()) {
+                return rs.getInt("cnt");
+            }
+        } catch (SQLException e) {
+            System.err.println("Query error (getDeletedActivitiesCount): " + e.getMessage());
+        }
+
+        return 0;
+    }
+
+    public int getLocalActivityCount() {
+        String sql = """
+        SELECT COUNT(*) AS cnt
+        FROM activities
+        WHERE serverOrigin = ?
+    """;
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            // Bind your constant here
+            pstmt.setString(1, SERVER_ORIGIN);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("cnt");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Query error (getLocalActivityCount): " + e.getMessage());
+        }
+        return 0;
+    }
+
+
 
 }
