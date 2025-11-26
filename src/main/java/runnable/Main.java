@@ -2,12 +2,14 @@ package runnable;
 
 import DAO.test.SyncAccManager;
 import DAO.test.SyncActManager;
+import DAO.test.SyncWorkManager;
 import com.formdev.flatlaf.FlatLightLaf;
 import layouts.LoginForm;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.net.InetAddress;
 
 
 public class Main {
@@ -58,17 +60,8 @@ public class Main {
         UIManager.put("TableHeader.font", poppins );
         UIManager.put("Table.font", poppinsSmall );
 
-        SyncAccManager syncAccManager = new SyncAccManager();
-        syncAccManager.startSyncThread();
-
-        SyncActManager syncActManager = new SyncActManager();
-        syncActManager.syncAllActivities();
-
-        //AccountSyncManager accountSyncManager = new AccountSyncManager();
-        //accountSyncManager.startSyncThread();
-
-        //ActivitySyncManager activitySyncManager = new ActivitySyncManager();
-        //activitySyncManager.startActSyncThread();
+        Main main = new Main();
+        main.startSync();
 
         SwingUtilities.invokeLater(() -> {
             try {
@@ -77,6 +70,49 @@ public class Main {
                 throw new RuntimeException(e);
             }
         });
+    }
+
+    // Utility method to check network availability
+    private boolean isNetworkAvailable() {
+        try {
+            // Try pinging a reliable host (e.g., Google DNS)
+            InetAddress address = InetAddress.getByName("8.8.8.8");
+            return address.isReachable(2000); // 2s timeout
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public void startSync() {
+        Thread syncThread = new Thread(() -> {
+            if (isNetworkAvailable()) {
+                System.out.println("Network available. Starting sync...");
+
+                SyncAccManager syncAccManager = new SyncAccManager();
+                syncAccManager.startSyncThread();
+
+                SyncActManager syncActManager = new SyncActManager();
+                try {
+                    syncActManager.syncAllActivities();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+                SyncWorkManager syncWorkManager = new SyncWorkManager();
+                try {
+                    syncWorkManager.syncAllWorkouts();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+                System.out.println("Sync completed.");
+            } else {
+                System.out.println("No network. Loading local data...");
+                System.out.println("Local data loaded.");
+            }
+        });
+
+        syncThread.start(); // run in background
     }
 
 }

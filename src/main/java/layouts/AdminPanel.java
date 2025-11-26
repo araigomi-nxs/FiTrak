@@ -4,9 +4,9 @@ package layouts;
 import DAO.LocalDataBaseHelper;
 import DAO.OnlineDataBaseHelper;
 import DAO.test.SyncAccManager;
-import layouts.admin.Activities;
+import layouts.admin.AdminActivities;
+import layouts.admin.AdminWorkout;
 import layouts.admin.AdminDashboard;
-import layouts.admin.Calculations;
 import objects.Account;
 import objects.Admin;
 import objects.User;
@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import com.formdev.flatlaf.FlatClientProperties;
-
+import tracker.Stats;
 
 
 public class AdminPanel extends JFrame {
@@ -48,7 +48,7 @@ public class AdminPanel extends JFrame {
     private JPanel sidebar;
     private JPanel calLossStat;
     private JPanel weightLossStat;
-    private JPanel activityStat;
+
     private JLabel accCounter;
     private JLabel adminCounter;
     private JLabel userCounter;
@@ -58,16 +58,15 @@ public class AdminPanel extends JFrame {
     private JPanel emptyStat;
     private JTable onlineAccountsTable;
     private JPanel accountsPanel;
-    private JLabel logoutButton;
     private JPanel adminContainer;
     private JPanel panelToo;
     private JLabel usernameDisplay;
     private JButton generateButton;
     private JButton clearFieldButton;
-    private JButton dashboardButton;
+
     private JButton accountsButton;
     private JButton activitiesButton;
-    private JButton calculationButton;
+
     private JPanel titleArea;
     private JLabel exitButton;
     private JTextField searchField;
@@ -86,6 +85,14 @@ public class AdminPanel extends JFrame {
     private JLabel refreshOnlineTable;
     private JButton syncButton;
     private JTextArea syncLogs;
+    private JButton logOutButton;
+    private JPanel statP1;
+    private JLabel offlineEntityCount;
+    private JLabel onlineEntryCount;
+
+    private JButton workoutButton;
+    private JButton dashboardButton;
+
     private JTextArea syncLogArea;
     private CardLayout cardLayout;
 
@@ -110,13 +117,14 @@ public class AdminPanel extends JFrame {
         adminContainer.setLayout(cardLayout);
         adminContainer.add(accountsPanel, "accounts");
 
-        Activities activities = new Activities();
+        AdminActivities activities = new AdminActivities();
+        AdminWorkout adminWorkout = new AdminWorkout();
         AdminDashboard adminDashboard = new AdminDashboard();
-        Calculations calculations = new Calculations();
 
         adminContainer.add(activities.getActivitiesPanel(), "activities");
-        adminContainer.add(adminDashboard.getAdminDashPanel(), "adminDashboard");
-        adminContainer.add(calculations.getCalculationsPanel(), "calculations");
+        adminContainer.add(adminWorkout.getAdminWorkoutPanel(), "workouts");
+        adminContainer.add(adminDashboard.getAdminDashboard(),"dashboard" );
+
         cardLayout.show(adminContainer, "accounts");
 
         setBackground(new Color(255, 255, 255));
@@ -134,7 +142,7 @@ public class AdminPanel extends JFrame {
         JMenuItem removeItem = new JMenuItem("Remove");
         popupMenu.add(editItem);
         popupMenu.add(removeItem);
-        createTable();
+        loadTable();
         arcSetup();
         setStats();
 
@@ -189,7 +197,7 @@ public class AdminPanel extends JFrame {
 
         dashboardButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                cardLayout.show(adminContainer, "adminDashboard");
+                cardLayout.show(adminContainer, "dashboard");
                 resetButton();
                 dashboardButton.setBackground(new Color(31, 52, 62));
                 dashboardButton.setForeground(new Color(220, 228, 55));
@@ -197,14 +205,15 @@ public class AdminPanel extends JFrame {
             }
         });
 
-        calculationButton.addActionListener(new ActionListener() {
+        workoutButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                cardLayout.show(adminContainer, "calculations");
+                cardLayout.show(adminContainer, "workouts");
                 resetButton();
-                calculationButton.setBackground(new Color(31, 52, 62));
-                calculationButton.setForeground(new Color(220, 228, 55));
+                workoutButton.setBackground(new Color(31, 52, 62));
+                workoutButton.setForeground(new Color(220, 228, 55));
             }
         });
+
         clearFieldButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 clearTextFields();
@@ -212,10 +221,11 @@ public class AdminPanel extends JFrame {
         });
 
 
-        logoutButton.addMouseListener(new MouseAdapter() {
+        logOutButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 try {
+
                     LoginForm loginForm = new LoginForm();
                     loginForm.setVisible(true);
                     AdminPanel.this.dispose();
@@ -283,6 +293,7 @@ public class AdminPanel extends JFrame {
                 SyncAccManager  syncAccManager = new SyncAccManager();
                 syncAccManager.startSyncThread();
                 syncAccManager.getSyncLogsHttp(syncLogs);
+                setStats();
             }
 
         });
@@ -303,8 +314,9 @@ public class AdminPanel extends JFrame {
                             Double.parseDouble(heightField.getText()), Double.parseDouble(bmiField.getText()),
                             servOriginField.getText(), Integer.parseInt(prefField.getText()),createDTField.getText(),
                             LocalDateTime.now().format(formatter));
-                    createTable();
+                    loadTable();
                     clearTextFields();
+                    setStats();
 
                 }
             }
@@ -330,7 +342,7 @@ public class AdminPanel extends JFrame {
                            admin.setupAccount(usernameField.getText(), sexField.getText(), Integer.parseInt(ageField.getText()), Double.parseDouble(weightField.getText()), Double.parseDouble(heightField.getText()), Double.parseDouble(bmiField.getText()), servOriginField.getText(), 1);
                            localDataBaseHelper.insertUser(admin.getId(), admin.getEmail(), admin.getPassword(), admin.getPrivilege(), admin.getCreationDT(),admin.getLastUpdatedDT());
                            localDataBaseHelper.updateWH(admin.getId(), admin.getUsername(), admin.getWeight(), admin.getHeight(), admin.getSex(), admin.getAge());
-                           createTable();
+                           loadTable();
                            clearTextFields();
 
                         }
@@ -339,7 +351,7 @@ public class AdminPanel extends JFrame {
                             user.setupAccount(usernameField.getText(), sexField.getText(), Integer.parseInt(ageField.getText()), Double.parseDouble(weightField.getText()), Double.parseDouble(heightField.getText()), Double.parseDouble(bmiField.getText()), servOriginField.getText(), 1);
                             localDataBaseHelper.insertUser(user.getId(), user.getEmail(), user.getPassword(), user.getPrivilege(), user.getCreationDT(), user.getLastUpdatedDT());
                             localDataBaseHelper.updateWH(user.getId(), user.getUsername(), user.getWeight(), user.getHeight(), user.getSex(), user.getAge());
-                            createTable();
+                            loadTable();
                             clearTextFields();
 
                         }
@@ -367,7 +379,7 @@ public class AdminPanel extends JFrame {
                 {
                     LocalDateTime localDateTime = LocalDateTime.now();
                     dataBaseHelper.removeUser(Long.parseLong(userIDField.getText()), localDateTime.format(formatter));
-                    createTable();
+                    loadTable();
                     clearTextFields();
                     setStats();
                 }
@@ -381,7 +393,7 @@ public class AdminPanel extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 setStats();
-                createTable();
+                loadTable();
             }
 
         });
@@ -394,6 +406,7 @@ public class AdminPanel extends JFrame {
                 onlineAccountsTable.setModel(onlineDBHelper.getAccountsTableModelOnline());
                 SyncAccManager syncAccManager = new SyncAccManager();
                 syncAccManager.getSyncLogsHttp(syncLogs);
+                setStats();
             }
         });
 
@@ -423,13 +436,14 @@ public class AdminPanel extends JFrame {
         removeButton.putClientProperty(FlatClientProperties.STYLE, "arc:10");
         clearFieldButton.putClientProperty(FlatClientProperties.STYLE, "arc:10");
         refreshTable.putClientProperty(FlatClientProperties.STYLE, "arc:20");
+        statP1.putClientProperty(FlatClientProperties.STYLE, "arc:20");
         insertButton.putClientProperty(FlatClientProperties.STYLE, "arc:20");
         emptyStat.putClientProperty(FlatClientProperties.STYLE, "arc:20");
         accountStat.putClientProperty(FlatClientProperties.STYLE,  "arc:20");
         calLossStat.putClientProperty(FlatClientProperties.STYLE,  "arc:20");
         weightLossStat.putClientProperty(FlatClientProperties.STYLE, "arc:20");
         accountStat.putClientProperty(FlatClientProperties.STYLE,  "arc:20");
-        activityStat.putClientProperty(FlatClientProperties.STYLE,  "arc:20");
+
         sidebar.putClientProperty(FlatClientProperties.STYLE,  "arc:20");
         panelToo.putClientProperty(FlatClientProperties.STYLE,  "arc:20");
         fieldsPanel.putClientProperty(FlatClientProperties.STYLE,  "arc:20");
@@ -442,11 +456,14 @@ public class AdminPanel extends JFrame {
 
     private void setStats() {
         accCounter.setText( String.valueOf(dataBaseHelper.getRowCount(0)));
-        adminCounter.setText("Admins: "+ String.valueOf(dataBaseHelper.getRowCount(1)));
-        userCounter.setText("Users: "+ String.valueOf(dataBaseHelper.getRowCount(2)));
-        localCount.setText("Local: "+ String.valueOf(dataBaseHelper.getRowCount(3)));
-        foreignCount.setText("Foreign: "+ String.valueOf(dataBaseHelper.getRowCount(0)- dataBaseHelper.getRowCount(3)));
-        limboCount.setText("Accounts in Limbo: "+ String.valueOf(dataBaseHelper.getRowCount(4)));
+        adminCounter.setText("Admins: "+dataBaseHelper.getRowCount(1));
+        userCounter.setText("Users: "+ dataBaseHelper.getRowCount(2));
+        localCount.setText("Local: "+ Stats.getLocalCount("accounts"));
+        foreignCount.setText("Foreign: "+(dataBaseHelper.getRowCount(0)- Stats.getLocalCount("accounts") ));
+        limboCount.setText("Accounts in Limbo: "+ Stats.getLimboCount("accounts"));
+        offlineEntityCount.setText("Offline Entities: "+ dataBaseHelper.getRowCount(0));
+        onlineEntryCount.setText("Online Entities: "+ Stats.getOnlineTableCount("accounts"));
+        System.out.println("Stats Loaded");
     }
 
     private void clearTextFields() {
@@ -480,7 +497,7 @@ public class AdminPanel extends JFrame {
 
     }
     */
-    public void createTable() {
+    public void loadTable() {
        dataBaseHelper = new LocalDataBaseHelper();
        accountsTable.setModel(new LocalDataBaseHelper().getAccountsTableModel());
 
@@ -489,7 +506,6 @@ public class AdminPanel extends JFrame {
 
         SyncAccManager syncAccManager = new SyncAccManager();
         syncAccManager.getSyncLogsHttp(syncLogs);
-
 
     }
     public void resetButton()
@@ -500,8 +516,8 @@ public class AdminPanel extends JFrame {
         activitiesButton.setForeground(new Color(79, 96, 115));
         accountsButton.setBackground(new  Color(17, 37, 44));
         accountsButton.setForeground(new Color(79, 96, 115));
-        calculationButton.setBackground(new  Color(17, 37, 44));
-        calculationButton.setForeground(new Color(79, 96, 115));
+        workoutButton.setBackground(new  Color(17, 37, 44));
+        workoutButton.setForeground(new Color(79, 96, 115));
     }
 
     public JPanel getAccountsPanel() {

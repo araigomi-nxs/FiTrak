@@ -2,15 +2,14 @@ package layouts.admin;
 
 import DAO.LocalActDBHelper;
 import DAO.OnlineDataBaseHelper;
-import DAO.test.SyncAccManager;
 import DAO.test.SyncActManager;
+import calculationModels.metrics.MetricsCalculator;
 import com.formdev.flatlaf.FlatClientProperties;
-import tracker.GlobalStats;
+import tracker.Stats;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Activities {
+public class AdminActivities {
     private JPanel activitiesPanel;
     private JTable activitiesTable;
     private JTextField actIDField;
@@ -66,17 +65,23 @@ public class Activities {
     private JLabel strengthCounter;
     private JTable onlineActivitiesTable;
     private JButton syncButton;
+    private JLabel localCount;
+    private JLabel foreignCount;
+    private JPanel statP1;
+    private JLabel limboCount;
+    private JLabel offlineEntityCount;
+    private JLabel onlineEntryCount;
     private LocalActDBHelper localActDBHelper;
     protected static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-    public Activities(){
-         createTable();
+    public AdminActivities(){
+         loadLocalTable();
+         loadOnlineTable();
 
          JPopupMenu popupMenu = new JPopupMenu();
-         JMenuItem editItem = new JMenuItem("Edit");
+         JMenuItem editItem = new JMenuItem("View");
          popupMenu.add(editItem);
          activitiesTable.setComponentPopupMenu(popupMenu);
-
 
          arcSetup();
          setStats();
@@ -134,16 +139,19 @@ public class Activities {
          refreshButton.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    createTable();
+                    loadOnlineTable();
+                    setStats();
                 }
          });
+
          removeButton.addMouseListener(new MouseAdapter() {
              @Override
                 public void mouseClicked(MouseEvent e) {
                  localActDBHelper = new LocalActDBHelper();
                 LocalDateTime localDateTime = LocalDateTime.now();
                 localActDBHelper.deleteActivity(Integer.parseInt(actIDField.getText().trim()),localDateTime.format(formatter) );
-                createTable();
+                loadLocalTable();
+                 setStats();
              }
          });
 
@@ -152,7 +160,8 @@ public class Activities {
              @Override
              public void mouseClicked(MouseEvent e) {
 
-                 createTable();
+                 loadOnlineTable();
+                 setStats();
              }
          });
          syncButton.addMouseListener(new MouseAdapter() {
@@ -160,7 +169,7 @@ public class Activities {
              public void mouseClicked(MouseEvent e) {
                 SyncActManager syncActManager = new SyncActManager();
                 syncActManager.startActSyncThread();
-                createTable();
+                 setStats();
              }
          });
 
@@ -168,15 +177,25 @@ public class Activities {
 
     private void setStats() {
         Map<String, Integer> categoryCount = new HashMap<>();
-        globCalCount.setText( String.valueOf(GlobalStats.getGlobalCalLoss()));
+        globCalCount.setText( Stats.getGlobalCalLoss() + " kCal");
+
+        globWtLosCount.setText( MetricsCalculator.computeFatLoss( Stats.getGlobalCalLoss() ) + " KG");
         localActDBHelper = new LocalActDBHelper();
         activityCounter.setText(String.valueOf(localActDBHelper.getActivityCount()));
 
         categoryCount = localActDBHelper.countActivitiesByCategory();
-        basicCounter.setText(String.valueOf(categoryCount.getOrDefault("Basic", 0)));
+        basicCounter.setText("Basic: "+(categoryCount.getOrDefault("Basic", 0)));
+        cardioCounter.setText("Cardio: "+(categoryCount.getOrDefault("Cardio",0)));
+        strengthCounter.setText("Strength: "+(categoryCount.getOrDefault("Strength",0)));
 
-        cardioCounter.setText(String.valueOf(categoryCount.getOrDefault("Cardio",0)));
-        strengthCounter.setText(String.valueOf(categoryCount.getOrDefault("Strength",0)));
+        limboCount.setText("Accounts in Limbo :" +Stats.getLimboCount("activities"));
+        offlineEntityCount.setText("Offline Entities: "+ localActDBHelper.getActivityCount());
+        onlineEntryCount.setText("Online Entities: "+ Stats.getOnlineTableCount("activities"));
+
+        localCount.setText("Local: "+ Stats.getLocalCount("activities"));
+        foreignCount.setText("Foreign: "+(localActDBHelper.getActivityCount()-Stats.getLocalCount("activities")) );
+
+
 
 
     }
@@ -232,17 +251,20 @@ public class Activities {
         activityStat.putClientProperty(FlatClientProperties.STYLE,"arc:20");
         calLossStat.putClientProperty(FlatClientProperties.STYLE,"arc:20");
         weightLossStat.putClientProperty(FlatClientProperties.STYLE,"arc:20");
+        statP1.putClientProperty(FlatClientProperties.STYLE,"arc:20");
+
+
     }
     //activities table setup
-    public void createTable(){
+    public void loadLocalTable(){
         LocalActDBHelper localActDBHelper = new LocalActDBHelper();
         activitiesTable.setModel(localActDBHelper.getActivitiesTable());
-
+    }
+    public void loadOnlineTable(){
         OnlineDataBaseHelper onlineDataBaseHelper = new OnlineDataBaseHelper();
         onlineActivitiesTable.setModel(onlineDataBaseHelper.getActivitiesTableModelOnline());
-
-
     }
+
     //converting UID empty inputs to 0 or valid UID
     private long parseOrZero(String text) {
         try {
