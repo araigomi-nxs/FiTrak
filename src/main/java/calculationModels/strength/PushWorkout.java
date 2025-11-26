@@ -35,6 +35,7 @@ public class PushWorkout extends StrengthWorkout {
             totalWeightMoved = sets * reps * weight * 0.3;
         }
         */
+        
 
         if (totalWeightMoved < 1000) metValue = 3.8;
         else if (totalWeightMoved < 5000) metValue = 5.2;

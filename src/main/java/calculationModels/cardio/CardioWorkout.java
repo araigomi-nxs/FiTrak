@@ -30,5 +30,6 @@ public abstract class CardioWorkout extends Workout {
 //
 //    public String getCardioType() { return cardioType; }
     public String getIntensity() { return intensity; }
+    public double getCurrentHeartRate() { return currentHeartRate; }
 
 }
