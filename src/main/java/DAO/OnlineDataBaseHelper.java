@@ -23,7 +23,7 @@ public class OnlineDataBaseHelper {
             throw new RuntimeException(e);
         }
     }
-
+/*
     protected Connection getConnection() throws SQLException {
        // return DriverManager.getConnection(SDB_URL, SUPABASE_USER, SUPABASE_PASSWORD);
         //String url = "jdbc:postgresql://ulasdclgwpkahcyifjqr.session-pooler.supabase.com:5432/postgres?sslmode=require";
