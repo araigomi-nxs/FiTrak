@@ -2,7 +2,6 @@ package layouts.calculator.basic;
 
 import calculationModels.basic.WalkingWorkout;
 import com.formdev.flatlaf.FlatClientProperties;
-import layouts.calculator.Stopwatch;
 import objects.Account;
 import tracker.WorkoutTracker;
 
@@ -29,13 +28,14 @@ public class WalkingWorkoutCalculator extends JFrame  {
     private LocalDateTime externalEndDT;
     private double externalDurationMinutes;
 
-    private JLabel stopWatchButton;
-
     private WalkingWorkout walk;
 
-    //public WalkingWorkoutCalculator(Account account, JFormattedTextField startDateField, JFormattedTextField startTimeField,JFormattedTextField endDateTime,JFormattedTextField endTimeField) {
     public WalkingWorkoutCalculator(Account account) {
         JPanel2.putClientProperty(FlatClientProperties.STYLE, "arc:20");
+
+        // 🔹 Save button starts disabled/hidden
+        saveButton.setEnabled(false);
+        saveButton.setVisible(false);
 
         calculateButton.addActionListener(e -> {
             try {
@@ -70,10 +70,10 @@ public class WalkingWorkoutCalculator extends JFrame  {
 
                 outputTextArea.setText(output.toString());
                 outputTextArea.setForeground(Color.BLACK);
-                outputTextArea.revalidate();
-                outputTextArea.repaint();
 
-                clearFields();
+                // 🔹 Enable Save button after successful calculation
+                saveButton.setEnabled(true);
+                saveButton.setVisible(true);
 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(
@@ -88,6 +88,21 @@ public class WalkingWorkoutCalculator extends JFrame  {
         saveButton.addActionListener(e -> {
             if (walk != null) {
                 WorkoutTracker.logWorkout(account.getId(), walk);
+
+                // ✅ Show success message
+                JOptionPane.showMessageDialog(
+                        MainPanel,
+                        "Exercise saved!",
+                        "Success",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+
+                // Disable Save button after one use
+                saveButton.setEnabled(false);
+                saveButton.setVisible(false);
+                outputTextArea.setText("");
+
+                clearFields();
             }
         });
     }
@@ -101,11 +116,14 @@ public class WalkingWorkoutCalculator extends JFrame  {
         this.externalDurationMinutes = durationMinutes;
     }
 
-
     private void clearFields() {
         DurationDisplay.setText("");
         StepsField.setText("");
         IntensityComboB.setSelectedIndex(0);
+
+        // 🔹 Reset Save button when fields are cleared
+        saveButton.setEnabled(false);
+        saveButton.setVisible(false);
     }
 
     public JPanel getPanel() {
