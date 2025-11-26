@@ -197,7 +197,43 @@ public class LocalWorkoutDBHelper {
         return workoutData;
     }
 
+    public DefaultTableModel getWorkoutsTableModelLocal() {
+        // Match your SQLite schema column names
+        String[] columnNames = {
+                "WorkID", "ActivityID", "Steps", "DistanceKM", "Intensity",
+                "CalPerStep", "SpeedKPH", "Sets", "Reps",
+                "CurrentHeartRate", "WeightLifted",
+                "ServerOrigin", "LogDT"
+        };
 
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+
+        String sql = "SELECT workID, activityID, steps, distanceKM, intensity, calPerStep, " +
+                "speedKPH, sets, reps, currentHeartRate, weightLifted, serverOrigin, logDT " +
+                "FROM workouts";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                Object[] row = {
+                        rs.getInt("workID"),
+                        rs.getInt("activityID"),
+                        rs.getInt("steps"),
+                        rs.getDouble("distanceKM"),
+                        rs.getString("intensity"),
+                        rs.getDouble("calPerStep"),
+                        rs.getDouble("speedKPH"),
+                        rs.getInt("sets"),
+                        rs.getInt("reps"),
+                        rs.getDouble("currentHeartRate"),
+                        rs.getDouble("weightLifted"),
+                        rs.getString("serverOrigin"),
+                        rs.getString("logDT")
+                };
+                model.addRow(row);
+            }
 
 
 
