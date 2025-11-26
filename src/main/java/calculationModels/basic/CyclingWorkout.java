@@ -16,9 +16,9 @@ public class CyclingWorkout extends BasicWorkout {
 
 
         this.distanceKM = distanceKM;
-        this.speedKPH = calculateSpeed(distanceKM, durationMinutes);
+        this.speedKPH = Math.round(calculateSpeed(distanceKM, durationMinutes) * 100.0) / 100.0;
         this.intensity = intensity;
-        this.caloriesBurned = calculateCaloriesBurned();
+        this.caloriesBurned = Math.round(calculateCaloriesBurned() * 100.0) / 100.0;
     }
 
     private static double calculateSpeed(double distanceKM, double durationMinutes) {
@@ -31,16 +31,20 @@ public class CyclingWorkout extends BasicWorkout {
         double avgSpeed = calculateSpeed(distanceKM, durationMinutes);
         double met;
 
-        if (avgSpeed < 16) met = 4.0;
-        else if (avgSpeed <= 20) met = 6.8;
-        else if (avgSpeed <= 25) met = 8.0;
-        else met = 10.0;
+        if (avgSpeed < 16) met = 4.0;          // leisure pace
+        else if (avgSpeed <= 20) met = 6.8;    // moderate
+        else if (avgSpeed <= 25) met = 8.0;    // vigorous
+        else met = 10.0;                       // very vigorous baseline
 
         if ("vigorous".equalsIgnoreCase(intensity)) {
             met += 1.0;
-        } else if ("normal".equalsIgnoreCase(intensity) || "moderate".equalsIgnoreCase(intensity)) {
-        met += 0.0;
+        } else if ("moderate".equalsIgnoreCase(intensity)) {
+            met += 0.0;
+        } else if ("normal".equalsIgnoreCase(intensity)) {
+            met += 0.0;
         }
+
+        if (met > 12.0) met = 12.0;
 
         return met;
     }

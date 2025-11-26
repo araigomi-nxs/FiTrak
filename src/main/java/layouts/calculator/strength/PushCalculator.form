@@ -150,7 +150,7 @@
               <text value="Calculate"/>
             </properties>
           </component>
-          <component id="4d1a6" class="javax.swing.JTextArea" binding="OutputTextArea">
+          <component id="4d1a6" class="javax.swing.JTextArea" binding="outputTextArea">
             <constraints>
               <grid row="10" column="1" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
                 <preferred-size width="-1" height="20"/>

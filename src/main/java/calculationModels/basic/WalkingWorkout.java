@@ -24,7 +24,7 @@ public class WalkingWorkout extends BasicWorkout {
         this.sex = sex;
         this.distanceKM = Math.round(calculateDistance(steps, sex, this.height) * 100.0) / 100.0;
         this.workoutType = "Walking";
-        this.caloriesBurned = calculateCaloriesBurned();
+        this.caloriesBurned = Math.round(calculateCaloriesBurned() * 100.0) / 100.0;
         this.calPerStep = MetricsCalculator.calculateCalPerStep(caloriesBurned, steps);
 
     }
@@ -37,12 +37,12 @@ public class WalkingWorkout extends BasicWorkout {
 
 
     private static double calculateMet(String intensity) {
-        if (intensity == null) return 3.3;
-        //
+        if (intensity == null) return 3.3; // default moderate walk
+
         switch (intensity.toLowerCase()) {
-            case "brisk": return 3.9;
-            case "calm":  return 2.8;
-            default:      return 3.3;
+            case "brisk": return 3.9; // brisk pace ~4 MET
+            case "calm":  return 2.8; // slow pace ~2.8 MET
+            default:      return 3.3; // fallback moderate ~3.3 MET
         }
     }
 

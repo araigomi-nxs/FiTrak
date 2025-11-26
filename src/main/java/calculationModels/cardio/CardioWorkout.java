@@ -19,7 +19,7 @@ public abstract class CardioWorkout extends Workout {
         this.intensity = (intensity == null || intensity.trim().isEmpty()) ? "moderate" : intensity;
         this.cardioType = (cardioType == null || cardioType.trim().isEmpty()) ? "Cardio:Generic" : "Cardio:"+ cardioType;
         this.userAge = userAge;
-        this.currentHeartRate = currentHeartRate;
+        this.currentHeartRate = Math.round(currentHeartRate * 100.0) / 100.0;
         this.workoutType = "Cardio (" + this.cardioType + ")";
     }
 

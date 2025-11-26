@@ -14,19 +14,21 @@ public class Burpees extends CardioWorkout {
                    double userAge, double currentHeartRate) {
 
         super(durationMinutes, weight, startDT, endDT, intensity, "Burpees", userAge, currentHeartRate);
+
         this.sets = sets;
         this.reps = reps;
         this.restTimeSeconds = restTimeSeconds;
-        this.caloriesBurned = calculateCaloriesBurned();
+        this.caloriesBurned = Math.round(calculateCaloriesBurned() * 100.0) / 100.0;
     }
 
     @Override
     public double calculateCaloriesBurned() {
         double met;
 
-        if (intensity.equalsIgnoreCase("vigorous")) met = 10.0;
-        else if (intensity.equalsIgnoreCase("moderate") || intensity.equalsIgnoreCase("normal")) met = 8.5;
-        else met = 7.0;
+        if (intensity.equalsIgnoreCase("vigorous")) met = 9.5;
+        else if (intensity.equalsIgnoreCase("moderate")) met = 8.0;
+        else if (intensity.equalsIgnoreCase("normal")) met = 7.5;
+        else met = 7.5;
 
         if (currentHeartRate > 0 && userAge > 0) {
             double maxHR = 220 - userAge;
@@ -35,9 +37,8 @@ public class Burpees extends CardioWorkout {
             if (hrPercent > 85) met += 1.0;
             else if (hrPercent > 70) met += 0.5;
         }
-
         double totalRestMinutes = (restTimeSeconds * (sets - 1)) / 60.0;
-        double totalActiveMinutes = (durationMinutes * sets) - totalRestMinutes;
+        double totalActiveMinutes = durationMinutes - totalRestMinutes;
 
         return MetricsCalculator.calculateCalories(met, initialWeight, Math.max(0, totalActiveMinutes));
     }

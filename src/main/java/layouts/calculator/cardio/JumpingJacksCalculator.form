@@ -152,7 +152,7 @@
               <text value="Use reps to calculate?"/>
             </properties>
           </component>
-          <component id="72e91" class="javax.swing.JTextArea" binding="OutputTextArea">
+          <component id="72e91" class="javax.swing.JTextArea" binding="outputTextArea">
             <constraints>
               <grid row="10" column="2" row-span="1" col-span="6" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
                 <preferred-size width="-1" height="20"/>

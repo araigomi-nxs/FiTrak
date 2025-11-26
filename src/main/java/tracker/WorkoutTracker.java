@@ -35,8 +35,8 @@ public class WorkoutTracker {
         localWorkoutDBHelper = new LocalWorkoutDBHelper();
         localDateTime = LocalDateTime.now();
 
-        localWorkoutDBHelper.insertWorkout(  logActivity(userID, workout)   , workout.getSteps(), workout.getDistanceKM(), workout.getIntensity(),
-                workout.getCalPerStep(), 0.0, 0, 0, 0.0, 0.0, SERVER_ORIGIN,
+        localWorkoutDBHelper.insertWorkout(  logActivity(userID, workout)   , workout.getSteps(),rnD(workout.getDistanceKM()), workout.getIntensity(),
+                rnD(workout.getCalPerStep()), 0.0, 0, 0, 0.0, 0.0, SERVER_ORIGIN,
                 localDateTime.format(formatter));
     }
 
@@ -47,8 +47,8 @@ public class WorkoutTracker {
         localWorkoutDBHelper = new LocalWorkoutDBHelper();
         localDateTime = LocalDateTime.now();
 
-        localWorkoutDBHelper.insertWorkout(  logActivity(userID, workout)   , 0, workout.getDistanceKM(), workout.getIntensity(),
-                0, workout.getSpeedKPH(), 0, 0, 0.0, 0.0, SERVER_ORIGIN,
+        localWorkoutDBHelper.insertWorkout(  logActivity(userID, workout)   , 0, rnD(workout.getDistanceKM()), workout.getIntensity(),
+                0, rnD(workout.getSpeedKPH()), 0, 0, 0.0, 0.0, SERVER_ORIGIN,
                 localDateTime.format(formatter));
     }
 
@@ -61,8 +61,8 @@ public class WorkoutTracker {
         localWorkoutDBHelper = new LocalWorkoutDBHelper();
         localDateTime = LocalDateTime.now();
 
-        localWorkoutDBHelper.insertWorkout(  logActivity(userID, workout)   , 0, workout.getDistanceKM(), workout.getIntensity(),
-                0, workout.getSpeedKPH(), 0, 0, 0.0, 0.0, SERVER_ORIGIN,
+        localWorkoutDBHelper.insertWorkout(  logActivity(userID, workout)   , 0, rnD(workout.getDistanceKM()), workout.getIntensity(),
+                0, rnD(workout.getSpeedKPH()), 0, 0, 0.0, 0.0, SERVER_ORIGIN,
                 localDateTime.format(formatter));
     }
 
@@ -72,7 +72,7 @@ public class WorkoutTracker {
         localDateTime = LocalDateTime.now();
 
         localWorkoutDBHelper.insertWorkout(  logActivity(userID, workout)   , 0,0.0, workout.getIntensity(),
-                0, 0.0, workout.getSets(), workout.getReps(), workout.getCurrentHeartRate(), 0.0, SERVER_ORIGIN,
+                0, 0.0, workout.getSets(), workout.getReps(), rnD(workout.getCurrentHeartRate()), 0.0, SERVER_ORIGIN,
                 localDateTime.format(formatter));
     }
     public static  void logWorkout(long userID, JumpingJacks workout) {
@@ -82,7 +82,7 @@ public class WorkoutTracker {
         localDateTime = LocalDateTime.now();
 
         localWorkoutDBHelper.insertWorkout(  logActivity(userID, workout)   , 0,0.0, workout.getIntensity(),
-                0, 0.0, workout.getSets(), workout.getReps(), workout.getCurrentHeartRate(), 0.0, SERVER_ORIGIN,
+                0, 0.0, workout.getSets(), workout.getReps(), rnD(workout.getCurrentHeartRate()), 0.0, SERVER_ORIGIN,
                 localDateTime.format(formatter));
     }
     public static  void logWorkout(long userID, JumpingRope workout) {
@@ -91,7 +91,7 @@ public class WorkoutTracker {
         localDateTime = LocalDateTime.now();
 
         localWorkoutDBHelper.insertWorkout(  logActivity(userID, workout)   , 0,0.0, workout.getIntensity(),
-                0, 0.0, workout.getSets(), workout.getReps(), workout.getCurrentHeartRate(), 0.0, SERVER_ORIGIN,
+                0, 0.0, workout.getSets(), workout.getReps(), rnD(workout.getCurrentHeartRate()), 0.0, SERVER_ORIGIN,
                 localDateTime.format(formatter));
     }
 
@@ -102,7 +102,7 @@ public class WorkoutTracker {
         localDateTime = LocalDateTime.now();
 
         localWorkoutDBHelper.insertWorkout(  logActivity(userID, workout)   , 0,0.0, workout.getIntensity(),
-                0, 0.0, workout.getSets(), workout.getReps(), 0.0, workout.getWeightLiftedKG(), SERVER_ORIGIN,
+                0, 0.0, workout.getSets(), workout.getReps(), 0.0, rnD(workout.getWeightLiftedKG()), SERVER_ORIGIN,
                 localDateTime.format(formatter));
 
     }
@@ -112,7 +112,7 @@ public class WorkoutTracker {
         localDateTime = LocalDateTime.now();
 
         localWorkoutDBHelper.insertWorkout(  logActivity(userID, workout)   , 0,0.0, workout.getIntensity(),
-                0, 0.0, workout.getSets(), workout.getReps(), 0.0, workout.getWeightLiftedKG(), SERVER_ORIGIN,
+                0, 0.0, workout.getSets(), workout.getReps(), 0.0, rnD(workout.getWeightLiftedKG()), SERVER_ORIGIN,
                 localDateTime.format(formatter));
 
     }
@@ -122,21 +122,25 @@ public class WorkoutTracker {
         localDateTime = LocalDateTime.now();
 
         localWorkoutDBHelper.insertWorkout(  logActivity(userID, workout)   , 0,0.0, workout.getIntensity(),
-                0, 0.0, workout.getSets(), workout.getReps(), 0.0, workout.getWeightLiftedKG(), SERVER_ORIGIN,
+                0, 0.0, workout.getSets(), workout.getReps(), 0.0, rnD(workout.getWeightLiftedKG()), SERVER_ORIGIN,
                 localDateTime.format(formatter));
     }
 
 
 
-    public static long logActivity(long userID, Workout workout)
+    private static long logActivity(long userID, Workout workout)
     {
         //returns activity ID
-       return localActDBHelper.insertActivity(userID, workout.getDurationMinutes(),
-                workout.getCaloriesBurned(), workout.getStartDT(), workout.getEndDT(),
-                workout.getMetValue(), workout.getInitialWeight(), workout.getWorkoutType(), SERVER_ORIGIN);
+        return localActDBHelper.insertActivity(userID, rnD(workout.getDurationMinutes()),
+                rnD(workout.getCaloriesBurned()), workout.getStartDT(), workout.getEndDT(),
+                rnD( workout.getMetValue()),rnD( workout.getInitialWeight()), workout.getWorkoutType(), SERVER_ORIGIN);
 
     }
 
+    private static double rnD(double value) {
+        return Math.round(value * 100.0) / 100.0;
+    }
+
 }
-    // group activities - summarize 20-11-25 1500 calburned today -dashboard
-    // goal based - pre defined dates
+// group activities - summarize 20-11-25 1500 calburned today -dashboard
+// goal based - pre defined dates

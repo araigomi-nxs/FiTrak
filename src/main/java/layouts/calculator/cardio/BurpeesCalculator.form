@@ -126,7 +126,7 @@
               <text value="Current Heart Rate (optional)"/>
             </properties>
           </component>
-          <component id="f4355" class="javax.swing.JTextArea" binding="OutputTextArea">
+          <component id="f4355" class="javax.swing.JTextArea" binding="outputTextArea">
             <constraints>
               <grid row="9" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
                 <preferred-size width="-1" height="20"/>

@@ -8,6 +8,8 @@ import tracker.WorkoutTracker;
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 
 public class WalkingWorkoutCalculator extends JFrame  {
 
@@ -27,6 +29,9 @@ public class WalkingWorkoutCalculator extends JFrame  {
     private LocalDateTime externalStartDT;
     private LocalDateTime externalEndDT;
     private double externalDurationMinutes;
+
+    private static final DateTimeFormatter timeFormatter12hr = DateTimeFormatter.ofPattern("hh:mm a");
+    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy");
 
     private WalkingWorkout walk;
 
@@ -58,9 +63,9 @@ public class WalkingWorkoutCalculator extends JFrame  {
 
                 StringBuilder output = new StringBuilder();
                 output.append("Workout: Walking\n");
-                output.append("Date: ").append(startDT.toLocalDate()).append("\n");
-                output.append("Start Time: ").append(startDT.toLocalTime().withSecond(0).withNano(0)).append("\n");
-                output.append("End Time: ").append(endDT.toLocalTime().withSecond(0).withNano(0)).append("\n");
+                output.append("Date: ").append(startDT.toLocalDate().format(dateFormatter)).append("\n");
+                output.append("Start Time: ").append(startDT.toLocalTime().format(timeFormatter12hr)).append("\n");
+                output.append("End Time: ").append(endDT.toLocalTime().format(timeFormatter12hr)).append("\n");
                 output.append("Duration (min): ").append(String.format("%.2f", duration)).append("\n");
                 output.append("Calories burned: ").append(String.format("%.2f", walk.calculateCaloriesBurned())).append("\n");
                 output.append("Distance walked: ").append(String.format("%.2f", walk.getDistanceKM())).append(" km\n");
@@ -70,6 +75,8 @@ public class WalkingWorkoutCalculator extends JFrame  {
 
                 outputTextArea.setText(output.toString());
                 outputTextArea.setForeground(Color.BLACK);
+                outputTextArea.revalidate();
+                outputTextArea.repaint();
 
                 // 🔹 Enable Save button after successful calculation
                 saveButton.setEnabled(true);

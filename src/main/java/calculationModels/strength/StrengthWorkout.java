@@ -21,13 +21,13 @@ public abstract class StrengthWorkout extends Workout {
         super(durationMinutes, weight, startDT, endDT, 0.0);
         this.sets = sets;
         this.reps = reps;
-        this.weightLiftedKG = weightLiftedKG;
+        this.weightLiftedKG = Math.round(weightLiftedKG * 100.0) / 100.0;
         this.intensity = intensity;
         this.restTimeSeconds = restTimeSeconds;
         this.muscleGroup = muscleGroup.toLowerCase();
         this.isWeighted = isWeighted;
         this.workoutType = "Strength:" + this.muscleGroup;
-        this.caloriesBurned = calculateCaloriesBurned();
+        this.caloriesBurned = Math.round(calculateCaloriesBurned() * 100.0)/ 100.0;
     }
 
     public int getSets() { return sets; }

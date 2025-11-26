@@ -1,10 +1,11 @@
 package layouts.calculator.strength;
 
 import calculationModels.strength.PullWorkout;
-
 import javax.swing.*;
 import java.awt.*;
+
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import objects.Account;
 import tracker.WorkoutTracker;
 
@@ -20,7 +21,7 @@ public class PullCalculator extends JFrame {
     private JLabel RestTimeLabel;
     private JLabel IntensityLabel;
     private JButton calculateButton;
-    private JTextArea OutputTextArea;
+    private JTextArea outputTextArea;
     private JLabel SetsLabel;
     private JLabel RepsLabel;
     private JComboBox<String> IntensityComboB;
@@ -37,13 +38,21 @@ public class PullCalculator extends JFrame {
     private LocalDateTime externalEndDT;
     private double externalDurationMinutes;
 
+    private static final DateTimeFormatter timeFormatter12hr = DateTimeFormatter.ofPattern("hh:mm a");
+    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy");
+
+    private PullWorkout pull;
+
     private boolean hasCalculated = false;
 
     public PullCalculator(Account account) {
         setContentPane(MainPanel);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(300, 400);
-        setLocationRelativeTo(null);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setSize(300, 400);
+//        setLocationRelativeTo(null);
+
+        saveButton.setEnabled(false);
+        saveButton.setVisible(false);
 
         WeightLiftedField.setEnabled(false);
         noCheckBox.setSelected(true);
@@ -93,14 +102,14 @@ public class PullCalculator extends JFrame {
                 LocalDateTime startDT = (externalStartDT != null) ? externalStartDT : LocalDateTime.now();
                 LocalDateTime endDT = (externalEndDT != null) ? externalEndDT : LocalDateTime.now();
 
-                PullWorkout pull = new PullWorkout(duration, weight, startDT,endDT,
+                pull = new PullWorkout(duration, weight, startDT,endDT,
                         sets, reps, weightLifted, intensity, restTime, useEquipment);
 
                 StringBuilder output = new StringBuilder();
                 output.append("Workout: Pull\n");
-                output.append("Date: ").append(startDT.toLocalDate()).append("\n");
-                output.append("Start Time: ").append(startDT.toLocalTime().withSecond(0).withNano(0)).append("\n");
-                output.append("End Time: ").append(endDT.toLocalTime().withSecond(0).withNano(0)).append("\n");
+                output.append("Date: ").append(startDT.toLocalDate().format(dateFormatter)).append("\n");
+                output.append("Start Time: ").append(startDT.toLocalTime().format(timeFormatter12hr)).append("\n");
+                output.append("End Time: ").append(endDT.toLocalTime().format(timeFormatter12hr)).append("\n");
                 output.append("Calories burned: ").append(String.format("%.2f", pull.calculateCaloriesBurned())).append("\n");
                 output.append("Sets: ").append(pull.getSets()).append("\n");
                 output.append("Reps per set: ").append(pull.getReps()).append("\n");
@@ -109,8 +118,14 @@ public class PullCalculator extends JFrame {
                 output.append("Intensity: ").append(pull.getIntensity()).append("\n");
                 output.append("Use Equipment: ").append(useEquipment ? "Yes" : "No").append("\n");
 
-                OutputTextArea.setText(output.toString());
-                OutputTextArea.setForeground(Color.BLACK);
+                outputTextArea.setText(output.toString());
+                outputTextArea.setForeground(Color.BLACK);
+                outputTextArea.revalidate();
+                outputTextArea.repaint();
+
+                saveButton.setEnabled(true);
+                saveButton.setVisible(true);
+
 
 
             } catch (Exception ex) {
@@ -120,11 +135,26 @@ public class PullCalculator extends JFrame {
             }
         });
 
-//        saveButton.addActionListener(e -> {
-//            if (walk != null) {
-//                WorkoutTracker.logWorkout(account.getId(), walk);
-//            }
-//        });
+        saveButton.addActionListener(e -> {
+            if (pull != null) {
+                WorkoutTracker.logWorkout(account.getId(), pull);
+
+                // ✅ Show success message
+                JOptionPane.showMessageDialog(
+                        MainPanel,
+                        "Exercise saved!",
+                        "Success",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+
+                // Disable Save button after one use
+                saveButton.setEnabled(false);
+                saveButton.setVisible(false);
+                outputTextArea.setText("");
+
+                clearFields();
+            }
+        });
     }
 
     public void setExternalWorkoutData(LocalDateTime start, LocalDateTime end, double durationMinutes) {
@@ -146,6 +176,9 @@ public class PullCalculator extends JFrame {
             yesCheckBox.setSelected(false);
             noCheckBox.setSelected(true);
             WeightLiftedField.setEnabled(false);
+
+            saveButton.setEnabled(false);
+            saveButton.setVisible(false);
         }
     public JPanel getPanel() {
         return MainPanel;

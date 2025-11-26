@@ -19,17 +19,23 @@ public class JumpingRope extends CardioWorkout {
         this.reps = reps;
         this.restTimeSeconds = restTimeSeconds;
         this.useReps = useReps;
-        this.caloriesBurned = calculateCaloriesBurned();
+        this.caloriesBurned = Math.round(calculateCaloriesBurned() * 100.0) / 100.0;
     }
 
     @Override
     public double calculateCaloriesBurned() {
         double met;
-        if (intensity.equalsIgnoreCase("vigorous")) met = 12.5;
-        else if (intensity.equalsIgnoreCase("moderate") || intensity.equalsIgnoreCase("normal")) met = 11.0;
-        else met = 9.0;
 
-        // HR adjustment
+        if (intensity.equalsIgnoreCase("vigorous")) {
+            met = 12.0;
+        } else if (intensity.equalsIgnoreCase("moderate")) {
+            met = 9.0;
+        } else if (intensity.equalsIgnoreCase("normal")) {
+            met = 8.0;
+        } else {
+            met = 8.0;
+        }
+
         if (currentHeartRate > 0 && userAge > 0) {
             double maxHR = 220 - userAge;
             double hrPercent = (currentHeartRate / maxHR) * 100;
@@ -37,14 +43,14 @@ public class JumpingRope extends CardioWorkout {
             else if (hrPercent > 70) met += 0.5;
         }
 
-        // Reps mode
         if (useReps && reps > 0) {
             double repsPerMin = reps / durationMinutes;
-            if (repsPerMin > 120) met += 0.5;
+            if (repsPerMin > 60) met += 0.5;
         }
 
-        // Include sets + rest
-        double totalActiveMinutes = (durationMinutes * sets) - (restTimeSeconds / 60.0);
+        double totalRestMinutes = (restTimeSeconds * (sets - 1)) / 60.0;
+        double totalActiveMinutes = durationMinutes - totalRestMinutes;
+
         return MetricsCalculator.calculateCalories(met, initialWeight, Math.max(0, totalActiveMinutes));
     }
 

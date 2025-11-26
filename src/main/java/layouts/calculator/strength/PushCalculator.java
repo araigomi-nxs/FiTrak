@@ -1,9 +1,11 @@
 package layouts.calculator.strength;
 
 import calculationModels.strength.PushWorkout;
-
 import javax.swing.*;
+import java.awt.*;
+
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import objects.Account;
 import tracker.WorkoutTracker;
 
@@ -28,7 +30,7 @@ public class PushCalculator extends JFrame {
     private JTextField RestTimeField;
     private JLabel RestTimeLabel;
     private JButton calculateButton;
-    private JTextArea OutputTextArea;
+    private JTextArea outputTextArea;
     private JLabel UseEquipmentLabel;
     private JButton saveButton;
 
@@ -36,13 +38,21 @@ public class PushCalculator extends JFrame {
     private LocalDateTime externalEndDT;
     private double externalDurationMinutes;
 
+    private static final DateTimeFormatter timeFormatter12hr = DateTimeFormatter.ofPattern("hh:mm a");
+    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy");
+
+    private PushWorkout push;
+
     private boolean hasCalculated = false;
 
     public PushCalculator(Account account) {
         setContentPane(MainPanel);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(300, 400);
-        setLocationRelativeTo(null);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setSize(300, 400);
+//        setLocationRelativeTo(null);
+
+        saveButton.setEnabled(false);
+        saveButton.setVisible(false);
 
         WeightLiftedField.setEnabled(false);
         noCheckBox.setSelected(true);
@@ -92,14 +102,14 @@ public class PushCalculator extends JFrame {
                 LocalDateTime startDT = (externalStartDT != null) ? externalStartDT : LocalDateTime.now();
                 LocalDateTime endDT = (externalEndDT != null) ? externalEndDT : LocalDateTime.now();
 
-                PushWorkout push = new PushWorkout(duration, weight, startDT,endDT,
+                push = new PushWorkout(duration, weight, startDT,endDT,
                         sets, reps, weightLifted, intensity, restTime, useEquipment);
 
                 StringBuilder output = new StringBuilder();
                 output.append("Workout: Push\n");
-                output.append("Date: ").append(startDT.toLocalDate()).append("\n");
-                output.append("Start Time: ").append(startDT.toLocalTime().withSecond(0).withNano(0)).append("\n");
-                output.append("End Time: ").append(endDT.toLocalTime().withSecond(0).withNano(0)).append("\n");
+                output.append("Date: ").append(startDT.toLocalDate().format(dateFormatter)).append("\n");
+                output.append("Start Time: ").append(startDT.toLocalTime().format(timeFormatter12hr)).append("\n");
+                output.append("End Time: ").append(endDT.toLocalTime().format(timeFormatter12hr)).append("\n");
                 output.append("Calories burned: ").append(String.format("%.2f", push.calculateCaloriesBurned())).append("\n");
                 output.append("Sets: ").append(push.getSets()).append("\n");
                 output.append("Reps per set: ").append(push.getReps()).append("\n");
@@ -108,11 +118,13 @@ public class PushCalculator extends JFrame {
                 output.append("Intensity: ").append(push.getIntensity()).append("\n");
                 output.append("Use Equipment: ").append(useEquipment ? "Yes" : "No").append("\n");
 
-                OutputTextArea.setText(output.toString());
-                OutputTextArea.revalidate();
-                OutputTextArea.repaint();
+                outputTextArea.setText(output.toString());
+                outputTextArea.setForeground(Color.BLACK);
+                outputTextArea.revalidate();
+                outputTextArea.repaint();
 
-                clearFields();
+                saveButton.setEnabled(true);
+                saveButton.setVisible(true);
 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(MainPanel,
@@ -121,11 +133,26 @@ public class PushCalculator extends JFrame {
             }
         });
 
-//        saveButton.addActionListener(e -> {
-//            if (walk != null) {
-//                WorkoutTracker.logWorkout(account.getId(), walk);
-//            }
-//        });
+        saveButton.addActionListener(e -> {
+            if (push != null) {
+                WorkoutTracker.logWorkout(account.getId(), push);
+
+                // ✅ Show success message
+                JOptionPane.showMessageDialog(
+                        MainPanel,
+                        "Exercise saved!",
+                        "Success",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+
+                // Disable Save button after one use
+                saveButton.setEnabled(false);
+                saveButton.setVisible(false);
+                outputTextArea.setText("");
+
+                clearFields();
+            }
+        });
     }
 
     public void setExternalWorkoutData(LocalDateTime start, LocalDateTime end, double durationMinutes) {
@@ -147,6 +174,9 @@ public class PushCalculator extends JFrame {
             yesCheckBox.setSelected(false);
             noCheckBox.setSelected(true);
             WeightLiftedField.setEnabled(false);
+
+            saveButton.setEnabled(false);
+            saveButton.setVisible(false);
 
         }
 

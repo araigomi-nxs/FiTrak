@@ -3,7 +3,9 @@ package layouts.calculator.cardio;
 import calculationModels.cardio.JumpingRope;
 import javax.swing.*;
 import java.awt.*;
+
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import objects.Account;
 import tracker.WorkoutTracker;
 
@@ -23,7 +25,7 @@ public class JumpingRopeCalculator extends JFrame {
 //    private JTextField AgeField;
     private JTextField HeartRateField;
     private JButton calculateButton;
-    private JTextArea OutputTextArea;
+    private JTextArea outputTextArea;
     private JLabel DurationLabel;
     private JLabel IntensityLabel;
     private JLabel SetsLabel;
@@ -37,6 +39,10 @@ public class JumpingRopeCalculator extends JFrame {
     private LocalDateTime externalEndDT;
     private double externalDurationMinutes;
 
+    private static final DateTimeFormatter timeFormatter12hr = DateTimeFormatter.ofPattern("hh:mm a");
+    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy");
+
+    private JumpingRope jumpingRope;
 
     private boolean hasCalculated = false;
 
@@ -46,6 +52,9 @@ public class JumpingRopeCalculator extends JFrame {
 //        pack();
 //        setSize(300, 400);
 //        setLocationRelativeTo(null);
+
+        saveButton.setEnabled(false);
+        saveButton.setVisible(false);
 
         RepsField.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
             private void updateCheckbox() {
@@ -77,10 +86,10 @@ public class JumpingRopeCalculator extends JFrame {
 
         yesCheckBox.setEnabled(!RepsField.getText().trim().isEmpty());
 
-        if (OutputTextArea != null) {
-            OutputTextArea.setLayout(new BorderLayout());
-            OutputTextArea.setLineWrap(true);
-            OutputTextArea.setWrapStyleWord(true);
+        if (outputTextArea != null) {
+            outputTextArea.setLayout(new BorderLayout());
+            outputTextArea.setLineWrap(true);
+            outputTextArea.setWrapStyleWord(true);
         }
 
         yesCheckBox.addActionListener(e -> {
@@ -126,30 +135,32 @@ public class JumpingRopeCalculator extends JFrame {
                 LocalDateTime endDT = (externalEndDT != null) ? externalEndDT : LocalDateTime.now();
 
 
-                JumpingRope rope = new JumpingRope(
+                jumpingRope = new JumpingRope(
                         duration, weight, startDT,endDT, intensity,
                         sets, reps, restTime, useReps, age, heartRate
                 );
 
                 StringBuilder output = new StringBuilder();
                 output.append("Workout: Jump Rope\n");
-                output.append("Date: ").append(startDT.toLocalDate()).append("\n");
-                output.append("Start Time: ").append(startDT.toLocalTime().withSecond(0).withNano(0)).append("\n");
-                output.append("End Time: ").append(endDT.toLocalTime().withSecond(0).withNano(0)).append("\n");
-                output.append("Calories burned: ").append(String.format("%.2f", rope.calculateCaloriesBurned())).append("\n");
-                output.append("Sets: ").append(rope.getSets()).append("\n");
-                output.append("Reps per set: ").append(rope.getReps()).append("\n");
-                output.append("Rest time: ").append(rope.getRestTimeSeconds()).append(" sec\n");
-                output.append("Use reps to calculate: ").append(rope.isUseReps() ? "Yes" : "No").append("\n");
+                output.append("Date: ").append(startDT.toLocalDate().format(dateFormatter)).append("\n");
+                output.append("Start Time: ").append(startDT.toLocalTime().format(timeFormatter12hr)).append("\n");
+                output.append("End Time: ").append(endDT.toLocalTime().format(timeFormatter12hr)).append("\n");
+                output.append("Calories burned: ").append(String.format("%.2f", jumpingRope.calculateCaloriesBurned())).append("\n");
+                output.append("Sets: ").append(jumpingRope.getSets()).append("\n");
+                output.append("Reps per set: ").append(jumpingRope.getReps()).append("\n");
+                output.append("Rest time: ").append(jumpingRope.getRestTimeSeconds()).append(" sec\n");
+                output.append("Use reps to calculate: ").append(jumpingRope.isUseReps() ? "Yes" : "No").append("\n");
                 output.append("Intensity: ").append(intensity).append("\n");
                 if (heartRate > 0) output.append("Heart Rate: ").append(heartRate).append(" bpm\n");
                 output.append("Age: ").append(age).append("\n");
 
-                OutputTextArea.setText(output.toString());
-                OutputTextArea.revalidate();
-                OutputTextArea.repaint();
+                outputTextArea.setText(output.toString());
+                outputTextArea.setForeground(Color.BLACK);
+                outputTextArea.revalidate();
+                outputTextArea.repaint();
 
-                clearFields();
+                saveButton.setEnabled(true);
+                saveButton.setVisible(true);
 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(MainPanel,
@@ -158,11 +169,26 @@ public class JumpingRopeCalculator extends JFrame {
             }
         });
 
-//        saveButton.addActionListener(e -> {
-//            if (walk != null) {
-//                WorkoutTracker.logWorkout(account.getId(), walk);
-//            }
-//        });
+        saveButton.addActionListener(e -> {
+            if (jumpingRope != null) {
+                WorkoutTracker.logWorkout(account.getId(), jumpingRope);
+
+                // ✅ Show success message
+                JOptionPane.showMessageDialog(
+                        MainPanel,
+                        "Exercise saved!",
+                        "Success",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+
+                // Disable Save button after one use
+                saveButton.setEnabled(false);
+                saveButton.setVisible(false);
+                outputTextArea.setText("");
+
+                clearFields();
+            }
+        });
     }
 
     public void setExternalWorkoutData(LocalDateTime start, LocalDateTime end, double durationMinutes) {
@@ -185,6 +211,9 @@ public class JumpingRopeCalculator extends JFrame {
         yesCheckBox.setSelected(false);
         noCheckBox.setSelected(false);
         IntensityComboB.setSelectedIndex(0);
+
+        saveButton.setEnabled(false);
+        saveButton.setVisible(false);
     }
 
     public JPanel getPanel() {

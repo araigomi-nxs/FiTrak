@@ -7,6 +7,7 @@ import tracker.WorkoutTracker;
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class JumpingJacksCalculator extends JFrame {
 
@@ -27,7 +28,7 @@ public class JumpingJacksCalculator extends JFrame {
     private JCheckBox yesCheckBox;
     private JCheckBox noCheckBox;
     private JButton calculateButton;
-    private JTextArea OutputTextArea;
+    private JTextArea outputTextArea;
     private JLabel TitleLabel;
     private JLabel HeartRateLabel;
     private JLabel UseRepsLabel;
@@ -37,6 +38,11 @@ public class JumpingJacksCalculator extends JFrame {
     private LocalDateTime externalEndDT;
     private double externalDurationMinutes;
 
+    private static final DateTimeFormatter timeFormatter12hr = DateTimeFormatter.ofPattern("hh:mm a");
+    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy");
+
+    private JumpingJacks jumpingJacks;
+
     private boolean hasCalculated = false;
 
     public JumpingJacksCalculator(Account account) {
@@ -45,6 +51,9 @@ public class JumpingJacksCalculator extends JFrame {
 //        pack();
 //        setSize(300, 400);
 //        setLocationRelativeTo(null);
+
+        saveButton.setEnabled(false);
+        saveButton.setVisible(false);
 
         RepsField.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
             private void updateCheckbox() {
@@ -76,10 +85,10 @@ public class JumpingJacksCalculator extends JFrame {
 
         yesCheckBox.setEnabled(!RepsField.getText().trim().isEmpty());
 
-        if (OutputTextArea != null) {
-            OutputTextArea.setLayout(new BorderLayout());
-            OutputTextArea.setLineWrap(true);
-            OutputTextArea.setWrapStyleWord(true);
+        if (outputTextArea != null) {
+            outputTextArea.setLayout(new BorderLayout());
+            outputTextArea.setLineWrap(true);
+            outputTextArea.setWrapStyleWord(true);
         }
 
         yesCheckBox.addActionListener(e -> {
@@ -124,30 +133,32 @@ public class JumpingJacksCalculator extends JFrame {
                 LocalDateTime startDT = (externalStartDT != null) ? externalStartDT : LocalDateTime.now();
                 LocalDateTime endDT = (externalEndDT != null) ? externalEndDT : LocalDateTime.now();
 
-                JumpingJacks jj = new JumpingJacks(
+                jumpingJacks = new JumpingJacks(
                         duration, weight, startDT, endDT, intensity,
                         sets, reps, restTime, useReps, age, heartRate
                 );
 
                 StringBuilder output = new StringBuilder();
                 output.append("Workout: Jumping Jacks\n");
-                output.append("Date: ").append(startDT.toLocalDate()).append("\n");
-                output.append("Start Time: ").append(startDT.toLocalTime().withSecond(0).withNano(0)).append("\n");
-                output.append("End Time: ").append(endDT.toLocalTime().withSecond(0).withNano(0)).append("\n");
-                output.append("Calories burned: ").append(String.format("%.2f", jj.calculateCaloriesBurned())).append("\n");
-                output.append("Sets: ").append(jj.getSets()).append("\n");
-                output.append("Reps per set: ").append(jj.getReps()).append("\n");
-                output.append("Rest time: ").append(jj.getRestTimeSeconds()).append(" sec\n");
-                output.append("Use reps to calculate: ").append(jj.isUseReps() ? "Yes" : "No").append("\n");
+                output.append("Date: ").append(startDT.toLocalDate().format(dateFormatter)).append("\n");
+                output.append("Start Time: ").append(startDT.toLocalTime().format(timeFormatter12hr)).append("\n");
+                output.append("End Time: ").append(endDT.toLocalTime().format(timeFormatter12hr)).append("\n");
+                output.append("Calories burned: ").append(String.format("%.2f", jumpingJacks.calculateCaloriesBurned())).append("\n");
+                output.append("Sets: ").append(jumpingJacks.getSets()).append("\n");
+                output.append("Reps per set: ").append(jumpingJacks.getReps()).append("\n");
+                output.append("Rest time: ").append(jumpingJacks.getRestTimeSeconds()).append(" sec\n");
+                output.append("Use reps to calculate: ").append(jumpingJacks.isUseReps() ? "Yes" : "No").append("\n");
                 output.append("Intensity: ").append(intensity).append("\n");
                 if (heartRate > 0) output.append("Heart Rate: ").append(heartRate).append(" bpm\n");
                 output.append("Age: ").append(age).append("\n");
 
-                OutputTextArea.setText(output.toString());
-                OutputTextArea.revalidate();
-                OutputTextArea.repaint();
+                outputTextArea.setText(output.toString());
+                outputTextArea.setForeground(Color.BLACK);
+                outputTextArea.revalidate();
+                outputTextArea.repaint();
 
-                clearFields();
+                saveButton.setEnabled(true);
+                saveButton.setVisible(true);
 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(MainPanel,
@@ -156,11 +167,26 @@ public class JumpingJacksCalculator extends JFrame {
             }
         });
 
-//        saveButton.addActionListener(e -> {
-//            if (walk != null) {
-//                WorkoutTracker.logWorkout(account.getId(), walk);
-//            }
-//        });
+        saveButton.addActionListener(e -> {
+            if (jumpingJacks != null) {
+                WorkoutTracker.logWorkout(account.getId(), jumpingJacks);
+
+                // ✅ Show success message
+                JOptionPane.showMessageDialog(
+                        MainPanel,
+                        "Exercise saved!",
+                        "Success",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+
+                // Disable Save button after one use
+                saveButton.setEnabled(false);
+                saveButton.setVisible(false);
+                outputTextArea.setText("");
+
+                clearFields();
+            }
+        });
     }
 
     public void setExternalWorkoutData(LocalDateTime start, LocalDateTime end, double durationMinutes) {
@@ -182,6 +208,9 @@ public class JumpingJacksCalculator extends JFrame {
         yesCheckBox.setSelected(false);
         noCheckBox.setSelected(false);
         IntensityComboB.setSelectedIndex(0);
+
+        saveButton.setEnabled(false);
+        saveButton.setVisible(false);
     }
 
     public JPanel getPanel() {

@@ -1,9 +1,11 @@
 package layouts.calculator.strength;
 
 import calculationModels.strength.LegWorkout;
-
 import javax.swing.*;
+import java.awt.*;
+
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import objects.Account;
 import tracker.WorkoutTracker;
 
@@ -16,7 +18,7 @@ public class LegCalculator extends JFrame {
     private JCheckBox yesCheckBox;
     private JCheckBox noCheckBox;
     private JButton calculateButton;
-    private JTextArea OutputTextArea;
+    private JTextArea outputTextArea;
     private JLabel DurationLabel;
     private JLabel DurationDisplay;
     private JLabel SetsLabel;
@@ -36,6 +38,11 @@ public class LegCalculator extends JFrame {
     private LocalDateTime externalEndDT;
     private double externalDurationMinutes;
 
+    private static final DateTimeFormatter timeFormatter12hr = DateTimeFormatter.ofPattern("hh:mm a");
+    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy");
+
+    private LegWorkout leg;
+
     private boolean hasCalculated = false;
 
     public LegCalculator(Account account) {
@@ -43,6 +50,9 @@ public class LegCalculator extends JFrame {
 //        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        setSize(300, 400);
 //        setLocationRelativeTo(null);
+
+        saveButton.setEnabled(false);
+        saveButton.setVisible(false);
 
         WeightLiftedField.setEnabled(false);
         noCheckBox.setSelected(true);
@@ -93,14 +103,14 @@ public class LegCalculator extends JFrame {
                 LocalDateTime endDT = (externalEndDT != null) ? externalEndDT : LocalDateTime.now();
 
 
-                LegWorkout leg = new LegWorkout(duration, weight, startDT,endDT,
+                leg = new LegWorkout(duration, weight, startDT, endDT,
                         sets, reps, weightLifted, intensity, restTime, useEquipment);
 
                 StringBuilder output = new StringBuilder();
                 output.append("Workout: Legs\n");
-                output.append("Date: ").append(startDT.toLocalDate()).append("\n");
-                output.append("Start Time: ").append(startDT.toLocalTime().withSecond(0).withNano(0)).append("\n");
-                output.append("End Time: ").append(endDT.toLocalTime().withSecond(0).withNano(0)).append("\n");
+                output.append("Date: ").append(startDT.toLocalDate().format(dateFormatter)).append("\n");
+                output.append("Start Time: ").append(startDT.toLocalTime().format(timeFormatter12hr)).append("\n");
+                output.append("End Time: ").append(endDT.toLocalTime().format(timeFormatter12hr)).append("\n");
                 output.append("Calories burned: ").append(String.format("%.2f", leg.calculateCaloriesBurned())).append("\n");
                 output.append("Sets: ").append(leg.getSets()).append("\n");
                 output.append("Reps per set: ").append(leg.getReps()).append("\n");
@@ -109,11 +119,13 @@ public class LegCalculator extends JFrame {
                 output.append("Intensity: ").append(leg.getIntensity()).append("\n");
                 output.append("Use Equipment: ").append(useEquipment ? "Yes" : "No").append("\n");
 
-                OutputTextArea.setText(output.toString());
-                OutputTextArea.revalidate();
-                OutputTextArea.repaint();
+                outputTextArea.setText(output.toString());
+                outputTextArea.setForeground(Color.BLACK);
+                outputTextArea.revalidate();
+                outputTextArea.repaint();
 
-                clearField();
+                saveButton.setEnabled(true);
+                saveButton.setVisible(true);
 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(MainPanel,
@@ -121,11 +133,27 @@ public class LegCalculator extends JFrame {
                         "Input Error", JOptionPane.ERROR_MESSAGE);
             }
         });
-//        saveButton.addActionListener(e -> {
-//            if (walk != null) {
-//                WorkoutTracker.logWorkout(account.getId(), walk);
-//            }
-//        });
+
+        saveButton.addActionListener(e -> {
+            if (leg != null) {
+                WorkoutTracker.logWorkout(account.getId(), leg);
+
+                // ✅ Show success message
+                JOptionPane.showMessageDialog(
+                        MainPanel,
+                        "Exercise saved!",
+                        "Success",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+
+                // Disable Save button after one use
+                saveButton.setEnabled(false);
+                saveButton.setVisible(false);
+                outputTextArea.setText("");
+
+                clearFields();
+            }
+        });
     }
 
     public void setExternalWorkoutData(LocalDateTime start, LocalDateTime end, double durationMinutes) {
@@ -137,7 +165,7 @@ public class LegCalculator extends JFrame {
         this.externalDurationMinutes = durationMinutes;
     }
 
-        public void clearField() {
+        public void clearFields() {
             DurationDisplay.setText("");
             SetsField.setText("");
             RepsField.setText("");
@@ -147,6 +175,9 @@ public class LegCalculator extends JFrame {
             yesCheckBox.setSelected(false);
             noCheckBox.setSelected(true);
             WeightLiftedField.setEnabled(false);
+
+            saveButton.setEnabled(false);
+            saveButton.setVisible(false);
         }
     public JPanel getPanel() {
         return MainPanel;

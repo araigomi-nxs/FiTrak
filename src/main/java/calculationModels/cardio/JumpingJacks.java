@@ -19,33 +19,38 @@ public class JumpingJacks extends CardioWorkout {
         this.reps = reps;
         this.restTimeSeconds = restTimeSeconds;
         this.useReps = useReps;
-        this.caloriesBurned = calculateCaloriesBurned();
+        this.caloriesBurned = Math.round(calculateCaloriesBurned() * 100.0) / 100.0;
     }
 
     @Override
     public double calculateCaloriesBurned() {
         double met;
 
-        if (intensity.equalsIgnoreCase("vigorous")) met = 10.0;
-        else if (intensity.equalsIgnoreCase("moderate") || intensity.equalsIgnoreCase("normal")) met = 8.0;
-        else met = 7.0;
+        if (intensity.equalsIgnoreCase("vigorous")) {
+            met = 10.0;
+        } else if (intensity.equalsIgnoreCase("moderate")) {
+            met = 8.0;
+        } else if (intensity.equalsIgnoreCase("normal")) {
+            met = 7.0;
+        } else {
+            met = 7.0;
+        }
 
         if (currentHeartRate > 0 && userAge > 0) {
             double maxHR = 220 - userAge;
             double hrPercent = (currentHeartRate / maxHR) * 100;
-
             if (hrPercent > 85) met += 1.0;
             else if (hrPercent > 70) met += 0.5;
         }
 
         if (useReps && reps > 0) {
             double totalReps = sets * reps;
-            double repsPerMin = totalReps / (durationMinutes * sets);
-            if (repsPerMin > 100) met += 0.3;
+            double repsPerMin = totalReps / durationMinutes;
+            if (repsPerMin > 60) met += 0.3;
         }
 
         double totalRestMinutes = (restTimeSeconds * (sets - 1)) / 60.0;
-        double totalActiveMinutes = (durationMinutes * sets) - totalRestMinutes;
+        double totalActiveMinutes = durationMinutes - totalRestMinutes;
 
         return MetricsCalculator.calculateCalories(met, initialWeight, Math.max(0, totalActiveMinutes));
     }

@@ -37,8 +37,8 @@ public class LegWorkout extends StrengthWorkout {
         */
 
         if (totalWeightMoved < 1000) metValue = 4.5;
-        else if (totalWeightMoved < 5000) metValue = 6.0;
-        else metValue = 7.5;
+        else if (totalWeightMoved < 5000) metValue = 6.2;
+        else metValue = 7.8;
 
         if (intensity.equalsIgnoreCase("light")) metValue -= 0.3;
         else if (intensity.equalsIgnoreCase("moderate")) metValue += 0.3;

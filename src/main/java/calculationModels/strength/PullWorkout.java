@@ -37,10 +37,10 @@ public class PullWorkout extends StrengthWorkout {
         */
 
         if (totalWeightMoved < 1000) metValue = 4.0;
-        else if (totalWeightMoved < 5000) metValue = 5.5;
-        else metValue = 6.8;
+        else if (totalWeightMoved < 5000) metValue = 5.6;
+        else metValue = 7.5;
 
-        if (intensity.equalsIgnoreCase("light")) metValue -= 0.3;
+        if (intensity.equalsIgnoreCase("light")) metValue -= 0.2;
         else if (intensity.equalsIgnoreCase("moderate")) metValue += 0.3;
         else if (intensity.equalsIgnoreCase("vigorous")) metValue += 0.7;
 

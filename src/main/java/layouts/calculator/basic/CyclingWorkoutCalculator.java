@@ -3,10 +3,12 @@ package layouts.calculator.basic;
 import calculationModels.basic.CyclingWorkout;
 import com.formdev.flatlaf.FlatClientProperties;
 import objects.Account;
+import tracker.WorkoutTracker;
 
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class CyclingWorkoutCalculator {
 
@@ -28,11 +30,17 @@ public class CyclingWorkoutCalculator {
     private LocalDateTime externalEndDT;
     private double externalDurationMinutes;
 
+    private static final DateTimeFormatter timeFormatter12hr = DateTimeFormatter.ofPattern("hh:mm a");
+    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy");
+
     private CyclingWorkout cycl;
 
     public CyclingWorkoutCalculator(Account account) {
 
         JPanel2.putClientProperty(FlatClientProperties.STYLE, "arc:20");
+
+        saveButton.setEnabled(false);
+        saveButton.setVisible(false);
 
         CalculateButton.addActionListener(e -> {
             try {
@@ -56,9 +64,9 @@ public class CyclingWorkoutCalculator {
 
                 StringBuilder output = new StringBuilder();
                 output.append("Workout: Cycling\n");
-                output.append("Date: ").append(startDT.toLocalDate()).append("\n");
-                output.append("Start Time: ").append(startDT.toLocalTime().withSecond(0).withNano(0)).append("\n");
-                output.append("End Time: ").append(endDT.toLocalTime().withSecond(0).withNano(0)).append("\n");
+                output.append("Date: ").append(startDT.toLocalDate().format(dateFormatter)).append("\n");
+                output.append("Start Time: ").append(startDT.toLocalTime().format(timeFormatter12hr)).append("\n");
+                output.append("End Time: ").append(endDT.toLocalTime().format(timeFormatter12hr)).append("\n");
                 output.append("Calories burned: ").append(String.format("%.2f", cycl.calculateCaloriesBurned())).append("\n");
                 output.append("Distance: ").append(String.format("%.2f", cycl.getDistanceKM())).append(" km\n");
                 output.append("Average speed: ").append(String.format("%.2f", cycl.getSpeedKPH())).append(" km/h\n");
@@ -69,7 +77,8 @@ public class CyclingWorkoutCalculator {
                 outputTextArea.revalidate();
                 outputTextArea.repaint();
 
-                clearFields();
+                saveButton.setEnabled(true);
+                saveButton.setVisible(true);
 
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(
@@ -81,11 +90,26 @@ public class CyclingWorkoutCalculator {
             }
         });
 
-//        saveButton.addActionListener(e -> {
-//            if (cycl != null) {
-//                // Replace with your saving logic if necessary
-//            }
-//        });
+        saveButton.addActionListener(e -> {
+            if (cycl != null) {
+                WorkoutTracker.logWorkout(account.getId(), cycl);
+
+                // ✅ Show success message
+                JOptionPane.showMessageDialog(
+                        MainPanel,
+                        "Exercise saved!",
+                        "Success",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+
+                // Disable Save button after one use
+                saveButton.setEnabled(false);
+                saveButton.setVisible(false);
+                outputTextArea.setText("");
+
+                clearFields();
+            }
+        });
     }
 
     public void setExternalWorkoutData(LocalDateTime start, LocalDateTime end, double durationMinutes) {
@@ -102,6 +126,9 @@ public class CyclingWorkoutCalculator {
         DurationDisplay.setText("");
         DistanceField.setText("");
         IntensityComboB.setSelectedIndex(0);
+
+        saveButton.setEnabled(false);
+        saveButton.setVisible(false);
     }
 
     public JPanel getPanel() {
