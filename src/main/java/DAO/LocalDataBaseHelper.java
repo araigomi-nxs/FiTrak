@@ -607,6 +607,32 @@ public class LocalDataBaseHelper {
         return tableModel;
     }
 
+    public double getAverages(String column) {
+        String sql = "SELECT AVG(BMI) AS avg_bmi, AVG(height) AS avg_height, AVG(weight) AS avg_weight FROM accounts";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+                Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            if (rs.next()) {
+                double avgBMI = rs.getDouble("avg_bmi");
+                double avgHeight = rs.getDouble("avg_height");
+                double avgWeight = rs.getDouble("avg_weight");
+
+                return switch (column) {
+                    case "bmi" -> avgBMI;
+                    case "height" -> avgHeight;
+                    case "weight" -> avgWeight;
+                    default -> 0.0;
+                };
+            }
+        } catch (SQLException e) {
+            System.err.println("Error calculating averages: " + e.getMessage());
+        }
+        return 0.0; // fallback if query fails
+    }
+
+
 
 
 

@@ -183,7 +183,7 @@ public class AdminActivities {
 
 
 
-        globWtLosCount.setText( MetricsCalculator.computeFatLoss( Stats.getGlobalCalLoss() ) + " KG");
+        globWtLosCount.setText( Stats.getGlobalWtLoss()+ " KG");
 
         localActDBHelper = new LocalActDBHelper();
         activityCounter.setText(String.valueOf(localActDBHelper.getActivityCount()));

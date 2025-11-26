@@ -315,26 +315,26 @@
                                 </properties>
                                 <border type="none"/>
                                 <children>
-                                  <component id="3a791" class="javax.swing.JLabel">
+                                  <component id="3a791" class="javax.swing.JLabel" binding="avgHeight">
                                     <constraints>
-                                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
+                                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <background color="-5327306"/>
                                       <font name="Poppins" size="12" style="0"/>
                                       <foreground color="-16700098"/>
-                                      <text value="Average User Age:"/>
+                                      <text value="Avg.Usr Height:"/>
                                     </properties>
                                   </component>
-                                  <component id="5d3e9" class="javax.swing.JLabel">
+                                  <component id="5d3e9" class="javax.swing.JLabel" binding="avgWeight">
                                     <constraints>
-                                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
+                                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <background color="-5327306"/>
                                       <font name="Poppins" size="12" style="0"/>
                                       <foreground color="-16700098"/>
-                                      <text value="Average User Age:"/>
+                                      <text value="Avg.Usr Weight"/>
                                     </properties>
                                   </component>
                                   <component id="42553" class="javax.swing.JLabel">
@@ -360,15 +360,15 @@
                                 </properties>
                                 <border type="none"/>
                                 <children>
-                                  <component id="202bd" class="javax.swing.JLabel">
+                                  <component id="202bd" class="javax.swing.JLabel" binding="avgBMI">
                                     <constraints>
-                                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
+                                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <background color="-5327306"/>
                                       <font name="Poppins" size="12" style="0"/>
                                       <foreground color="-16700098"/>
-                                      <text value="Male to Female Ratio:"/>
+                                      <text value="Avg.Usr BMI: "/>
                                     </properties>
                                   </component>
                                 </children>
@@ -398,7 +398,7 @@
                                   </component>
                                 </children>
                               </grid>
-                              <grid id="61845" binding="anotherPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                              <grid id="61845" binding="anotherPanel" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                                 <margin top="0" left="0" bottom="10" right="0"/>
                                 <constraints>
                                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -408,15 +408,37 @@
                                 </properties>
                                 <border type="none"/>
                                 <children>
-                                  <component id="4da49" class="javax.swing.JLabel">
+                                  <component id="b2dc0" class="javax.swing.JLabel" binding="timeLabel">
+                                    <constraints>
+                                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="2" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <background color="-5327306"/>
+                                      <font name="Poppins" size="16" style="0"/>
+                                      <foreground color="-16700098"/>
+                                      <text value="00:00:00"/>
+                                    </properties>
+                                  </component>
+                                  <component id="f2aa6" class="javax.swing.JLabel">
+                                    <constraints>
+                                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="1" fill="0" indent="0" use-parent-layout="false"/>
+                                    </constraints>
+                                    <properties>
+                                      <font name="Poppins" size="12" style="0"/>
+                                      <foreground color="-16696752"/>
+                                      <text value="GMT +8 MANILA"/>
+                                      <verticalTextPosition value="0"/>
+                                    </properties>
+                                  </component>
+                                  <component id="6a77d" class="javax.swing.JLabel">
                                     <constraints>
                                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="2" use-parent-layout="false"/>
                                     </constraints>
                                     <properties>
                                       <background color="-5327306"/>
-                                      <font name="Poppins" size="12" style="0"/>
-                                      <foreground color="-16700098"/>
-                                      <text value="SYSTEM TIME:"/>
+                                      <font name="Inter" size="16" style="1"/>
+                                      <foreground color="-9994859"/>
+                                      <text value="SYS.TIME"/>
                                     </properties>
                                   </component>
                                 </children>

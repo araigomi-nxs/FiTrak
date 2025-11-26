@@ -8,6 +8,9 @@ import java.util.Map;
 public class SupabaseHttpClient {
     private final OkHttpClient client = new OkHttpClient();
 
+    public OkHttpClient getClient() {
+        return client;
+    }
     // Replace with your project and keys
     private final String baseUrl = Config.get("SUPABASE_URL");
     private final String apiKey  = Config.get("SUPABASE_APIKEY");
@@ -42,4 +45,8 @@ public class SupabaseHttpClient {
         Request req = base(pathAndQuery).delete().build();
         return client.newCall(req).execute();
     }
+
+
+
+
 }

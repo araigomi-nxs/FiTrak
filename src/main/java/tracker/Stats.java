@@ -5,6 +5,7 @@ import DAO.LocalActDBHelper;
 import DAO.LocalDataBaseHelper;
 import DAO.LocalWorkoutDBHelper;
 import DAO.OnlineDataBaseHelper;
+import calculationModels.metrics.MetricsCalculator;
 
 public class Stats {
     private  static LocalActDBHelper localActDBHelper = new LocalActDBHelper();
@@ -16,6 +17,8 @@ public class Stats {
     {
         return localActDBHelper.getClobalCalBurn();
     }
+
+
     //online table rows
     public static int getOnlineTableCount(String tableName)
     {
@@ -27,6 +30,28 @@ public class Stats {
             default -> 0;
         };
     }
+
+    public static int getEntryCount(String tableName)
+    {
+        return  switch (tableName)
+        {
+            case "workouts" -> localWorkoutDBHelper.getWorkoutCount();
+            case "activities" -> localActDBHelper.getActivityCount();
+            case "accounts" -> localDataBaseHelper.getRowCount(0);
+            default -> 0;
+        };
+    }
+
+    public static double getAccountAverage(String column)
+    {
+        return switch (column){
+            case "weight" -> localDataBaseHelper.getAverages("weight");
+            case "height" -> localDataBaseHelper.getAverages("height");
+            case "bmi" -> localDataBaseHelper.getAverages("bmi");
+            default -> 0;
+        };
+    }
+
 
 
     public static int getLocalCount(String tableName)
@@ -52,5 +77,7 @@ public class Stats {
         };
     }
 
-
+    public static double getGlobalWtLoss() {
+        return MetricsCalculator.computeFatLoss( Stats.getGlobalCalLoss() );
+    }
 }

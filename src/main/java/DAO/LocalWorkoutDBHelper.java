@@ -291,6 +291,8 @@ public class LocalWorkoutDBHelper {
         return 0;
     }
 
-
+    public int getWorkoutCount() {
+         return   getWorkoutsTableModelLocal().getRowCount();
+    }
 
 }

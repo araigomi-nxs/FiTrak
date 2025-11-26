@@ -16,8 +16,11 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import javax.swing.Timer;
 
 import com.formdev.flatlaf.FlatClientProperties;
@@ -94,6 +97,10 @@ public class AdminPanel extends JFrame {
     private JButton workoutButton;
     private JButton dashboardButton;
     private JPanel anotherPanel;
+    private JLabel timeLabel;
+    private JLabel avgBMI;
+    private JLabel avgWeight;
+    private JLabel avgHeight;
 
     private JTextArea syncLogArea;
     private CardLayout cardLayout;
@@ -101,12 +108,13 @@ public class AdminPanel extends JFrame {
     protected static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     private LocalDataBaseHelper dataBaseHelper ;
-    private Account accountInSession;
+    private static  Account accountInSession = null;
     private Point initialClick;
 
 
 
     public AdminPanel(long SessionAdmin) {
+
         dataBaseHelper = new LocalDataBaseHelper();
         accountInSession = dataBaseHelper.getAccount( SessionAdmin);
         usernameDisplay.setText(accountInSession.getUsername());
@@ -115,11 +123,17 @@ public class AdminPanel extends JFrame {
         setIconImage(icon.getImage());
 
 
+
         setContentPane(dashBoardPanel);
+
+
 
         AdminActivities activities = new AdminActivities();
         AdminWorkout adminWorkout = new AdminWorkout();
-        AdminDashboard adminDashboard = new AdminDashboard();
+        AdminDashboard adminDashboard = new AdminDashboard(accountInSession);
+
+
+
         cardLayout = new CardLayout();
         adminContainer.setLayout(cardLayout);
         adminContainer.add(accountsPanel, "accounts");
@@ -149,13 +163,7 @@ public class AdminPanel extends JFrame {
         arcSetup();
         setStats();
 
-        Timer timer = new Timer(5000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                loadTable();
-            }
-        });
-        timer.start();
+
 
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
@@ -178,6 +186,14 @@ public class AdminPanel extends JFrame {
                 setLocation(X, Y);
             }
         });
+
+
+        Timer clock = new Timer(1000, e -> {
+            // 12-hour format with AM/PM
+            String time = new SimpleDateFormat("hh:mm:ss a").format(new Date());
+            timeLabel.setText(time);
+        });
+        clock.start();
 
         exitButton.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
@@ -474,6 +490,9 @@ public class AdminPanel extends JFrame {
         limboCount.setText("Accounts in Limbo: "+ Stats.getLimboCount("accounts"));
         offlineEntityCount.setText("Offline Entities: "+ dataBaseHelper.getRowCount(0));
         onlineEntryCount.setText("Online Entities: "+ Stats.getOnlineTableCount("accounts"));
+        avgWeight.setText("Avg.Usr.Weight:  "+String.format("%.2f", Stats.getAccountAverage("weight")));
+        avgHeight.setText("Avg.Usr.Height: "+ String.format("%.2f", Stats.getAccountAverage("height")));
+        avgBMI.setText("Avg.Usr.BMI: "+ String.format("%.2f", Stats.getAccountAverage("bmi")));
         System.out.println("Stats Loaded");
     }
 
@@ -550,4 +569,8 @@ public class AdminPanel extends JFrame {
         long timestamp = System.currentTimeMillis(); // 13-digit value
         return timestamp;
     }
+
+
+
+
 }
