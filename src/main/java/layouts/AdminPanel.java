@@ -92,6 +92,7 @@ public class AdminPanel extends JFrame {
 
     private JButton workoutButton;
     private JButton dashboardButton;
+    private JPanel anotherPanel;
 
     private JTextArea syncLogArea;
     private CardLayout cardLayout;
@@ -112,20 +113,21 @@ public class AdminPanel extends JFrame {
         ImageIcon icon = new ImageIcon("src/main/resources/images/logo.png");
         setIconImage(icon.getImage());
 
+
         setContentPane(dashBoardPanel);
-        cardLayout = new CardLayout();
-        adminContainer.setLayout(cardLayout);
-        adminContainer.add(accountsPanel, "accounts");
 
         AdminActivities activities = new AdminActivities();
         AdminWorkout adminWorkout = new AdminWorkout();
         AdminDashboard adminDashboard = new AdminDashboard();
+        cardLayout = new CardLayout();
+        adminContainer.setLayout(cardLayout);
+        adminContainer.add(accountsPanel, "accounts");
 
         adminContainer.add(activities.getActivitiesPanel(), "activities");
         adminContainer.add(adminWorkout.getAdminWorkoutPanel(), "workouts");
         adminContainer.add(adminDashboard.getAdminDashboard(),"dashboard" );
 
-        cardLayout.show(adminContainer, "accounts");
+        cardLayout.show(adminContainer, "dashboard");
 
         setBackground(new Color(255, 255, 255));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -452,6 +454,7 @@ public class AdminPanel extends JFrame {
         accountStats.putClientProperty(FlatClientProperties.STYLE,  "arc:20");
         localDBPanel.putClientProperty(FlatClientProperties.STYLE,  "arc:20");
         onlineDBPanel.putClientProperty(FlatClientProperties.STYLE,  "arc:20");
+        anotherPanel.putClientProperty(FlatClientProperties.STYLE,  "arc:20");
     }
 
     private void setStats() {

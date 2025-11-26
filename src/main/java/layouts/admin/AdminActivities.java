@@ -71,6 +71,7 @@ public class AdminActivities {
     private JLabel limboCount;
     private JLabel offlineEntityCount;
     private JLabel onlineEntryCount;
+    private JPanel emptyStat;
     private LocalActDBHelper localActDBHelper;
     protected static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
@@ -100,6 +101,7 @@ public class AdminActivities {
                  metValField.setText(activitiesTable.getValueAt(selectedRow, 7).toString());
                  serverOriginFIeld.setText(activitiesTable.getValueAt(selectedRow, 8).toString());
                  initialWeightField.setText(activitiesTable.getValueAt(selectedRow, 9).toString());
+
 
                  LocalActDBHelper localActDBHelper = new LocalActDBHelper();
 

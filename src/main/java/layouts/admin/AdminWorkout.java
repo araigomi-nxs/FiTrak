@@ -35,6 +35,7 @@ public class AdminWorkout {
     private JLabel refreshOnline;
     private JLabel onlineEntryCount;
     private JLabel offlineEntityCount;
+    private JPanel emptyStat;
 
 
     public AdminWorkout() {

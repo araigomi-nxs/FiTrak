@@ -17,7 +17,6 @@ import java.io.IOException;
 public class UserPanel extends JFrame {
 
     private JPanel UserPanel;
-    private JPanel userDashBoard;
     private JPanel sidebar;
     private JPanel panelToo;
     private JLabel usernameDisplay;
@@ -38,6 +37,8 @@ public class UserPanel extends JFrame {
     private JPanel BasicTB;
 
     private JPanel userPanelContainer;
+    private JPanel userDashBoard;
+    private JButton logOutButton;
 
     private CardLayout cardLayout;
     private CardLayout calcLayout;
@@ -137,7 +138,7 @@ public class UserPanel extends JFrame {
             }
         });
 
-        logoutButton.addMouseListener(new MouseAdapter() {
+        logOutButton.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 try {
                     LoginForm loginForm = new LoginForm();
