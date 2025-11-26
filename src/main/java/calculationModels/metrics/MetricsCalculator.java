@@ -86,10 +86,11 @@ public class MetricsCalculator {
     //Daily FatLoss in grams
     public static double computeFatLoss(double dailyCalDeficit)
     {
-        //1 kilogram of fat ≈ 7,700 kcal average
-        double fatLoss;
-        fatLoss = dailyCalDeficit / 7700.0;
-        return fatLoss;
+        // 1 kilogram of fat ≈ 7,700 kcal average
+        double fatLoss = dailyCalDeficit / 7700.0;
+
+        // Round to nearest hundredth (2 decimal places)
+        return Math.round(fatLoss * 100.0) / 100.0;
     }
 
 
