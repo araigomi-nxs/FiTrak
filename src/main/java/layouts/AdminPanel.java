@@ -18,13 +18,12 @@ import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import javax.swing.Timer;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import tracker.Stats;
+import tracker.StatsTracker;
 
 
 public class AdminPanel extends JFrame {
@@ -485,14 +484,14 @@ public class AdminPanel extends JFrame {
         accCounter.setText( String.valueOf(dataBaseHelper.getRowCount(0)));
         adminCounter.setText("Admins: "+dataBaseHelper.getRowCount(1));
         userCounter.setText("Users: "+ dataBaseHelper.getRowCount(2));
-        localCount.setText("Local: "+ Stats.getLocalCount("accounts"));
-        foreignCount.setText("Foreign: "+(dataBaseHelper.getRowCount(0)- Stats.getLocalCount("accounts") ));
-        limboCount.setText("Accounts in Limbo: "+ Stats.getLimboCount("accounts"));
+        localCount.setText("Local: "+ StatsTracker.getLocalCount("accounts"));
+        foreignCount.setText("Foreign: "+(dataBaseHelper.getRowCount(0)- StatsTracker.getLocalCount("accounts") ));
+        limboCount.setText("Accounts in Limbo: "+ StatsTracker.getLimboCount("accounts"));
         offlineEntityCount.setText("Offline Entities: "+ dataBaseHelper.getRowCount(0));
-        onlineEntryCount.setText("Online Entities: "+ Stats.getOnlineTableCount("accounts"));
-        avgWeight.setText("Avg.Usr.Weight:  "+String.format("%.2f", Stats.getAccountAverage("weight")));
-        avgHeight.setText("Avg.Usr.Height: "+ String.format("%.2f", Stats.getAccountAverage("height")));
-        avgBMI.setText("Avg.Usr.BMI: "+ String.format("%.2f", Stats.getAccountAverage("bmi")));
+        onlineEntryCount.setText("Online Entities: "+ StatsTracker.getOnlineTableCount("accounts"));
+        avgWeight.setText("Avg.Usr.Weight:  "+String.format("%.2f", StatsTracker.getAccountAverage("weight")));
+        avgHeight.setText("Avg.Usr.Height: "+ String.format("%.2f", StatsTracker.getAccountAverage("height")));
+        avgBMI.setText("Avg.Usr.BMI: "+ String.format("%.2f", StatsTracker.getAccountAverage("bmi")));
         System.out.println("Stats Loaded");
     }
 

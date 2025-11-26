@@ -7,7 +7,7 @@ import DAO.LocalWorkoutDBHelper;
 import DAO.OnlineDataBaseHelper;
 import calculationModels.metrics.MetricsCalculator;
 
-public class Stats {
+public class StatsTracker {
     private  static LocalActDBHelper localActDBHelper = new LocalActDBHelper();
     private static LocalDataBaseHelper localDataBaseHelper = new LocalDataBaseHelper();
     private static LocalWorkoutDBHelper localWorkoutDBHelper = new LocalWorkoutDBHelper();
@@ -78,6 +78,6 @@ public class Stats {
     }
 
     public static double getGlobalWtLoss() {
-        return MetricsCalculator.computeFatLoss( Stats.getGlobalCalLoss() );
+        return MetricsCalculator.computeFatLoss( StatsTracker.getGlobalCalLoss() );
     }
 }

@@ -438,7 +438,7 @@
                                       <background color="-5327306"/>
                                       <font name="Inter" size="16" style="1"/>
                                       <foreground color="-9994859"/>
-                                      <text value="SYS.TIME"/>
+                                      <text value="USERBASE"/>
                                     </properties>
                                   </component>
                                 </children>

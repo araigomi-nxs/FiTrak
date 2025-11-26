@@ -3,9 +3,8 @@ package layouts.admin;
 import DAO.LocalActDBHelper;
 import DAO.OnlineDataBaseHelper;
 import DAO.test.SyncActManager;
-import calculationModels.metrics.MetricsCalculator;
 import com.formdev.flatlaf.FlatClientProperties;
-import tracker.Stats;
+import tracker.StatsTracker;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -179,11 +178,11 @@ public class AdminActivities {
 
     private void setStats() {
         Map<String, Integer> categoryCount = new HashMap<>();
-        globCalCount.setText( String.format("%.2f", Stats.getGlobalCalLoss()) + " kCal");
+        globCalCount.setText( String.format("%.2f", StatsTracker.getGlobalCalLoss()) + " kCal");
 
 
 
-        globWtLosCount.setText( Stats.getGlobalWtLoss()+ " KG");
+        globWtLosCount.setText( StatsTracker.getGlobalWtLoss()+ " KG");
 
         localActDBHelper = new LocalActDBHelper();
         activityCounter.setText(String.valueOf(localActDBHelper.getActivityCount()));
@@ -193,12 +192,12 @@ public class AdminActivities {
         cardioCounter.setText("Cardio: "+(categoryCount.getOrDefault("Cardio",0)));
         strengthCounter.setText("Strength: "+(categoryCount.getOrDefault("Strength",0)));
 
-        limboCount.setText("Accounts in Limbo :" +Stats.getLimboCount("activities"));
+        limboCount.setText("Accounts in Limbo :" + StatsTracker.getLimboCount("activities"));
         offlineEntityCount.setText("Offline Entities: "+ localActDBHelper.getActivityCount());
-        onlineEntryCount.setText("Online Entities: "+ Stats.getOnlineTableCount("activities"));
+        onlineEntryCount.setText("Online Entities: "+ StatsTracker.getOnlineTableCount("activities"));
 
-        localCount.setText("Local: "+ Stats.getLocalCount("activities"));
-        foreignCount.setText("Foreign: "+(localActDBHelper.getActivityCount()-Stats.getLocalCount("activities")) );
+        localCount.setText("Local: "+ StatsTracker.getLocalCount("activities"));
+        foreignCount.setText("Foreign: "+(localActDBHelper.getActivityCount()- StatsTracker.getLocalCount("activities")) );
 
 
 

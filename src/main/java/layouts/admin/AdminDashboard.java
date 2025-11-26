@@ -1,10 +1,9 @@
 package layouts.admin;
 
-import DAO.test.SupabaseHttpClient;
 import DAO.test.SyncAccManager;
 import com.formdev.flatlaf.FlatClientProperties;
 import objects.Account;
-import tracker.Stats;
+import tracker.StatsTracker;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -88,19 +87,19 @@ public class AdminDashboard {
     }
 
     private void setStats() {
-            accCnt.setText(Stats.getEntryCount("accounts") +"");
-            actCnt.setText(Stats.getEntryCount("activities") +"");
-            wrkCnt.setText(Stats.getEntryCount("workouts") +"");
-            globCalBurn.setText(Stats.getGlobalCalLoss() +"\nkCal");
-            globWtLss.setText(Stats.getGlobalWtLoss() +"\nKg");
+            accCnt.setText(StatsTracker.getEntryCount("accounts") +"");
+            actCnt.setText(StatsTracker.getEntryCount("activities") +"");
+            wrkCnt.setText(StatsTracker.getEntryCount("workouts") +"");
+            globCalBurn.setText(StatsTracker.getGlobalCalLoss() +"\nkCal");
+            globWtLss.setText(StatsTracker.getGlobalWtLoss() +"\nKg");
 
-            inLimbo.setText("Total Entities in Limbo: " + (0 + Stats.getLimboCount("accounts")  + Stats.getLimboCount("workouts") +  Stats.getLimboCount("activities")  ));
-          if(Stats.getOnlineTableCount("accounts") > 0){
+            inLimbo.setText("Total Entities in Limbo: " + (0 + StatsTracker.getLimboCount("accounts")  + StatsTracker.getLimboCount("workouts") +  StatsTracker.getLimboCount("activities")  ));
+          if(StatsTracker.getOnlineTableCount("accounts") > 0){
               connectionStatus.setText("Connected");
               connectionStatus.setIcon(new ImageIcon("src/main/resources/images/greenOrb.png"));
-              oLAccounts.setText("Online Accounts: " + Stats.getOnlineTableCount("accounts"));
-              oLActivities.setText("Online Activities: " + Stats.getOnlineTableCount("activities"));
-              oLWorkout.setText("Online Workout: " + Stats.getOnlineTableCount("workouts"));
+              oLAccounts.setText("Online Accounts: " + StatsTracker.getOnlineTableCount("accounts"));
+              oLActivities.setText("Online Activities: " + StatsTracker.getOnlineTableCount("activities"));
+              oLWorkout.setText("Online Workout: " + StatsTracker.getOnlineTableCount("workouts"));
           }
           else
           {

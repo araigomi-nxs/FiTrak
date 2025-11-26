@@ -4,7 +4,7 @@ import DAO.LocalWorkoutDBHelper;
 import DAO.OnlineDataBaseHelper;
 import DAO.test.SyncWorkManager;
 import com.formdev.flatlaf.FlatClientProperties;
-import tracker.Stats;
+import tracker.StatsTracker;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
@@ -60,11 +60,11 @@ public class AdminWorkout {
         });
 
         refreshOnline.addMouseListener(new MouseAdapter() {
-
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 loadOnlineTable();
+
             }
         });
 
@@ -80,10 +80,6 @@ public class AdminWorkout {
                 }
             }
         });
-
-
-
-
     }
 
 
@@ -105,12 +101,12 @@ public class AdminWorkout {
 
     private void setupStats() {
         workCounter.setText(workoutTable.getRowCount()+"");
-        limboCount.setText("Entities in Limbo: " + Stats.getLimboCount("workouts"));
+        limboCount.setText("Entities in Limbo: " + StatsTracker.getLimboCount("workouts"));
         offlineEntityCount.setText("Offline Entities: " + workoutTable.getRowCount());
-        onlineEntryCount.setText("Online Entities: " + Stats.getOnlineTableCount("workouts") );
+        onlineEntryCount.setText("Online Entities: " + StatsTracker.getOnlineTableCount("workouts") );
 
-        localCount.setText("Local: "+ Stats.getLocalCount("workouts"));
-        int foreignIntCount = workoutTable.getRowCount() - Stats.getLocalCount("workouts");
+        localCount.setText("Local: "+ StatsTracker.getLocalCount("workouts"));
+        int foreignIntCount = workoutTable.getRowCount() - StatsTracker.getLocalCount("workouts");
         foreignCount.setText("Foreign: "+ foreignIntCount);
     }
     public JPanel getAdminWorkoutPanel() {

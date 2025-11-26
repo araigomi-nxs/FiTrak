@@ -1,6 +1,7 @@
 package layouts.user;
 
 import DAO.LocalDataBaseHelper;
+import com.formdev.flatlaf.FlatClientProperties;
 import objects.Account;
 
 import layouts.calculator.basic.WalkingWorkoutCalculator;
@@ -32,16 +33,13 @@ import java.awt.*;
 public class UserWorkoutsForm extends JFrame {
     private JPanel userWorkoutsPanel;
 
-    private JButton exercisesButton1;
-    private JButton exercisesButton2;
-    private JButton exercisesButton3;
+    private JLabel exercisesButton1;
+    private JLabel exercisesButton2;
+    private JLabel exercisesButton3;
 
-    private JPanel Basic;
     private JPanel BasicTB;
     private JPanel CardioTB;
     private JPanel StrengthTB;
-    private JPanel Cardio;
-    private JPanel Strength;
 
     private JButton walkingButton;
     private JButton runningButton;
@@ -57,13 +55,20 @@ public class UserWorkoutsForm extends JFrame {
 
     private JPanel calculatorArea;
     private JPanel stopWatchArea;
-    private JPanel DateTimeArea;
-    private JPanel Recorder;
 
     private JFormattedTextField startTimeField;
     private JFormattedTextField endTimeField;
     private JFormattedTextField endDateField;
     private JFormattedTextField startDateField;
+    private JPanel topPanel;
+    private JPanel Basic;
+    private JPanel Cardio;
+    private JPanel modulesPanel;
+    private JPanel Strength;
+    private JPanel calculatorPanel;
+    private JPanel Recorder;
+    private JPanel DateTimeArea;
+    private JLabel greetLabel;
 
     // Pickers must be class fields so listeners can access them
     private DatePicker datePicker;
@@ -101,6 +106,7 @@ public class UserWorkoutsForm extends JFrame {
         this.db = db;
         this.account = account;
 
+        setArc();
         // Stopwatch setup
         CardLayout cardLayout = new CardLayout();
         stopWatchArea.setLayout(cardLayout);
@@ -141,9 +147,9 @@ public class UserWorkoutsForm extends JFrame {
         StrengthTB.setVisible(false);
         calculatorArea.setVisible(false);
 
-        exercisesButton1.setFocusable(false);
-        exercisesButton2.setFocusable(false);
-        exercisesButton3.setFocusable(false);
+        //exercisesButton1.setFocusable(false);
+        //exercisesButton2.setFocusable(false);
+       // exercisesButton3.setFocusable(false);
 
         // Property change listeners: manual time/date entry should update duration and active calculator
         startDateField.addPropertyChangeListener("value", evt ->
@@ -186,9 +192,48 @@ public class UserWorkoutsForm extends JFrame {
         calculatorArea.add(legsCalc.getPanel(), "LEGS");
 
         // Dropdown toggles
-        exercisesButton1.addActionListener(e -> toggleDropdown(BasicTB));
-        exercisesButton2.addActionListener(e -> toggleDropdown(CardioTB));
-        exercisesButton3.addActionListener(e -> toggleDropdown(StrengthTB));
+        exercisesButton1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(BasicTB.isVisible()) {
+                    exercisesButton1.setIcon(new ImageIcon("src/main/resources/images/collapseButton.png"));
+                 }
+                else
+                {
+                    exercisesButton1.setIcon(new ImageIcon("src/main/resources/images/dropdownArrow.png"));
+                }
+                toggleDropdown(BasicTB);
+            }
+        });
+
+        exercisesButton2.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(CardioTB.isVisible()) {
+                    exercisesButton2.setIcon(new ImageIcon("src/main/resources/images/collapseButton.png"));
+                }
+                else
+                {
+                    exercisesButton2.setIcon(new ImageIcon("src/main/resources/images/dropdownArrow.png"));
+                }
+                toggleDropdown(CardioTB);
+            }
+        });
+
+        exercisesButton3.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(StrengthTB.isVisible()) {
+                    exercisesButton3.setIcon(new ImageIcon("src/main/resources/images/collapseButton.png"));
+                }
+                else
+                {
+                    exercisesButton3.setIcon(new ImageIcon("src/main/resources/images/dropdownArrow.png"));
+                }
+                toggleDropdown(StrengthTB);
+            }
+        });
+
 
         // Calculator button actions
         walkingButton.addActionListener(e -> showCalc("WALK"));
@@ -232,6 +277,15 @@ public class UserWorkoutsForm extends JFrame {
                 pushDurationToActiveCalculator(lastStartDT, lastEndDT, lastDurationMinutes);
             }
         });
+    }
+
+    private void setArc() {
+        topPanel.putClientProperty(FlatClientProperties.STYLE, "arc:20");
+        modulesPanel.putClientProperty(FlatClientProperties.STYLE, "arc:20");
+        calculatorPanel.putClientProperty(FlatClientProperties.STYLE, "arc:20");
+        Basic.putClientProperty(FlatClientProperties.STYLE, "arc:20");
+        Strength.putClientProperty(FlatClientProperties.STYLE, "arc:20");
+        Cardio.putClientProperty(FlatClientProperties.STYLE, "arc:20");
     }
 
     private void updateDurationField(TimePicker startTP, TimePicker endTP,
@@ -284,7 +338,7 @@ public class UserWorkoutsForm extends JFrame {
 
     private void toggleDropdown(JPanel panel) {
         panel.setVisible(!panel.isVisible());
-        calculatorArea.setVisible(false);
+       // calculatorArea.setVisible(false);
         panel.getParent().revalidate();
         panel.getParent().repaint();
     }
@@ -293,9 +347,9 @@ public class UserWorkoutsForm extends JFrame {
         calculatorArea.setVisible(true);
         calcLayout.show(calculatorArea, name);
 
-        BasicTB.setVisible(false);
-        CardioTB.setVisible(false);
-        StrengthTB.setVisible(false);
+         // BasicTB.setVisible(false);
+        //CardioTB.setVisible(false);
+        // StrengthTB.setVisible(false);
 
         // Track the active calculator for duration pushes
         switch (name) {
