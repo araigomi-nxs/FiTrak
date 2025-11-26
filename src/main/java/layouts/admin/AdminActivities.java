@@ -179,9 +179,12 @@ public class AdminActivities {
 
     private void setStats() {
         Map<String, Integer> categoryCount = new HashMap<>();
-        globCalCount.setText( Stats.getGlobalCalLoss() + " kCal");
+        globCalCount.setText( String.format("%.2f", Stats.getGlobalCalLoss()) + " kCal");
+
+
 
         globWtLosCount.setText( MetricsCalculator.computeFatLoss( Stats.getGlobalCalLoss() ) + " KG");
+
         localActDBHelper = new LocalActDBHelper();
         activityCounter.setText(String.valueOf(localActDBHelper.getActivityCount()));
 

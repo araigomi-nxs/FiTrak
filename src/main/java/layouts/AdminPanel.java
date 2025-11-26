@@ -18,6 +18,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import javax.swing.Timer;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import tracker.Stats;
@@ -148,6 +149,13 @@ public class AdminPanel extends JFrame {
         arcSetup();
         setStats();
 
+        Timer timer = new Timer(5000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loadTable();
+            }
+        });
+        timer.start();
 
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
@@ -500,6 +508,9 @@ public class AdminPanel extends JFrame {
 
     }
     */
+
+
+
     public void loadTable() {
        dataBaseHelper = new LocalDataBaseHelper();
        accountsTable.setModel(new LocalDataBaseHelper().getAccountsTableModel());
@@ -511,6 +522,9 @@ public class AdminPanel extends JFrame {
         syncAccManager.getSyncLogsHttp(syncLogs);
 
     }
+
+
+
     public void resetButton()
     {
         dashboardButton.setBackground(new  Color(17, 37, 44));

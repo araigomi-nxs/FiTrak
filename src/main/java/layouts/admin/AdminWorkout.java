@@ -55,7 +55,7 @@ public class AdminWorkout {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                loadOnlineTable();
+                loadLocalTable();
             }
         });
 

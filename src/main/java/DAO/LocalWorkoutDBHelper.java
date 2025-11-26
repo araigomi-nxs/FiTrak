@@ -56,7 +56,8 @@ public class LocalWorkoutDBHelper {
 
     public void insertWorkout(long activityID, int steps, double distanceKM, String intensity,
                               double calPerStep, double speedKPH, int sets, int reps,
-                              double currentHeartRate, double weightLifted, String serverOrigin, String logDT) {
+                              double currentHeartRate, double weightLifted, String serverOrigin, String logDT)
+    {
         String sql = "INSERT INTO workouts (activityID, steps, distanceKM, intensity, calPerStep, speedKPH, sets, reps, currentHeartRate, weightLifted, serverOrigin, logDT) "
                 + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 

@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="dashBoardPanel" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="0" vgap="0">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="49" width="1570" height="1085"/>
+      <xy x="20" y="49" width="1570" height="1729"/>
     </constraints>
     <properties>
       <background color="-460552"/>
@@ -248,7 +248,7 @@
       </grid>
       <grid id="c6884" binding="adminContainer" layout-manager="CardLayout" hgap="-1" vgap="-1">
         <constraints>
-          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="1" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <background color="-460552"/>
@@ -271,6 +271,7 @@
                 <properties>
                   <background color="-460552"/>
                   <foreground color="-1"/>
+                  <horizontalScrollBarPolicy value="31"/>
                 </properties>
                 <border type="empty">
                   <title-color color="-1"/>
