@@ -213,4 +213,9 @@ public class SyncWorkManager implements Runnable {
             e.printStackTrace();
         }
     }
+
+    public void startWorkSyncThread() {
+        Thread thread = new Thread(this);
+        thread.start();
+    }
 }
