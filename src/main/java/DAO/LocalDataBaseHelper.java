@@ -424,7 +424,7 @@ public class LocalDataBaseHelper {
                 sql = "SELECT COUNT(*) FROM  accounts WHERE privilege = 0";
                 break;
             case 3:
-                sql = "SELECT COUNT(*) FROM  accounts WHERE serverOrigin = 'Client-ARN-PC-002'";
+                sql = "SELECT COUNT(*) FROM  accounts WHERE serverOrigin = ?";
                 break;
             case 4:
                 sql = "SELECT COUNT(*) FROM  accounts WHERE privilege = -1";
