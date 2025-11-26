@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public class OnlineDataBaseHelper {
-    private static HikariDataSource dataSource;
+   // private static HikariDataSource dataSource;
     private final String DB_URL = Config.get("SQLITE_DBURL");
     private final SupabaseHttpClient http;
 
