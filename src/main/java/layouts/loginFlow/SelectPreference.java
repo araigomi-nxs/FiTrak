@@ -87,9 +87,6 @@ public class SelectPreference {
                 }
             }
         });
-
-
-
     }
 
     private void clearBorder()

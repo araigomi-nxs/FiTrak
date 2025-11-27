@@ -276,7 +276,7 @@ public class UserWorkoutsForm extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 LocalDateTime startDT = stopwatch.getStartDT();
                 LocalDateTime endDT = stopwatch.getEndDT();
-                double duration = stopwatch.getDuration();
+                double duration = Double.parseDouble(stopwatch.getDurationMinutes());
 
                 // Sync pickers
                 if (startDT != null) {

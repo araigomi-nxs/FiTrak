@@ -123,5 +123,8 @@ public class Account {
     public String getLastUpdatedDT() {return lastUpdatedDT;}
 
 
+    public int getPreference() {
+        return preference;
+    }
 
 }

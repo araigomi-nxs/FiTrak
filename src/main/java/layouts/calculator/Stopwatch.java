@@ -82,8 +82,9 @@ public class Stopwatch {
                 stopButton.setVisible(false);
 
                 // Fully reset displayed time
-                elapsedTime = 0;
                 updateDisplay();
+                elapsedTime = 0;
+
             }
         });
     }

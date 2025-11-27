@@ -204,22 +204,6 @@
                     </properties>
                     <border type="empty"/>
                     <children>
-                      <component id="24bf7" class="javax.swing.JButton">
-                        <constraints/>
-                        <properties>
-                          <font name="Poppins" size="14" style="0"/>
-                          <foreground color="-11575181"/>
-                          <horizontalAlignment value="2"/>
-                          <horizontalTextPosition value="4"/>
-                          <icon value="images/gear.png"/>
-                          <iconTextGap value="10"/>
-                          <margin top="0" left="20" bottom="0" right="0"/>
-                          <maximumSize width="250" height="34"/>
-                          <minimumSize width="250" height="34"/>
-                          <preferredSize width="250" height="34"/>
-                          <text value="Settings"/>
-                        </properties>
-                      </component>
                       <component id="60552" class="javax.swing.JButton" binding="logOutButton">
                         <constraints/>
                         <properties>

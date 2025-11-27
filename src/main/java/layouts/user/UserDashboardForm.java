@@ -8,6 +8,8 @@ import layouts.widgets.ContributionGridPanel;
 import objects.Account;
 
 import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.time.LocalTime;
 
 public class UserDashboardForm {
@@ -29,6 +31,18 @@ public class UserDashboardForm {
     private JLabel totalWeightLoss;
     private JLabel dailyCalBurnStat;
     private JCheckBox fullDataCheckBox;
+    private JLabel refreshButton;
+    private JLabel workoutsTable;
+    private JScrollPane workTable;
+    private JTable workoutstabtable;
+    private JLabel weightField;
+    private JLabel heighField;
+    private JLabel classification;
+    private JLabel bmiField;
+    private JLabel bmrField;
+    private JLabel tdeeField;
+    private JPanel JP9;
+    private JPanel JP10;
     private Account accountInSession;
 
     UserDashboardForm(Account accountInSession) {
@@ -37,9 +51,20 @@ public class UserDashboardForm {
         setArc();
         updateGreeting();
         loadTable();
-        setStats();
+
 
         contributionPanel.add(new ContributionGridPanel(accountInSession.getId(), 20));
+
+        refreshButton.addMouseListener(new  MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                loadTable();
+                setStats();
+            }
+        });
+
+
     }
 
     private void setArc()
@@ -53,6 +78,9 @@ public class UserDashboardForm {
             JP4.putClientProperty(FlatClientProperties.STYLE, "arc:20");
             JP5.putClientProperty(FlatClientProperties.STYLE, "arc:20");
             JP6.putClientProperty(FlatClientProperties.STYLE, "arc:20");
+            JP9.putClientProperty(FlatClientProperties.STYLE, "arc:20");
+            JP10.putClientProperty(FlatClientProperties.STYLE, "arc:20");
+
 
 
     }
@@ -77,19 +105,40 @@ public class UserDashboardForm {
     private void loadTable()
     {
         LocalActDBHelper localActDBHelper = new LocalActDBHelper();
-        userActivitiesTable.setModel( localActDBHelper.getActivitiesTableModel(accountInSession.getId()));
 
+        if(fullDataCheckBox.isSelected())
+        {
+           userActivitiesTable.setModel(localActDBHelper.searchByUserID(accountInSession.getId()));
+        }
+        else
+        {
+            userActivitiesTable.setModel( localActDBHelper.getActivitiesTableModel(accountInSession.getId()));
+        }
+        setStats();
 
-
-
+        workoutstabtable.setModel (UserData.getWorkoutsTableModelFromActivities(localActDBHelper.searchByUserID(accountInSession.getId())));
     }
 
 
     private void setStats()
     {
-        totalCalBurnStat.setText(""+ UserData.getTotalCaloriesBurned(accountInSession.getId()));
-        dailyCalBurnStat.setText(""+ UserData.getTodayCaloriesBurned(accountInSession.getId()));
+        totalCalBurnStat.setText(String.format("%.2f",  UserData.getTotalCaloriesBurned(accountInSession.getId() )));
+
+       double dailyCalBurn = UserData.getTodayCaloriesBurned(accountInSession.getId());
+        dailyCalBurnStat.setText(""+ dailyCalBurn);
+
         totalWeightLoss.setText("" + MetricsCalculator.computeFatLoss(UserData.getTotalCaloriesBurned(accountInSession.getId())));
+        weightField.setText("WEIGHT: "  +accountInSession.getWeight() + "KG");
+        heighField.setText("HEIGHT: "  +accountInSession.getHeight() + "M");
+        bmiField.setText( "BMI: "  +accountInSession.getBMI() );
+        double BMR =MetricsCalculator.computeBMR(accountInSession.getWeight(), accountInSession.getHeight(), accountInSession.getAge(), accountInSession.getSex());
+        bmrField.setText( "BMR: "  + BMR);
+        classification.setText("Classification:" +  MetricsCalculator.suggestDifficulty(accountInSession.getBMI()));
+        tdeeField.setText(MetricsCalculator.computeTDEE(BMR,  dailyCalBurn , accountInSession.getPreference() )+"");
+
+
+
+
 
 
 

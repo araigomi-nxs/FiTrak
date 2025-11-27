@@ -1,9 +1,10 @@
 package DAO;
 
-import org.sqlite.core.DB;
-
+import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserData
 {
@@ -71,7 +72,7 @@ public class UserData
     public static double getTodayCaloriesBurned(long userID) {
         String sql = "SELECT SUM(caloriesBurned) AS total " +
                 "FROM activities " +
-                "WHERE userID = ? AND date(creationDT) = date('now','localtime')";
+                "WHERE userID = ? AND date(startDT) = date('now','localtime')";
         double total = 0.0;
 
         try (Connection conn= DriverManager.getConnection(DB_URL);
@@ -89,6 +90,130 @@ public class UserData
     }
 
 
+        public static DefaultTableModel getActivitiesTableModel(long id) {
+            // Match your schema column names
+            String[] columnNames = {
+                    "activityID", "userID", "durationMinutes", "caloriesBurned",
+                    "startDT", "endDT", "metValue", "workoutType", "serverOrigin"
+            };
+
+            DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+
+            String sql = "SELECT * FROM activities";
+
+            try (Connection conn = DriverManager.getConnection(DB_URL);
+                 Statement stmt = conn.createStatement();
+                 ResultSet rs = stmt.executeQuery(sql)) {
+
+                while (rs.next()) {
+                    Object[] row = {
+                            rs.getInt("activityID"),
+                            rs.getLong("userID"),
+                            rs.getDouble("durationMinutes"),
+                            rs.getDouble("caloriesBurned"),
+                            rs.getString("startDT"),
+                            rs.getString("endDT"),
+                            rs.getDouble("metValue"),
+                            rs.getString("workoutType"),
+                            rs.getString("serverOrigin")
+                    };
+                    model.addRow(row);
+                }
+            } catch (SQLException e) {
+                System.err.println("Error fetching activities: " + e.getMessage());
+            }
+
+            return model;
+        }
 
 
+
+    public static DefaultTableModel getWorkoutsTableModelFromActivities(DefaultTableModel activitiesModel) {
+        // Collect activityIDs from the activities table model
+        List<Integer> activityIDs = new ArrayList<>();
+        int activityIdColIndex = -1;
+
+        // Find the column index for "activityID"
+        for (int col = 0; col < activitiesModel.getColumnCount(); col++) {
+            if ("activityID".equalsIgnoreCase(activitiesModel.getColumnName(col))) {
+                activityIdColIndex = col;
+                break;
+            }
+        }
+
+        if (activityIdColIndex == -1) {
+            throw new IllegalArgumentException("Activities model does not contain an 'activityID' column");
+        }
+
+        // Extract IDs
+        for (int row = 0; row < activitiesModel.getRowCount(); row++) {
+            Object value = activitiesModel.getValueAt(row, activityIdColIndex);
+            if (value != null) {
+                activityIDs.add(Integer.parseInt(value.toString()));
+            }
+        }
+
+        // Define workouts table columns
+        String[] columnNames = {
+                "workID", "activityID", "steps", "distanceKM", "intensity",
+                "calPerStep", "speedKPH", "sets", "reps",
+                "currentHeartRate", "weightLifted", "serverOrigin", "logDT"
+        };
+
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+
+        if (activityIDs.isEmpty()) {
+            return model; // return empty if no IDs
+        }
+
+        // Build dynamic IN clause
+        StringBuilder placeholders = new StringBuilder();
+        for (int i = 0; i < activityIDs.size(); i++) {
+            placeholders.append("?");
+            if (i < activityIDs.size() - 1) {
+                placeholders.append(",");
+            }
+        }
+
+        String sql = "SELECT * FROM workouts WHERE activityID IN (" + placeholders + ")";
+
+        try (Connection conn = DriverManager.getConnection(DB_URL);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            // Bind IDs
+            for (int i = 0; i < activityIDs.size(); i++) {
+                pstmt.setInt(i + 1, activityIDs.get(i));
+            }
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Object[] row = {
+                            rs.getInt("workID"),
+                            rs.getInt("activityID"),
+                            rs.getInt("steps"),
+                            rs.getDouble("distanceKM"),
+                            rs.getString("intensity"),
+                            rs.getDouble("calPerStep"),
+                            rs.getDouble("speedKPH"),
+                            rs.getInt("sets"),
+                            rs.getInt("reps"),
+                            rs.getDouble("currentHeartRate"),
+                            rs.getDouble("weightLifted"),
+                            rs.getString("serverOrigin"),
+                            rs.getString("logDT")
+                    };
+                    model.addRow(row);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error fetching workouts: " + e.getMessage());
+        }
+
+        return model;
+    }
 }
+
+
+
+
+

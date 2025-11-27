@@ -4,7 +4,9 @@
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
     </constraints>
-    <properties/>
+    <properties>
+      <background color="-1"/>
+    </properties>
     <border type="none"/>
     <children>
       <grid id="f431f" binding="JPanel2" layout-manager="GridLayoutManager" row-count="8" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -96,6 +98,7 @@
               </grid>
             </constraints>
             <properties>
+              <background color="-1"/>
               <editable value="false"/>
               <font name="Arial" size="11" style="0"/>
               <preferredSize width="1" height="50"/>

@@ -42,10 +42,10 @@ public class MetricsCalculator {
 // Optional lng
     public static String suggestDifficulty(double bmi) {
         if (bmi == 0) return "Unknown";
-        if (bmi < 18.5) return "Light – focus on endurance";
-        else if (bmi < 25) return "Moderate – balanced workout";
-        else if (bmi < 30) return "Challenging – increase cardio";
-        else return "Heavy – focus on weight management and low impact";
+        if (bmi < 18.5) return "Light"; // – focus on endurance"
+        else if (bmi < 25) return "Moderate";  // – balanced workout"
+        else if (bmi < 30) return "Challenging "; //– increase cardio
+        else return "Heavy"; // – focus on weight management and low impact
     }
 
 

@@ -29,21 +29,21 @@ public class LocalActDBHelper {
     }
 
     private static void initializeSchema(Connection conn) {
-        String sql =  """
-                CREATE TABLE IF NOT EXISTS activities (
-                activityID INTEGER PRIMARY KEY AUTOINCREMENT, 
-                userID INTEGER NOT NULL, 
-                durationMinutes REAL,
-                caloriesBurned REAL,
-                startDT TEXT NOT NULL,
-                endDT TEXT NOT NULL,
-                metValue REAL,
-                workoutType TEXT,
-                serverOrigin TEXT,
-                
-                FOREIGN KEY (userID) REFERENCES accounts(userID)
-                ); 
-                """;
+            String sql =  """
+                    CREATE TABLE IF NOT EXISTS activities (
+                    activityID INTEGER PRIMARY KEY AUTOINCREMENT, 
+                    userID INTEGER NOT NULL, 
+                    durationMinutes REAL,
+                    caloriesBurned REAL,
+                    startDT TEXT NOT NULL,
+                    endDT TEXT NOT NULL,
+                    metValue REAL,
+                    workoutType TEXT,
+                    serverOrigin TEXT,
+                    
+                    FOREIGN KEY (userID) REFERENCES accounts(userID)
+                    ); 
+                    """;
 
         try (Statement stmt = conn.createStatement()) {
             stmt.execute(sql);

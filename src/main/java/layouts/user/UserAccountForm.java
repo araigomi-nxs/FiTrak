@@ -2,6 +2,7 @@ package layouts.user;
 
 import calculationModels.metrics.MetricsCalculator;
 import DAO.LocalDataBaseHelper;
+import com.formdev.flatlaf.FlatClientProperties;
 import objects.Account;
 
 import javax.swing.*;
@@ -66,6 +67,8 @@ public class UserAccountForm {
         initializeUI();
         loadAccountData();
         setupEditSaveButtons();
+
+
     }
 
 
@@ -81,11 +84,15 @@ public class UserAccountForm {
         weightField.setEnabled(false);
         heightField.setEnabled(false);
         usernameTextField.setEnabled(false);
+
+        userAccountPanel.putClientProperty(FlatClientProperties.STYLE, "arc:20");
     }
 
 
     private void loadAccountData() {
         if (account == null) return;
+
+
 
         userIDDisplay.setText(String.valueOf(account.getId()));
         privilegeDisplay.setText(String.valueOf(account.getPrivilege()));   // DISPLAY ONLY
