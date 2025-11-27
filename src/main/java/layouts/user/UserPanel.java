@@ -58,7 +58,7 @@ public class UserPanel extends JFrame {
         // IMPORTANT: USE THE EXISTING PANEL FROM GUI, DO NOT RECREATE IT
         cardLayout = (CardLayout) userPanelContainer.getLayout();
 
-        UserAccountForm userAccountForm = new UserAccountForm();
+        UserAccountForm userAccountForm = new UserAccountForm(dataBaseHelper, accountInSession);
         UserDashboardForm userDashboardForm = new UserDashboardForm(accountInSession);
         UserGoalsForm userGoalsForm = new UserGoalsForm();
         UserWorkoutsForm userWorkoutsForm = new UserWorkoutsForm(dataBaseHelper, accountInSession);
