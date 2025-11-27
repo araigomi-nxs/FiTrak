@@ -31,34 +31,34 @@ public class LocalDataBaseHelper {
         }
     }
 
-    private static void initializeSchema(Connection conn) {
-        String sql = """
-                CREATE TABLE IF NOT EXISTS accounts (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                userID INTEGER NOT NULL,
-                email TEXT UNIQUE NOT NULL,
-                password TEXT NOT NULL,
-                privilege INTEGER NOT NULL,
-                username TEXT NOT NULL,
-                sex TEXT NOT NULL,
-                age INTEGER NOT NULL,
-                weight INTEGER NOT NULL,
-                height INTEGER NOT NULL,
-                BMI INTEGER NOT NULL,
-                serverOrigin TEXT NOT NULL,
-                preference INTEGER NOT NULL,
-                creationDT TEXT NOT NULL,
-                lastUpdatedDT TEXT NOT NULL
-            );
-            """;
+        private static void initializeSchema(Connection conn) {
+            String sql = """
+                    CREATE TABLE IF NOT EXISTS accounts (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    userID INTEGER NOT NULL,
+                    email TEXT UNIQUE NOT NULL,
+                    password TEXT NOT NULL,
+                    privilege INTEGER NOT NULL,
+                    username TEXT NOT NULL,
+                    sex TEXT NOT NULL,
+                    age INTEGER NOT NULL,
+                    weight INTEGER NOT NULL,
+                    height INTEGER NOT NULL,
+                    BMI INTEGER NOT NULL,
+                    serverOrigin TEXT NOT NULL,
+                    preference INTEGER NOT NULL,
+                    creationDT TEXT NOT NULL,
+                    lastUpdatedDT TEXT NOT NULL
+                );
+                """;
 
 
-        try (Statement stmt = conn.createStatement()) {
-            stmt.execute(sql);
-        } catch (SQLException e) {
-            System.err.println("Table creation error: " + e.getMessage());
+            try (Statement stmt = conn.createStatement()) {
+                stmt.execute(sql);
+            } catch (SQLException e) {
+                System.err.println("Table creation error: " + e.getMessage());
+            }
         }
-    }
 
 
     public void insertUser( long userID, String email, String password, int privilege, String creationDT, String lastUpdatedDT) {

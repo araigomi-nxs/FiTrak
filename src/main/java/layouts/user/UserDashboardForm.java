@@ -1,12 +1,13 @@
 package layouts.user;
 
 import DAO.LocalActDBHelper;
+import DAO.UserData;
+import calculationModels.metrics.MetricsCalculator;
 import com.formdev.flatlaf.FlatClientProperties;
 import layouts.widgets.ContributionGridPanel;
 import objects.Account;
 
 import javax.swing.*;
-import java.awt.*;
 import java.time.LocalTime;
 
 public class UserDashboardForm {
@@ -24,7 +25,10 @@ public class UserDashboardForm {
     private JPanel JP4;
     private JPanel JP5;
     private JPanel JP6;
-    private JLabel totalCalBurn;
+    private JLabel totalCalBurnStat;
+    private JLabel totalWeightLoss;
+    private JLabel dailyCalBurnStat;
+    private JCheckBox fullDataCheckBox;
     private Account accountInSession;
 
     UserDashboardForm(Account accountInSession) {
@@ -80,8 +84,13 @@ public class UserDashboardForm {
 
     }
 
+
     private void setStats()
     {
+        totalCalBurnStat.setText(""+ UserData.getTotalCaloriesBurned(accountInSession.getId()));
+        dailyCalBurnStat.setText(""+ UserData.getTodayCaloriesBurned(accountInSession.getId()));
+        totalWeightLoss.setText("" + MetricsCalculator.computeFatLoss(UserData.getTotalCaloriesBurned(accountInSession.getId())));
+
 
 
     }

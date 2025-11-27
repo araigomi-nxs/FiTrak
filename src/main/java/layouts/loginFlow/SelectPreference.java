@@ -1,11 +1,15 @@
 package layouts.loginFlow;
 
 import DAO.LocalDataBaseHelper;
+import DAO.test.SyncAccManager;
+import DAO.test.SyncActManager;
+import DAO.test.SyncWorkManager;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.InetAddress;
 
 public class SelectPreference {
     private JButton finishButton;
@@ -73,7 +77,7 @@ public class SelectPreference {
                     localDataBaseHelper.updatePref(userID, selectedPreference);
                     JOptionPane.showMessageDialog(null, "Account Succesfully Updated!");
                     clearBorder();
-
+                    startSync();
                     cardLayout.show(loginPanel, "LoginModule");
                 }
                 else
@@ -104,5 +108,45 @@ public class SelectPreference {
     public  JPanel getPrefPanel() {
         return selectPrefPanel;
     }
+    private boolean isNetworkAvailable() {
+        try {
+            // Try pinging a reliable host (e.g., Google DNS)
+            InetAddress address = InetAddress.getByName("8.8.8.8");
+            return address.isReachable(2000); // 2s timeout
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
+    public void startSync() {
+        Thread syncThread = new Thread(() -> {
+            if (isNetworkAvailable()) {
+                System.out.println("Network available. Starting sync...");
+
+                SyncAccManager syncAccManager = new SyncAccManager();
+                syncAccManager.startSyncThread();
+
+                SyncActManager syncActManager = new SyncActManager();
+                try {
+                    syncActManager.syncAllActivities();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+                SyncWorkManager syncWorkManager = new SyncWorkManager();
+                try {
+                    syncWorkManager.syncAllWorkouts();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+                System.out.println("Sync completed.");
+            } else {
+                System.out.println("No network. Loading local data...");
+                System.out.println("Local data loaded.");
+            }
+        });
+
+        syncThread.start(); // run in background
+    }
 }
