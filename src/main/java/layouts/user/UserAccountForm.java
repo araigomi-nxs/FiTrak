@@ -1,9 +1,11 @@
 package layouts.user;
 
+import calculationModels.metrics.MetricsCalculator;
 import DAO.LocalDataBaseHelper;
 import objects.Account;
 
 import javax.swing.*;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 
 public class UserAccountForm {
@@ -51,9 +53,11 @@ public class UserAccountForm {
     private JPanel titleBar;
     private JPanel weight;
 
+
     private final LocalDataBaseHelper db;
     private Account account;
 
+    DecimalFormat df = new DecimalFormat("#.##");
 
     public UserAccountForm(LocalDataBaseHelper db, Account account) {
         this.db = db;
@@ -135,71 +139,46 @@ public class UserAccountForm {
 
     private void updateValue(String type) {
         try {
-            // Read all current UI field values
-            long id = account.getId();
+            long id = Long.parseLong(userIDDisplay.getText());
             String email = emailTextField.getText();
             String password = new String(passwordField.getPassword());
-            int privilege = account.getPrivilege();       // fixed, display only
+            int privilege = Integer.parseInt(privilegeDisplay.getText());
             String username = usernameTextField.getText();
-            String sex = account.getSex();
-            int age = account.getAge();
-
+            String sex = sexDisplay.getText();
+            int age = account.getAge(); // Not editable, so keep the existing one
             double weight = Double.parseDouble(weightField.getText());
             double height = Double.parseDouble(heightField.getText());
-            double bmi = weight / Math.pow(height / 100.0, 2);
-
             String serverOrigin = account.getServerOrigin();
-            int preference = 0;                            // forced to 0
-            String creationDT = account.getCreationDT();
-            String lastUpdated = LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            int preference = 0;
+            String creationDT = creationDntFormattedField.getText();
+            String lastUpdated = LocalDateTime.now()
+                    .format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 
-            // Update local BMI display
-            bmiDisplay.setText(String.valueOf(bmi));
-            lastUpdateDnTFormattedField.setText(lastUpdated);
+            // Recalculate BMI ALWAYS based on UI values
+            double heightMeters = MetricsCalculator.convertToMeters(height);
+            double bmi = MetricsCalculator.calculateBMI(weight, heightMeters);
+            bmiDisplay.setText(String.format("%.2f", bmi));
 
-            // Create updated account object
+            // Update in-memory account object
             account = new Account(
-                    id,
-                    email,
-                    password,
-                    privilege,
-                    username,
-                    creationDT,
-                    lastUpdated,
-                    weight,
-                    height,
-                    bmi,
-                    age,
-                    sex,
-                    serverOrigin,
-                    preference
+                    id, email, password, privilege, username,
+                    creationDT, lastUpdated, weight, height, bmi,
+                    age, sex, serverOrigin, preference
             );
 
-            // SAVE TO DATABASE – exactly following your reference
-            LocalDataBaseHelper localDB = new LocalDataBaseHelper();
-            localDB.updateAll(
-                    id,
-                    email,
-                    password,
-                    privilege,
-                    username,
-                    sex,
-                    age,
-                    weight,
-                    height,
-                    bmi,
-                    serverOrigin,
-                    preference,
-                    creationDT,
-                    lastUpdated
+            // Save to DB
+            db.updateAll(
+                    id, email, password, privilege, username,
+                    sex, age, weight, height, bmi,
+                    serverOrigin, preference, creationDT, lastUpdated
             );
-
-            JOptionPane.showMessageDialog(null, "Update saved");
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Invalid input.");
         }
     }
+
+
 
     private void handleSave(String type, JComponent field, JButton saveButton) {
         updateValue(type);

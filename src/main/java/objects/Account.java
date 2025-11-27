@@ -44,7 +44,7 @@ public class Account {
         this.username = username;
         this.weight = weight;
         this.height = height;
-        this.BMI = BMI;
+        this.BMI = Math.round(BMI * 100.0)/ 100.0;
         this.age= age;
         this.sex = sex;
         this.serverOrigin = serverOrigin;
